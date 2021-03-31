@@ -329,9 +329,28 @@ by(BDD$age, BDD$case, mean)
 ```{r}
 cor(BDD$age, BDD$parity)
 ```
+# Données manquantes
+Les donnéees manquantes sont noté NA dans R
+```{r}
+vecteur<- c(1,2,3,NA,5,6)
+
+```
+
+- Calculer moyenne, médiane de vecteur
 
 
+# TD : 
+- Décrire l'ensemble des variables de la base
+- Décrire les variables en fonctions du groupe
 
 
+# A faire pour la semaine prochaine:
 
+Prendre une base de données et décrire les données
+
+
+ ## Données disponible 
+ 
+ - librarie R
+ - [Open data](https://datashare.nida.nih.gov/)
 
