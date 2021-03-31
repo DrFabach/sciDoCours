@@ -1,0 +1,32 @@
+
+Cours 1 : Description des données de santé
+========================================================
+author:   FABACHER Thibaut
+date:
+autosize: true
+
+
+
+========================================================
+# Description des données de santé
+## Import de la base de données
+
+```{r}
+BDD<- read.csv2("infert.csv")
+BDD <- infert
+BDD
+```
+Base de données présente de base dans R : [lien ici](https://stat.ethz.ch/R-manual/R-devel/library/datasets/html/infert.html) 
+
+
+========================================================
+
+
+```{r}
+# Analyse de la structure de BDD
+str(BDD)
+
+```
+
+
+
