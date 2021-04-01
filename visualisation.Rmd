@@ -1,0 +1,93 @@
+---
+title: "Visualisation"
+output: html_notebook
+---
+
+# Package
+Pour cette séance, nous allons utiliser le package ggplot2.
+Base R permet de faire des graph simple mais autant apprendre ggplot2 tout de suite
+
+```{r}
+#install.packages("ggplot2")
+library(ggplot2)
+```
+
+
+
+Référence : 
+[ggplot2](https://ggplot2.tidyverse.org/)
+[rgraph gallery](https://www.r-graph-gallery.com/)
+[Tutoriel](http://r-statistics.co/ggplot2-Tutorial-With-R.html)
+
+```{r}
+data("mtcars")
+
+ggplot(data = mtcars, 
+       aes(x = as.factor(cyl),
+           y = hp)) + 
+  geom_jitter(width = .2)
+```
+
+
+## utiliser l'encodage multiple sur le nombre de cylindres
+
+```{r}
+ggplot(data = mtcars, 
+       aes(x = as.factor(cyl),
+           y = hp, 
+           size = cyl,
+           color = cyl)) + 
+  geom_jitter(width = .2, alpha = .6) +
+  theme_minimal() +
+  theme(legend.position = "none")
+```
+
+## ajouter l'information du nombre de carburateurs
+
+```{r}
+
+ggplot(data = mtcars, 
+       aes(x = as.factor(cyl),
+           y = carb, 
+           size = hp,
+           color = hp)) + 
+  geom_jitter(width = .2, alpha = .6) +
+  theme_minimal() 
+  #facet_grid(~as.factor(carb))
+  #theme(legend.position = "none")
+```
+
+## Paufiner le plot (axes, titres, thème)
+
+```{r}
+
+
+```
+
+## représenter la distribution du nombre de miles per gallon en histogramme
+
+```{r}
+
+```
+
+## représenter la distribution du nombre de miles per gallon en boxplot
+
+```{r}
+
+```
+
+## representer la distribution du nombre de miles per gallon en fonction du nombre de cylindres
+
+```{r}
+
+```
+
+## ajouter les points par dessus la distribution
+
+```{r}
+
+```
+
+
+## paufiner le plot (axes, titres, thème)
+

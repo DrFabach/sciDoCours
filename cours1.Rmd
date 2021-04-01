@@ -444,10 +444,10 @@ Prendre une base de données et décrire les données
  - librarie R
  - [Open data](https://datashare.nida.nih.gov/)
 
-## Critère base de données
+## Critères base de données
 
 2 variables quantitatives 
-2 variables qualitives 
+2 variables qualitatives 
 
 ## Décrire les types de variable
 ## Décrire les différentes variables
