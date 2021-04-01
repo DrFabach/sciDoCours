@@ -225,30 +225,12 @@ pre code {
 <p>Référence : <a href="https://ggplot2.tidyverse.org/">ggplot2</a> <a href="https://www.r-graph-gallery.com/">rgraph gallery</a> <a href="http://r-statistics.co/ggplot2-Tutorial-With-R.html">Tutoriel</a></p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuZGF0YShcIm10Y2Fyc1wiKVxuXG5nZ3Bsb3QoZGF0YSA9IG10Y2FycywgXG4gICAgICAgYWVzKHggPSBhcy5mYWN0b3IoY3lsKSxcbiAgICAgICAgICAgeSA9IGhwKSkgKyBcbiAgZ2VvbV9qaXR0ZXIod2lkdGggPSAuMilcbmBgYCJ9 -->
-<pre class="r"><code>data(&quot;mtcars&quot;)
-
-ggplot(data = mtcars, 
-       aes(x = as.factor(cyl),
-           y = hp)) + 
-  geom_jitter(width = .2)</code></pre>
-<!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 <div id="utiliser-lencodage-multiple-sur-le-nombre-de-cylindres" class="section level2">
 <h2>utiliser l’encodage multiple sur le nombre de cylindres</h2>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuZ2dwbG90KGRhdGEgPSBtdGNhcnMsIFxuICAgICAgIGFlcyh4ID0gYXMuZmFjdG9yKGN5bCksXG4gICAgICAgICAgIHkgPSBocCwgXG4gICAgICAgICAgIHNpemUgPSBjeWwsXG4gICAgICAgICAgIGNvbG9yID0gY3lsKSkgKyBcbiAgZ2VvbV9qaXR0ZXIod2lkdGggPSAuMiwgYWxwaGEgPSAuNikgK1xuICB0aGVtZV9taW5pbWFsKCkgK1xuICB0aGVtZShsZWdlbmQucG9zaXRpb24gPSBcIm5vbmVcIilcbmBgYCJ9 -->
-<pre class="r"><code>ggplot(data = mtcars, 
-       aes(x = as.factor(cyl),
-           y = hp, 
-           size = cyl,
-           color = cyl)) + 
-  geom_jitter(width = .2, alpha = .6) +
-  theme_minimal() +
-  theme(legend.position = &quot;none&quot;)</code></pre>
-<!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 </div>
@@ -256,18 +238,6 @@ ggplot(data = mtcars,
 <h2>ajouter l’information du nombre de carburateurs</h2>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuXG5nZ3Bsb3QoZGF0YSA9IG10Y2FycywgXG4gICAgICAgYWVzKHggPSBhcy5mYWN0b3IoY3lsKSxcbiAgICAgICAgICAgeSA9IGNhcmIsIFxuICAgICAgICAgICBzaXplID0gaHAsXG4gICAgICAgICAgIGNvbG9yID0gaHApKSArIFxuICBnZW9tX2ppdHRlcih3aWR0aCA9IC4yLCBhbHBoYSA9IC42KSArXG4gIHRoZW1lX21pbmltYWwoKSBcbiAgI2ZhY2V0X2dyaWQofmFzLmZhY3RvcihjYXJiKSlcbiAgI3RoZW1lKGxlZ2VuZC5wb3NpdGlvbiA9IFwibm9uZVwiKVxuYGBgIn0= -->
-<pre class="r"><code>
-ggplot(data = mtcars, 
-       aes(x = as.factor(cyl),
-           y = carb, 
-           size = hp,
-           color = hp)) + 
-  geom_jitter(width = .2, alpha = .6) +
-  theme_minimal() 
-  #facet_grid(~as.factor(carb))
-  #theme(legend.position = &quot;none&quot;)</code></pre>
-<!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 </div>
@@ -312,7 +282,7 @@ ggplot(data = mtcars,
 </div>
 </div>
 
-<div id="rmd-source-code">LS0tDQp0aXRsZTogIlZpc3VhbGlzYXRpb24iDQpvdXRwdXQ6IGh0bWxfbm90ZWJvb2sNCi0tLQ0KDQojIFBhY2thZ2UNClBvdXIgY2V0dGUgc8OpYW5jZSwgbm91cyBhbGxvbnMgdXRpbGlzZXIgbGUgcGFja2FnZSBnZ3Bsb3QyLg0KQmFzZSBSIHBlcm1ldCBkZSBmYWlyZSBkZXMgZ3JhcGggc2ltcGxlIG1haXMgYXV0YW50IGFwcHJlbmRyZSBnZ3Bsb3QyIHRvdXQgZGUgc3VpdGUNCg0KYGBge3J9DQojaW5zdGFsbC5wYWNrYWdlcygiZ2dwbG90MiIpDQpsaWJyYXJ5KGdncGxvdDIpDQpgYGANCg0KDQoNClLDqWbDqXJlbmNlIDogDQpbZ2dwbG90Ml0oaHR0cHM6Ly9nZ3Bsb3QyLnRpZHl2ZXJzZS5vcmcvKQ0KW3JncmFwaCBnYWxsZXJ5XShodHRwczovL3d3dy5yLWdyYXBoLWdhbGxlcnkuY29tLykNCltUdXRvcmllbF0oaHR0cDovL3Itc3RhdGlzdGljcy5jby9nZ3Bsb3QyLVR1dG9yaWFsLVdpdGgtUi5odG1sKQ0KDQpgYGB7cn0NCmRhdGEoIm10Y2FycyIpDQoNCmdncGxvdChkYXRhID0gbXRjYXJzLCANCiAgICAgICBhZXMoeCA9IGFzLmZhY3RvcihjeWwpLA0KICAgICAgICAgICB5ID0gaHApKSArIA0KICBnZW9tX2ppdHRlcih3aWR0aCA9IC4yKQ0KYGBgDQoNCg0KIyMgdXRpbGlzZXIgbCdlbmNvZGFnZSBtdWx0aXBsZSBzdXIgbGUgbm9tYnJlIGRlIGN5bGluZHJlcw0KDQpgYGB7cn0NCmdncGxvdChkYXRhID0gbXRjYXJzLCANCiAgICAgICBhZXMoeCA9IGFzLmZhY3RvcihjeWwpLA0KICAgICAgICAgICB5ID0gaHAsIA0KICAgICAgICAgICBzaXplID0gY3lsLA0KICAgICAgICAgICBjb2xvciA9IGN5bCkpICsgDQogIGdlb21faml0dGVyKHdpZHRoID0gLjIsIGFscGhhID0gLjYpICsNCiAgdGhlbWVfbWluaW1hbCgpICsNCiAgdGhlbWUobGVnZW5kLnBvc2l0aW9uID0gIm5vbmUiKQ0KYGBgDQoNCiMjIGFqb3V0ZXIgbCdpbmZvcm1hdGlvbiBkdSBub21icmUgZGUgY2FyYnVyYXRldXJzDQoNCmBgYHtyfQ0KDQpnZ3Bsb3QoZGF0YSA9IG10Y2FycywgDQogICAgICAgYWVzKHggPSBhcy5mYWN0b3IoY3lsKSwNCiAgICAgICAgICAgeSA9IGNhcmIsIA0KICAgICAgICAgICBzaXplID0gaHAsDQogICAgICAgICAgIGNvbG9yID0gaHApKSArIA0KICBnZW9tX2ppdHRlcih3aWR0aCA9IC4yLCBhbHBoYSA9IC42KSArDQogIHRoZW1lX21pbmltYWwoKSANCiAgI2ZhY2V0X2dyaWQofmFzLmZhY3RvcihjYXJiKSkNCiAgI3RoZW1lKGxlZ2VuZC5wb3NpdGlvbiA9ICJub25lIikNCmBgYA0KDQojIyBQYXVmaW5lciBsZSBwbG90IChheGVzLCB0aXRyZXMsIHRow6htZSkNCg0KYGBge3J9DQoNCg0KYGBgDQoNCiMjIHJlcHLDqXNlbnRlciBsYSBkaXN0cmlidXRpb24gZHUgbm9tYnJlIGRlIG1pbGVzIHBlciBnYWxsb24gZW4gaGlzdG9ncmFtbWUNCg0KYGBge3J9DQoNCmBgYA0KDQojIyByZXByw6lzZW50ZXIgbGEgZGlzdHJpYnV0aW9uIGR1IG5vbWJyZSBkZSBtaWxlcyBwZXIgZ2FsbG9uIGVuIGJveHBsb3QNCg0KYGBge3J9DQoNCmBgYA0KDQojIyByZXByZXNlbnRlciBsYSBkaXN0cmlidXRpb24gZHUgbm9tYnJlIGRlIG1pbGVzIHBlciBnYWxsb24gZW4gZm9uY3Rpb24gZHUgbm9tYnJlIGRlIGN5bGluZHJlcw0KDQpgYGB7cn0NCg0KYGBgDQoNCiMjIGFqb3V0ZXIgbGVzIHBvaW50cyBwYXIgZGVzc3VzIGxhIGRpc3RyaWJ1dGlvbg0KDQpgYGB7cn0NCg0KYGBgDQoNCg0KIyMgcGF1ZmluZXIgbGUgcGxvdCAoYXhlcywgdGl0cmVzLCB0aMOobWUpDQoNCg==</div>
+<div id="rmd-source-code">LS0tDQp0aXRsZTogIlZpc3VhbGlzYXRpb24iDQpvdXRwdXQ6IGh0bWxfbm90ZWJvb2sNCi0tLQ0KDQojIFBhY2thZ2UNClBvdXIgY2V0dGUgc8OpYW5jZSwgbm91cyBhbGxvbnMgdXRpbGlzZXIgbGUgcGFja2FnZSBnZ3Bsb3QyLg0KQmFzZSBSIHBlcm1ldCBkZSBmYWlyZSBkZXMgZ3JhcGggc2ltcGxlIG1haXMgYXV0YW50IGFwcHJlbmRyZSBnZ3Bsb3QyIHRvdXQgZGUgc3VpdGUNCg0KYGBge3J9DQojaW5zdGFsbC5wYWNrYWdlcygiZ2dwbG90MiIpDQpsaWJyYXJ5KGdncGxvdDIpDQpgYGANCg0KDQoNClLDqWbDqXJlbmNlIDogDQpbZ2dwbG90Ml0oaHR0cHM6Ly9nZ3Bsb3QyLnRpZHl2ZXJzZS5vcmcvKQ0KW3JncmFwaCBnYWxsZXJ5XShodHRwczovL3d3dy5yLWdyYXBoLWdhbGxlcnkuY29tLykNCltUdXRvcmllbF0oaHR0cDovL3Itc3RhdGlzdGljcy5jby9nZ3Bsb3QyLVR1dG9yaWFsLVdpdGgtUi5odG1sKQ0KDQpgYGB7cn0NCg0KYGBgDQoNCg0KIyMgdXRpbGlzZXIgbCdlbmNvZGFnZSBtdWx0aXBsZSBzdXIgbGUgbm9tYnJlIGRlIGN5bGluZHJlcw0KDQpgYGB7cn0NCg0KYGBgDQoNCiMjIGFqb3V0ZXIgbCdpbmZvcm1hdGlvbiBkdSBub21icmUgZGUgY2FyYnVyYXRldXJzDQoNCmBgYHtyfQ0KDQoNCmBgYA0KDQojIyBQYXVmaW5lciBsZSBwbG90IChheGVzLCB0aXRyZXMsIHRow6htZSkNCg0KYGBge3J9DQoNCg0KYGBgDQoNCiMjIHJlcHLDqXNlbnRlciBsYSBkaXN0cmlidXRpb24gZHUgbm9tYnJlIGRlIG1pbGVzIHBlciBnYWxsb24gZW4gaGlzdG9ncmFtbWUNCg0KYGBge3J9DQoNCmBgYA0KDQojIyByZXByw6lzZW50ZXIgbGEgZGlzdHJpYnV0aW9uIGR1IG5vbWJyZSBkZSBtaWxlcyBwZXIgZ2FsbG9uIGVuIGJveHBsb3QNCg0KYGBge3J9DQoNCmBgYA0KDQojIyByZXByZXNlbnRlciBsYSBkaXN0cmlidXRpb24gZHUgbm9tYnJlIGRlIG1pbGVzIHBlciBnYWxsb24gZW4gZm9uY3Rpb24gZHUgbm9tYnJlIGRlIGN5bGluZHJlcw0KDQpgYGB7cn0NCg0KYGBgDQoNCiMjIGFqb3V0ZXIgbGVzIHBvaW50cyBwYXIgZGVzc3VzIGxhIGRpc3RyaWJ1dGlvbg0KDQpgYGB7cn0NCg0KYGBgDQoNCg0KIyMgcGF1ZmluZXIgbGUgcGxvdCAoYXhlcywgdGl0cmVzLCB0aMOobWUpDQoNCg==</div>
 
 
 
