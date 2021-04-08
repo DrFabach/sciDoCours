@@ -19,8 +19,33 @@ Référence :
 [rgraph gallery](https://www.r-graph-gallery.com/)
 [Tutoriel](http://r-statistics.co/ggplot2-Tutorial-With-R.html)
 
-```{r}
+ggplot(base , aes(x = x,y=y, color = color))+ 
+geom_point()+
+legend 
 
+```{r}
+mtcars
+str(mtcars)
+```
+
+
+```{r}
+ggplot(mtcars, aes(x = cyl, y=mpg))+geom_point()
+
+ggplot(mtcars)+geom_point(aes(x = cyl, y=mpg))
+
+
+```
+
+```{r}
+ggplot(mtcars)+geom_point(aes(x = cyl, y=mpg)) +
+  geom_point(aes(x=cyl, y = hp), color= "red")
+
+```
+
+
+```{r}
+ggplot(mtcars, aes(x=factor(cyl), y = hp))+ geom_point()
 ```
 
 

@@ -456,5 +456,32 @@ Prendre une base de données et décrire les données
 
 Bonus : Analyse reproductible
 
+```{r}
+library(desctable)
+
+desctable(BDD)
+```
+
+```{r}
+BDD%>%filter(education == "0-5yrs")%>%dim
+
+sum(BDD$education=="0-5yrs")
+```
+
+```{r}
+
+BDD$age[which(BDD$education=="0-5yrs")]
+
+BDDage_education0_5ans<-BDD$age[which(BDD$education=="0-5yrs")]
+
+mean(BDDage_education0_5ans)
+
+
+mean(BDD$age[which(BDD$education=="0-5yrs")])
+
+by(BDD$age, BDD$education,FUN = function(x) mean(x,na.rm = T))
+```
+
+
 
 
