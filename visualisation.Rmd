@@ -43,56 +43,182 @@ ggplot(mtcars)+geom_point(aes(x = cyl, y=mpg)) +
 
 ```
 
-
-```{r}
-ggplot(mtcars, aes(x=factor(cyl), y = hp))+ geom_point()
-```
-
-
 ## utiliser l'encodage multiple sur le nombre de cylindres
 
-```{r}
 
+```{r}
+ggplot(mtcars,
+       aes(x = factor(cyl),
+           y = hp,
+           size = cyl,
+       color = cyl)) + 
+  geom_jitter(width =0.2, alpha= 0.5)+
+  theme_minimal()+
+theme(legend.position = "none")
 ```
+```{r}
+ggplot(mtcars,
+       aes(x = factor(cyl),
+           y = hp,
+           size = cyl,
+       color = factor(cyl))) + 
+  geom_jitter(width =0.2, alpha= 0.5)+
+  theme_minimal()+
+theme(legend.position = "none")
+```
+
 
 ## ajouter l'information du nombre de carburateurs
 
 ```{r}
-
+ggplot(mtcars,
+       aes(x = factor(cyl),
+           y = carb,
+           size = hp,
+       color = hp)) + 
+  geom_jitter(width =0.2, alpha= 0.5)+
+  theme_minimal()
 
 ```
 
 ## Paufiner le plot (axes, titres, thème)
 
 ```{r}
-
+ggplot(mtcars,
+       aes(x = factor(cyl),
+           y = carb,
+           size = hp,
+       color = hp)) + 
+  geom_jitter(width =0.2, alpha= 0.5)+
+  theme_minimal()+
+  labs(x = "Cylindres",
+       y = "Carburateur",
+       title = "Horsepower/ Carburateur/ Cylindres",
+       color = "horsepower",
+       size = "horsepower")
 
 ```
 
 ## représenter la distribution du nombre de miles per gallon en histogramme
 
 ```{r}
-
+ggplot(mtcars, aes(x = mpg))+ geom_histogram(bins = sqrt(nrow(mtcars)))
 ```
 
 ## représenter la distribution du nombre de miles per gallon en boxplot
 
 ```{r}
+ggplot(mtcars, aes(x = mpg))+geom_boxplot()
+
+```
+```{r}
+ggplot(mtcars, aes(y = mpg,x =1))+geom_boxplot()+
+  xlim(-1,3)
 
 ```
 
 ## representer la distribution du nombre de miles per gallon en fonction du nombre de cylindres
 
 ```{r}
+ggplot(mtcars, aes(y = mpg,x =factor(cyl)))+geom_boxplot()
+```
+```{r}
+ggplot(mtcars, aes(y = mpg,x =factor(cyl)))+geom_violin(fill="grey70")+theme_minimal()
+
+
+ggplot(mtcars, aes(y = mpg,x =factor(cyl), fill = factor(cyl)))+
+  scale_fill_manual(values=c("#768e41", "grey70", rgb(red = 1, green = 0.10,blue = 0.10,alpha = 0.5)))+
+  geom_violin()+theme_minimal()
+
+
+ggplot(mtcars, aes(y = mpg,x =factor(cyl), fill = factor(cyl)))+
+  scale_fill_brewer(palette ="Accent")+
+  geom_violin()+theme_minimal()
+
+```
+```{r}
+library(wesanderson)
+# Box plot
+ggplot(mtcars, aes(y = mpg,x =factor(cyl), fill = factor(cyl)))+
+scale_fill_manual(values=wes_palette(n=3, name="GrandBudapest1"))+
+  geom_violin()+theme_minimal()
 
 ```
 
 ## ajouter les points par dessus la distribution
 
 ```{r}
+ggplot(mtcars, aes(y = mpg,x =factor(cyl), fill = factor(cyl)))+
+scale_fill_manual(values=wes_palette(n=3, name="GrandBudapest1"))+
+  geom_violin()+theme_minimal()+
+  
+  geom_jitter(width = 0.12, col="darkgrey")
 
+```
+```{r}
+ggplot(mtcars, aes(y = mpg,x =factor(cyl), fill = factor(cyl)))+
+
+  geom_violin()+
+  
+  theme_minimal()+
+  
+  scale_fill_manual(values=wes_palette(n=3, name="GrandBudapest1"))+
+  
+  geom_jitter(width = 0.12, col="darkgrey")+
+  
+  facet_wrap(~(vs),nrow = 2)+
+  
+  labs()
+
+```
+```{r}
+graph1<-ggplot(mtcars, aes(y = mpg,x =factor(cyl), fill = factor(cyl)))+
+
+  geom_violin()
+```
+
+```{r}
+graph1+
+  scale_fill_manual(values=wes_palette(n=3, name="GrandBudapest1"))+
+  
+  geom_jitter(width = 0.12, col="darkgrey")
+```
+
+```{r}
+a <- data.frame( x=rnorm(20000, 10, 1.9), y=rnorm(20000, 10, 1.2) )
+b <- data.frame( x=rnorm(20000, 14.5, 1.9), y=rnorm(20000, 14.5, 1.9) )
+c <- data.frame( x=rnorm(20000, 9.5, 1.9), y=rnorm(20000, 15.5, 1.9) )
+data <- rbind(a,b,c)
+ 
+ 
+# Basic scatterplot
+ggplot(data, aes(x=x, y=y) ) +
+  geom_point()
 ```
 
 
-## paufiner le plot (axes, titres, thème)
+```{r}
+ggplot(data, aes(x=x, y=y) ) +
+  geom_bin2d() +
+  theme_bw()
+```
+
+
+```{r}
+# Bin size control + color palette
+ggplot(data, aes(x=x, y=y) ) +
+  geom_bin2d(bins = 70) +
+  scale_fill_continuous(type = "viridis") +
+  theme_bw()
+```
+```{r}
+ggplot(data, aes(x=x, y=y) ) +
+  stat_density_2d(aes(fill = ..density..), geom = "raster", contour = FALSE) +
+  scale_fill_distiller(palette= "Spectral", direction=1) +
+  scale_x_continuous(expand = c(0, 0)) +
+  scale_y_continuous(expand = c(0, 0)) +
+  theme(
+    legend.position='none'
+  )
+```
 
