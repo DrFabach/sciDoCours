@@ -1,0 +1,122 @@
+---
+title: "Science des données cours 3 : Statistiques explicatives"
+output: html_notebook
+---
+
+
+# Import la base de données
+
+ID	Baby number
+ length	Length of baby (cm)	Scale
+ Birthweight	Weight of baby (kg)	Scale
+ headcirumference	Head Circumference	Scale
+ Gestation	Gestation (weeks)	Scale
+ smoker	Mother smokes 1 = smoker 0 = non-smoker	 Binary
+ motherage	Maternal age	Scale
+ mnocig	Number of cigarettes smoked per day by mother	Scale
+ mheight	Mothers height (cm)	 Scale
+ mppwt	Mothers pre-pregnancy weight (kg)	 Scale
+ fage	Father's age	 Scale
+fedyrs	Father’s years in education	Scale
+ fnocig	Number of cigarettes smoked per day by father	Scale
+ fheight	Father's height (kg)	 Scale
+ lowbwt	Low birth weight, 0 = No and 1 = yes	 Binary
+mage35	Mother over 35, 0 = No and 1 = yes	Binary
+
+```{r}
+(BDD<- read.csv("Birthweight_reduced_kg_R.csv"))
+```
+
+
+ 
+ # Comparaison poids naissance  tabac Maternel
+
+## Décrire les données
+
+### Tabac maternel
+
+```{r}
+table(BDD$smoker)
+
+```
+
+### Poids de naissance
+
+```{r}
+library(pander)
+pander(summary(BDD$Birthweight))
+```
+
+ ### Croiser les deux 
+ 
+```{r}
+pander(
+  by(
+    BDD$Birthweight,
+    BDD$smoker,
+    summary
+  )
+)
+```
+ 
+ ### Représentation Graphique 
+ 
+```{r}
+library(ggplot2)
+ggplot(BDD, aes(x=factor(smoker),y = Birthweight, color = factor(smoker)))+
+  geom_boxplot()+
+  geom_jitter()+
+  labs(x="Tabac de la mère",
+       y = "Poids de\n naissance")+
+  theme_minimal()+theme(legend.position = "none")
+
+
+```
+
+
+
+# Comparaison Low birth Weight  Maternal age
+
+## Décrire les données
+
+### Low birth Weight
+
+```{r}
+table(BDD$lowbwt)
+
+```
+
+### Age de la mère
+
+```{r}
+library(pander)
+pander(summary(BDD$mage))
+```
+
+ ### Croiser les deux 
+ 
+```{r}
+pander(
+  by(
+    BDD$mage,
+    BDD$lowbwt,
+    summary
+  )
+)
+```
+ 
+ ### Représentation Graphique 
+ 
+```{r}
+library(ggplot2)
+ggplot(BDD, aes(x=factor(lowbwt),y = mage, color = factor(lowbwt)))+
+  geom_boxplot()+
+  geom_jitter()+
+  labs(x="Faible poids de\n naissance",
+       y = "Age de la mère")+
+  theme_minimal()+theme(legend.position = "none")
+
+
+```
+ 
+ 
