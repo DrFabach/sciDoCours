@@ -11,14 +11,33 @@ output: html_document
 ```{r}
 library(tidyverse)
 #lire la base de données titanic
-
+BDD<- read.csv("Titanic_R.csv", na.strings = c(" ",""))
+str(BDD)
 #Selectionner les variables d'interêt
+BDD<- BDD %>% select(survived,
+                     age,
+                     sibsp,
+                     parch,
+                     cabin,
+                     Gender,
+                     pclass =ï..pclass)
 
+str(BDD)
 #Transformer la variable cabin en binaire
-
+BDD$cabin<- ifelse(is.na(BDD$cabin),
+                   "no cabin",
+                   "cabin")
 # Remplacer les valeurs manquantes de l'âge par la moyenne
-
+BDD$age<- ifelse(is.na(BDD$age),
+                 mean(BDD$age, na.rm = T),
+                 BDD$age)
 #Transformer les variables en qualitatives
+summary(BDD)
+BDD$Gender<- as.factor(BDD$Gender)
+BDD$survived<- as.factor(BDD$survived)
+BDD$cabin<- as.factor(BDD$cabin)
+# BDD$pclass<- as.factor(BDD$pclass)
+summary(BDD)
 ```
 
 ## Séparation en jeu de données d'entrainement et de de validation
