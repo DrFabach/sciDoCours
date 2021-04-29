@@ -1,0 +1,276 @@
+---
+title: "Apprentissage machine"
+output: html_document
+---
+
+
+# Premier pas en apprentissage machine
+
+## Préparartion du jeu de données titanic
+
+```{r}
+library(tidyverse)
+BDD<- read.csv("Titanic_R.csv", na.strings = c(""," "))
+BDD<-BDD%>%select(pclass,survived,age,sibsp,parch,cabin,Gender)
+BDD$cabin<-ifelse(is.na(BDD$cabin),"no","yes")
+BDD$age<- ifelse(is.na(BDD$age), mean(BDD$age, na.rm = T), BDD$age)
+BDD$cabin<- as.factor(BDD$cabin)
+BDD$Gender<- as.factor(BDD$Gender)
+BDD$survived<- as.factor(BDD$survived)
+```
+
+## Séparation en jeu de données d'entrainement et de de validation
+
+- utilisation de la fonction sample
+
+```{r}
+#aide de la fonction sample
+?sample
+# Définition de la "graine" d'aléatoire
+set.seed(12)
+
+```
+
+-correction
+```{r}
+set.seed(12)
+id<- 1 :dim(BDD)[1]
+
+id_validation<-sample(id, (dim(BDD)[1])*0.1)
+
+BDD_validation<- BDD[id_validation,]
+BDD_entrainement <- BDD[-id_validation,]
+
+```
+
+
+## Utilisation de la régression logistique 
+
+
+```{r}
+library(caret)
+# Define training control
+set.seed(123) 
+train.control <- trainControl(method = "cv", number = 10)
+# Train the model
+model <- train(survived ~., data = BDD_entrainement, method = "glm",
+               trControl = train.control)
+# Summarize the results
+print(model)
+```
+
+### CV à la main
+
+```{r}
+#Mélanger les données
+BDD_entrainement<-BDD_entrainement[sample(nrow(BDD_entrainement)),]
+
+#Séparation en 10 jeu de données
+folds <- cut(seq(1,nrow(BDD_entrainement)),breaks=10,labels=FALSE)
+```
+
+### Entrainement d'une glm
+
+- entraineement sur 90% des données 
+
+```{r}
+fit<- glm(survived ~ . , data = BDD_entrainement[!folds==1,], family = "binomial")
+summary(fit)
+```
+
+- prédictions du modèles sur ces données
+
+```{r}
+predictions<- predict(fit,BDD_entrainement[!folds==1,],type = "response")
+```
+
+- graphique des ces prédictions 
+
+
+```{r}
+hist(predictions)
+```
+
+- tableau de contigence pour un seuil à 0.5
+
+```{r}
+table(predictions>0.5, BDD_entrainement$survived[!folds==1] )
+```
+
+- courbe roc
+
+```{r}
+library(pROC)
+roc<-roc( BDD_entrainement$survived[!folds==1],predictions )
+(roc)
+plot(roc)
+
+coords(roc,seq(0,1,0.05))
+
+
+```
+Meilleur seuil
+
+```{r}
+coords(roc, "best")
+```
+
+```{r}
+caract_test<-function(pred, verite){
+  
+  VN = sum(!pred& !verite)
+  VP = sum(pred& verite)
+  FN = sum(!pred & verite)
+  FP= sum(pred&!verite)
+  return(
+    c(specificite = VN/(VN+FP),
+      sensibilite = VP/(VP+FN),
+      VPP = VP/(VP+FP),
+      VPN = VN / (VN+ FN))
+  )
+}
+
+caract_test(predictions>0.5, BDD_entrainement$survived[!folds==1]==1 )
+
+caract_test(predictions>0.357, BDD_entrainement$survived[!folds==1] ==1)
+```
+
+
+
+
+```{r}
+predictions<- predict(fit,BDD_entrainement[folds==1,],type = "response")
+
+hist(predictions)
+
+table(predictions>0.5, BDD_entrainement$survived[folds==1] )
+
+```
+```{r}
+caract_test(predictions>0.5, BDD_entrainement$survived[folds==1]==1 )
+
+caract_test(predictions>0.357, BDD_entrainement$survived[folds==1] ==1)
+```
+
+- cross validation 
+
+```{r}
+
+sequence_seuil<- seq(0,1,0.05)
+res_data<- data.frame()
+for(i in 1:10){
+  fit_i<- glm(survived ~ . , data = BDD_entrainement[!folds==i,], family = "binomial")
+  predictions_i<- predict(fit_i,BDD_entrainement[folds==i,],type = "response")
+  roc_i<-roc(BDD_entrainement$survived[folds==i],predictions_i )
+  res_data<-rbind(res_data,
+                  data.frame(it=i,
+   coords(roc_i,sequence_seuil,ret=c("threshold",
+"specificity", "sensitivity", "accuracy","youden")), best = coords(roc_i, "best"))
+)
+}
+
+ggplot(res_data, aes(x = threshold, y =specificity, group = threshold))+geom_boxplot()
+ggplot(res_data, aes(x = threshold, y =sensitivity, group = threshold))+geom_boxplot()
+ggplot(res_data, aes(x = threshold, y =accuracy, group = threshold))+geom_boxplot()
+ggplot(res_data, aes(x = threshold, y =youden, group = threshold))+geom_boxplot()
+
+```
+
+
+## Arbre de décision
+
+```{r}
+library(rpart)
+
+model <- rpart(survived ~ . , data = BDD_entrainement[!folds==1,])
+par(xpd = NA)
+plot(model)
+text(model)
+```
+```{r}
+set.seed(123)
+model2 <- train(
+ survived ~ . , data = BDD_entrainement, method = "rpart",
+  trControl = trainControl("cv", number = 10),
+  tuneLength = 10
+  )
+# Plot model accuracy vs different values of
+# cp (complexity parameter)
+plot(model2)
+```
+```{r}
+model2$bestTune
+```
+
+```{r}
+par(xpd = NA) # Avoid clipping the text in some device
+plot(model2$finalModel)
+text(model2$finalModel,  digits = 3)
+```
+
+## random forest
+
+```{r}
+library(ranger)
+rf_grid <- expand.grid(mtry = c(1,1.5,2),
+                       splitrule = "gini",
+                      
+                      min.node.size = c( 3, 5,6))
+rf_grid
+fit_control <- trainControl(## 10-fold CV
+                           method = "cv",
+                           number = 10)
+```
+
+```{r}
+rf_fit <- train(survived ~ ., 
+                data = BDD_entrainement, 
+                method = "ranger",
+                trControl = fit_control,
+              importance = 'impurity',
+                # provide a grid of parameters
+                tuneGrid = rf_grid)
+rf_fit
+```
+
+```{r}
+rf_fit$finalModel
+```
+
+
+```{r}
+varImp(rf_fit)
+```
+
+# Comparaison des algos 
+
+### Regression
+```{r}
+fit<- glm(survived ~ . , data = BDD_entrainement, family = "binomial")
+predicted_classes_glm <- predict(fit,BDD_validation, "response")
+# Compute model accuracy rate on test data
+mean((predicted_classes_glm>0.3) == (BDD_validation$survived==1))
+```
+
+
+### Arbre de décision 
+
+```{r}
+predicted.classes <- model2 %>% predict(BDD_validation)
+# Compute model accuracy rate on test data
+mean(predicted.classes == BDD_validation$survived)
+```
+
+
+### random forest
+
+```{r}
+
+predicted_classes_rf <- predict(rf_fit,BDD_validation, "raw")
+# Compute model accuracy rate on test data
+mean( predicted_classes_rf== BDD_validation$survived)
+
+
+```
+
+
