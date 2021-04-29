@@ -62,23 +62,35 @@ BDD_entrainement<- BDD[-id_validation,]
 
 ## Utilisation de la régression logistique 
 
+```{r}
+fit<- glm(survived~age + sibsp +parch+cabin+Gender+factor(pclass), BDD, family = "binomial")
+summary(fit)
+```
+
 
 ```{r}
 library(caret)
+library(e1071)
 # Define training control
+BDD$pclass<- as.factor(BDD$pclass)
 set.seed(123) 
+
 train.control <- trainControl(method = "cv", number = 10)
 # Train the model
 model <- train(survived ~., data = BDD_entrainement, method = "glm",
                trControl = train.control)
 # Summarize the results
 print(model)
+
+table(predict(model,BDD_entrainement ),
+      BDD_entrainement$survived)
 ```
 
 ### CV à la main
 
 ```{r}
 #Mélanger les données
+set.seed(12)
 BDD_entrainement<-BDD_entrainement[sample(nrow(BDD_entrainement)),]
 
 #Séparation en 10 jeu de données
