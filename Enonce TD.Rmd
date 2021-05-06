@@ -89,8 +89,10 @@ table(predict(model,BDD_entrainement ),
 ### CV à la main
 
 ```{r}
+BDD_entrainement$pclass<- as.factor(BDD_entrainement$pclass)
 #Mélanger les données
 set.seed(12)
+
 BDD_entrainement<-BDD_entrainement[sample(nrow(BDD_entrainement)),]
 
 #Séparation en 10 jeu de données
@@ -103,14 +105,14 @@ folds <- cut(seq(1,nrow(BDD_entrainement)),breaks=10,labels=FALSE)
 
 ```{r}
 #Entrainer un glm sur le premier fold
-fit<- glm(...)
+fit<- glm(survived~. ,BDD_entrainement[!folds==10,], family = "binomial")
 summary(fit)
 ```
 
 - prédictions du modèles sur ces données
 
 ```{r}
-predictions<- predict(...)
+predictions<- predict(fit, BDD_entrainement[!folds==10,], type="response")
 ```
 
 - graphique des ces prédictions 
@@ -123,18 +125,18 @@ hist(predictions)
 - tableau de contigence pour un seuil à 0.5
 
 ```{r}
-table(...)
+table(predictions>0.5, BDD_entrainement$survived[!folds == 10])
 ```
 
 - courbe roc
 
 ```{r}
 library(pROC)
-roc<-roc( BDD_entrainement$survived[!folds==1],predictions )
+roc<-roc( BDD_entrainement$survived[!folds==10],predictions )
 (roc)
 plot(roc)
 
-coords(roc,seq(0,1,0.05))
+coords(roc,seq(0,1,0.1))
 
 
 ```
@@ -147,22 +149,22 @@ coords(roc, "best")
 ```{r}
 # Fonction pour les caractéristique d'un test
 caract_test<-function(pred, verite){
-  
-  VN =...
-  VP = ...
-  FN = ...
-  FP= ...
+  # pred et verite = logical
+  VN =sum(!pred & !verite)
+  VP = sum(pred & verite)
+  FN = sum(!pred & verite)
+  FP= sum(pred & !verite)
   return(
-    c(specificite =... ,
-      sensibilite =...,
-      VPP = ...,
-      VPN = ...)
+    c(specificite =VN/(VN+FP) ,
+      sensibilite = VP / (VP+FN),
+      VPP = VP/(VP+FP),
+      VPN = VN/(VN+FN))
   )
 }
 
-caract_test(predictions>0.5, BDD_entrainement$survived[!folds==1]==1 )
+caract_test(predictions>0.5, BDD_entrainement$survived[!folds==10]==1 )
 
-caract_test(predictions>..., BDD_entrainement$survived[!folds==1] ==1)
+caract_test(predictions>0.38, BDD_entrainement$survived[!folds==10] ==1)
 ```
 
 
@@ -177,8 +179,8 @@ sequence_seuil<- seq(0,1,0.05)
 
 res_data <- data.frame()
 for (i in 1:10) {
-  ...
-  
+fit_i<- glm(survived~., family = "binomial", BDD_entrainement[!fold==i,])
+preditions_i<- predict(fit_i, BDD_entrainement[fold==i,],type= 'reponse') 
   
   res_data <- rbind(res_data,
                     data.frame(
