@@ -39,8 +39,8 @@ decoupe<-  function (x, char = ";", nom = NULL){
 
 
 
-df1<-read.xlsx("1ere.xlsx",sheetIndex = 1,check.names = F)
-df2<-read.xlsx("final.xlsx",sheetIndex = 1,check.names = F)
+
+df2<-read.xlsx("data1.xlsx",sheetIndex = 1,check.names = F)
 
 
 table(names(df2)%in% names(df1))
