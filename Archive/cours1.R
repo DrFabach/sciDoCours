@@ -22,14 +22,14 @@ BDD<- read.csv2("infert.csv")
 BDD <- infert
 BDD
 
-Base de données présente de base dans R : [lien ici](https://stat.ethz.ch/R-manual/R-devel/library/datasets/html/infert.html) 
+#Base de données présente de base dans R : [lien ici](https://stat.ethz.ch/R-manual/R-devel/library/datasets/html/infert.html) 
 
 head(BDD)
 
 
 
 ### Ecart R
-- R utilise des packages qui comprennent des fonctions 
+#- R utilise des packages qui comprennent des fonctions 
 
 
 # chargement d'une library
@@ -60,17 +60,17 @@ help(tidyverse)
 
 
 # aide sur une fonction
-?read.csv2
-
-
-- Les fonctions utilises des arguments
-
-
-read.csv2("infert.csv")
-
-
-
-- R est un langage de programmation avec différents types d'objets
+# ?read.csv2
+# 
+# 
+# - Les fonctions utilises des arguments
+# 
+# 
+# read.csv2("infert.csv")
+# 
+# 
+# 
+# - R est un langage de programmation avec différents types d'objets
 
 
 # Ceci est un objet 
@@ -112,15 +112,15 @@ BDD
 
 ### Le nom des objets 
 
-- Eviter les caractères spéciaux, accents
-- toujours commencer par une lettre 
-- espace interdit
-- certains noms qui sont déja utilisés
-
-Deux façon traditionnelles : 
-- Serpent : nom_de_la_variable
-- chameau : nomDeLaVariable
-nom.de.la.variable
+# - Eviter les caractères spéciaux, accents
+# - toujours commencer par une lettre 
+# - espace interdit
+# - certains noms qui sont déja utilisés
+# 
+# Deux façon traditionnelles : 
+# - Serpent : nom_de_la_variable
+# - chameau : nomDeLaVariable
+# nom.de.la.variable
 
 
 typeof(a)
@@ -139,7 +139,7 @@ head(BDD$pooled.stratum)
 
 
 
-========================================================
+# ========================================================
 
 
 
