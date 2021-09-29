@@ -1,4 +1,4 @@
-Faire un graphique propre à partir de la base de données infert :
+Faire un graphique propre à partir de la base de données infert ou une base de données de votre choix :
 
 1. Croiser au moins 3 variables
 2. Réduire au maximum les informations redondantes
