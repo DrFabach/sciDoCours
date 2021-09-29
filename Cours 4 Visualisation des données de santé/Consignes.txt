@@ -2,6 +2,6 @@ Faire un graphique propre à partir de la base de données infert :
 
 1. Croiser au moins 3 variables
 2. Réduire au maximum les informations redondantes
-3. Corriger les textes.
+3. Corriger les labels
 
  
