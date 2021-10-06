@@ -1,0 +1,4 @@
+- Créer un Projet Rstudio
+- Créer un markdown comprenant les scripts des trois derniers projets
+- Zipper le projet et l'envoyer à l'adresse mail t.fabacher@unistra.fr
+Le script doit pouvoir être executer après décrompression du dossier et installation des packages.
