@@ -10,13 +10,13 @@ output: html_document
 
 ```{r}
 library(tidyverse)
-BDD<- read.csv("Titanic_R.csv", na.strings = c(""," "))
-BDD<-BDD%>%select(pclass,survived,age,sibsp,parch,cabin,Gender)
-BDD$cabin<-ifelse(is.na(BDD$cabin),"no","yes")
-BDD$age<- ifelse(is.na(BDD$age), mean(BDD$age, na.rm = T), BDD$age)
+BDD<- read.table("titanic.csv", na.strings = c(""," "), sep= "\t", header = T)
+BDD<-BDD%>%select(Pclass,Survived,Age,SibSp,Parch,Cabin,Sex)
+BDD$cabin<-ifelse(is.na(BDD$Cabin),"no","yes")
+BDD$age<- ifelse(is.na(BDD$Age), mean(BDD$Age, na.rm = T), BDD$Age)
 BDD$cabin<- as.factor(BDD$cabin)
-BDD$Gender<- as.factor(BDD$Gender)
-BDD$survived<- as.factor(BDD$survived)
+BDD$Gender<- as.factor(BDD$Sex)
+BDD$survived<- as.factor(BDD$Survived)
 ```
 
 ## Séparation en jeu de données d'entrainement et de de validation

@@ -1,0 +1,200 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+https://physionet.org/content/mimic2-iaccd/1.0/
+# Principe du machine learning
+
+```{r}
+library(pander)
+data_tot<- read.csv("full_cohort_data.csv")
+str(data_tot)
+data_tot<-data_tot[which(complete.cases(data_tot)),]
+a<-sample(1:dim(data_tot)[1],200,replace = F)
+saveRDS(data_tot[-a,],"data.rds")
+```
+
+```{r}
+library(ggplot2)
+library(tidyverse)
+
+```
+
+
+```{r}
+set.seed(54)
+sample_train<-sample(1:dim(data_tot)[1],200,replace = F)
+data <- data_tot[sample_train,]
+data %>% select_if(function(x) is.numeric(x) &  unique(x) %>% length()>10)
+```
+
+
+## Estimation par regression lin?aire
+
+```{r}
+fit1 <- lm(icu_los_day~sapsi_first, data=data )
+summary(fit1)
+```
+
+
+```{r}
+
+data %>% ggplot(aes(x=sapsi_first,y=icu_los_day))+geom_jitter()+theme_light()
+```
+
+```{r}
+data %>% ggplot(aes(x=sapsi_first,y=icu_los_day))+geom_jitter()+theme_light()+
+  geom_smooth( method = lm, formula = y ~ x, se = FALSE)
+
+```
+
+
+
+
+
+```{r}
+data %>% ggplot(aes(x=sapsi_first,y=icu_los_day))+geom_jitter()+theme_light()+
+  geom_smooth( method = lm, formula = y ~ poly(x,2), se = FALSE)
+
+```
+
+
+```{r}
+data %>% ggplot(aes(x=sapsi_first,y=icu_los_day))+geom_jitter()+theme_light()+
+  geom_smooth( method = lm, formula = y ~ poly(x,3), se = FALSE)
+
+```
+
+
+```{r}
+library(caret)
+fit2 <- lm(icu_los_day~ poly(sapsi_first, 8, raw = TRUE), data=data )
+summary(fit2)
+```
+```{r}
+library(caret)
+predictions <- fit2 %>% predict(data)
+# Model performance
+data.frame(
+  RMSE = RMSE(predictions, data$icu_los_day),
+  R2 = R2(predictions, data$icu_los_day)
+)
+```
+
+
+```{r}
+
+res<-tibble()
+for(i in 1:15){
+fit2 <- lm(icu_los_day~ poly(sapsi_first, i, raw = TRUE), data=data )
+
+predictions <- fit2 %>% predict(data)
+# Model performance
+res<-rbind(res,data.frame(
+  i = i,
+  RMSE = RMSE(predictions, data$icu_los_day),
+  R2 = R2(predictions, data$icu_los_day)
+))
+}
+pander(res)
+```
+
+
+```{r}
+plot(res$RMSE)
+```
+
+
+```{r}
+res_test<-tibble()
+for(i in 1:15){
+fit2 <- lm(icu_los_day~ poly(sapsi_first, i, raw = TRUE), data=data )
+
+predictions <- fit2 %>% predict(data_tot[-sample_train,])
+# Model performance
+res_test<-rbind(res_test,data.frame(
+  i = i,
+  RMSE = RMSE(predictions, data_tot[-sample_train,]$icu_los_day),
+  R2 = R2(predictions, data_tot[-sample_train,]$icu_los_day)
+))
+}
+pander(res_test)
+
+```
+
+
+```{r}
+analyse_res<- rbind(
+ res %>% select(i,RMSE) %>% mutate(data="train"),
+ res_test %>% select(i,RMSE) %>% mutate(data="test")
+ 
+)
+
+analyse_res %>% ggplot(aes(x=i, y=RMSE, color=data)) + geom_line()+coord_cartesian(ylim=c(3,4))+theme_light()
+```
+
+
+# Classification binaire
+
+
+```{r}
+  data %>% ggplot(aes(x= bmi, y=age, color = hosp_exp_flg)) +geom_point()
+```
+
+```{r}
+library(class) ##run knn function
+ pr <- knn( data%>% select(age,bmi),data %>% select(age,bmi),cl=data$hosp_exp_flg,k=3)
+ 
+ ##create confusion matrix
+ tab <- table(pr,data$hosp_exp_flg)
+ 
+pander(tab)
+```
+
+```{r}
+caract_test<-function(pred, verite){
+  
+  VN = sum(!pred& !verite)
+  VP = sum(pred& verite)
+  FN = sum(!pred & verite)
+  FP= sum(pred&!verite)
+  return(
+    data.frame(specificite = VN/(VN+FP),
+      sensibilite = VP/(VP+FN),
+      VPP = VP/(VP+FP),
+      VPN = VN / (VN+ FN))
+  )
+}
+caract_test(pr==1,data$hosp_exp_flg==1)
+
+```
+
+```{r}
+res_train<- tibble()
+for(i in 2 : 20){
+  pr <- knn( data%>% select(age,bmi),data %>% select(age,bmi),cl=data$hosp_exp_flg,k=i)
+ 
+ ##create confusion matrix
+ 
+ 
+res_train<-rbind(res_train,data.frame(i=i,caract_test(pr==1,data$hosp_exp_flg==1)))
+}
+
+pander(res_train)
+```
+
+```{r}
+res_test<- tibble()
+for(i in 2 : 20){
+  pr <- knn( data%>% select(age,bmi),data_tot[-sample_train,] %>% select(age,bmi),cl=data$hosp_exp_flg,k=i)
+ 
+ ##create confusion matrix
+ 
+ 
+res_test<-rbind(res_test,data.frame(i=i,caract_test(pr==1,data_tot$hosp_exp_flg[-sample_train]==1)))
+}
+
+pander(res_test)
+```
+
