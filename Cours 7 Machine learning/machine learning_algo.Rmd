@@ -1,0 +1,109 @@
+---
+title: "R Notebook"
+output:
+  html_document:
+    df_print: paged
+---
+
+https://physionet.org/content/mimic2-iaccd/1.0/
+# Principe du machine learning
+
+```{r}
+library(pander)
+# saveRDS(objet, "chemin/objet.rds")
+data_tot<- readRDS("data.rds")
+str(data_tot)
+
+```
+
+```{r}
+library(ggplot2)
+library(tidyverse)
+
+```
+
+
+```{r}
+# forcer aléatoire
+set.seed(45)
+sample_train<-sample(1:dim(data_tot)[1],100,replace = F)
+data <- data_tot[sample_train,]
+
+```
+
+
+## Estimation par regression lin?aire
+
+```{r}
+fit1 <- lm(hospital_los_day~sapsi_first, data=data )
+summary(fit1)
+```
+
+
+```{r}
+require(e1071) #Holds the Naive Bayes Classifier
+Train <- read.csv(file.choose())
+Test <- read.csv(file.choose())
+
+#Make sure the target variable is of a two-class classification problem only
+
+
+model <- naiveBayes(hosp_exp_flg~., data = data)
+class(model) 
+pred <- predict(model,data_tot[-sample_train,])
+table(pred, data_tot[-sample_train,]$hosp_exp_flg)
+
+
+```
+
+```{r}
+  mod_glm = glm.model = glm(status ~ age+sex+ph.ecog+ph.karno+
+        pat.karno+meal.cal+wt.loss, data = Training_set,family=binomial(link="logit"))
+
+  mod_knn = knn(Training_set[,4:10], Test_set[,4:10], Training_set$status, k = 20, prob=TRUE)
+  
+  mod_arbre = tree(status ~ age+sex+ph.ecog+ph.karno+
+        pat.karno+meal.cal+wt.loss,Training_set)
+    
+  mod_rf = randomForest(status ~ age+sex+ph.ecog+ph.karno+
+        pat.karno+meal.cal+wt.loss,Training_set,ntree=1000)
+  
+  mod_svm = svm(status ~ age+sex+ph.ecog+ph.karno+
+        pat.karno+meal.cal+wt.loss, data = Training_set)
+```
+
+ 
+```{r}
+
+# KNN -> les prÃ©dictions sont faites directement par la fonction knn
+  pred_knn = mod_knn
+  
+#Arbre de dÃ©cision
+  pred_arbre = predict(mod_arbre,Test_set[,4:10])
+    
+#Random forest
+  pred_rf = predict(mod_rf,Test_set[,4:10])
+  
+#SVM
+  pred_svm = predict(mod_svm,Test_set[,4:10])
+```
+ 
+```{r}
+ pred_knn = mod_knn
+  sens_knn = sensitivity(as.numeric(as.character(Test_set$status)),pred_knn,cutoff = 0)
+  spe_knn = specificity(as.numeric(as.character(Test_set$status)),pred_knn,cutoff = 0)
+  
+#Arbre de dÃ©cision
+  pred_arbre_cl = ifelse(pred_arbre[,1] >= 0.5,0,1)
+  sens_arbre = sensitivity(as.numeric(as.character(Test_set$status)),pred_arbre_cl,cutoff = 0)
+  spe_arbre = specificity(as.numeric(as.character(Test_set$status)),pred_arbre_cl,cutoff = 0)
+
+  #Random forest
+  sens_rf = sensitivity(as.numeric(as.character(Test_set$status)),pred_rf,cutoff = 0)
+  spe_rf = specificity(as.numeric(as.character(Test_set$status)),pred_rf,cutoff = 0)
+
+  #SVM
+  sens_svm = sensitivity(as.numeric(as.character(Test_set$status)),pred_svm,cutoff = 0)
+  spe_svm = specificity(as.numeric(as.character(Test_set$status)),pred_svm,cutoff = 0)
+```
+
