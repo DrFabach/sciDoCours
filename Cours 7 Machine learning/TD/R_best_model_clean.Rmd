@@ -1,0 +1,200 @@
+---
+title: "R_best_model_clean_version"
+output:
+  pdf_document: default
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+install.packages('pander')
+install.packages('ggplot2')
+install.packages('tidyverse')
+install.packages("tree")
+install.packages("randomForest")
+library(class)
+library(pander)
+library(ggplot2)
+library(tidyverse)
+library(caret)
+library(tree)
+library(randomForest)
+```
+
+
+```{r}
+library(pander)
+# saveRDS(objet, "chemin/objet.rds")
+data_tot<- readRDS("data.rds")
+# str(data_tot)
+```
+
+```{r}
+# forcer aléatoire
+set.seed(45)
+sample_train<-sample(1:dim(data_tot)[1],650,replace = F)
+#Selection d'une partie des variables
+data_tot<-data_tot%>%select( "age", "gender_num", 
+ "bmi", "sapsi_first", "sofa_first", "chf_flg", "afib_flg", "renal_flg", 
+"liver_flg", "copd_flg", "cad_flg", "stroke_flg", "mal_flg", 
+"resp_flg", "map_1st", "hr_1st", "temp_1st", "spo2_1st", "abg_count", 
+"wbc_first", "hgb_first", "platelet_first", "sodium_first", "potassium_first", 
+"tco2_first", "chloride_first", "bun_first", "creatinine_first", 
+"po2_first", "pco2_first", "iv_day_1","hosp_exp_flg")
+data_tot$hosp_exp_flg<- as.factor(data_tot$hosp_exp_flg)
+#Separation du jeu de données en entrainement et test
+data_train <- data_tot[sample_train,]
+data_test <- data_tot[-sample_train,]
+
+#################################
+
+normParam <- preProcess(data_train)
+# Application de ce modèle aux données train et test
+training_dataset <- predict(normParam, data_train)
+testing_dataset <- predict(normParam, data_test)
+```
+
+
+
+
+```{r}
+#Models
+
+#k-Nearest Neighbour 
+model_knn <- knn(training_dataset%>%select(-hosp_exp_flg),testing_dataset%>%select(-hosp_exp_flg), training_dataset$hosp_exp_flg, k = 3, prob=TRUE)
+
+#Naive Bayes Classifier
+require(e1071)
+model_naiveB <- naiveBayes(hosp_exp_flg~.,data= training_dataset)
+
+#Decision Tree
+model_tree <- tree(hosp_exp_flg~.,data = training_dataset)
+
+# Random Forest
+model_random_forest <- randomForest(hosp_exp_flg~., data = training_dataset,ntree=1000,classwt =c(4,1))
+
+# Support Vector Machine
+model_svm = svm(hosp_exp_flg~., data = training_dataset)
+
+```
+
+
+```{r}
+# Predictions Naive Bayes
+predictions_nB <- predict(model_naiveB,testing_dataset)
+table(predictions_nB, true = testing_dataset$hosp_exp_flg)
+
+```
+
+```{r}
+mean(predictions_nB == testing_dataset$hosp_exp_flg)
+```
+```{r}
+# Predictions Knn
+table(model_knn, true = testing_dataset$hosp_exp_flg)
+```
+
+```{r}
+mean(model_knn == testing_dataset$hosp_exp_flg)
+```
+
+```{r}
+# Random forest 
+predictions_Rf <- predict(model_random_forest,testing_dataset)
+table(testing_dataset$hosp_exp_flg, predict(model_random_forest,testing_dataset))
+```
+
+```{r}
+mean(predictions_Rf == testing_dataset$hosp_exp_flg)
+```
+```{r}
+confusionMatrix(testing_dataset$hosp_exp_flg,predictions_Rf)
+```
+
+```{r}
+# SVM
+predictions_SVM <- predict(model_svm, testing_dataset)
+confusionMatrix(testing_dataset$hosp_exp_flg, predictions_SVM)
+table(predictions_SVM, testing_dataset$hosp_exp_flg)
+
+```
+
+```{r}
+
+#Cross Validation
+fit_control<-trainControl(method = "repeatedcv",
+             number = 10,
+             repeats = 3)
+#définition de la grille d'hyperparamètre à tester
+gridsearch_svm <-  expand.grid( 
+                        scale  = c(1/10000,1/1000,1/100,1/10), 
+                        C = c(1,2,3),
+                        degree = c(1,2,3,4))
+#Entrainement d'un svm par crossvalidation
+fit1<-train(hosp_exp_flg~., data = training_dataset,
+      method="svmPoly",
+      tuneGrid= gridsearch_svm,
+      trControl = fit_control
+      )
+print(fit1)
+
+```
+
+
+```{r}
+# Support Vector Machine
+model_svm = svm(hosp_exp_flg~., data = training_dataset,degree= 2, cost = 2,scale = 0.01)
+# New SVM after hyperparameters
+predictions_SVM <- predict(model_svm, testing_dataset)
+confusionMatrix(testing_dataset$hosp_exp_flg, predictions_SVM)
+
+```
+
+```{r}
+# HyperParameter for Random Forest 
+
+getNamespaceVersion("caret")
+## version 
+## "6.0-80"
+
+control <- trainControl(method="repeatedcv", number=10, repeats=3, search="grid")
+tunegrid <- expand.grid(mtry  = 11)
+modellist <- list()
+for (ntree in c(250,500, 1000, 1500, 2000, 2500)) {
+	fit <- train(hosp_exp_flg~., data=training_dataset, method="rf", tuneGrid=tunegrid, trControl=control, ntree=ntree)
+	key <- toString(ntree)
+	modellist[[key]] <- fit
+}
+# compare results
+results <- resamples(modellist)
+summary(results)
+dotplot(results)
+```
+
+
+```{r}
+# RF mtry hyperparameter
+control <- trainControl(method="repeatedcv", number=10, repeats=3, search="grid")
+tunegrid <- expand.grid( .mtry = c(1:15))
+model_rf <- train(hosp_exp_flg~., data=training_dataset, method="rf", tuneGrid=tunegrid,ntree = 2000, trControl=control)
+print(model_rf)
+plot(model_rf)
+
+```
+
+```{r}
+
+model_random_forest <- randomForest(hosp_exp_flg~., data = training_dataset,ntree=2000,mtry = 7 ,classwt =c(4,1))
+predictions_Rf <- predict(model_random_forest,testing_dataset)
+confusionMatrix(testing_dataset$hosp_exp_flg,predictions_Rf)
+# RF Save
+
+
+```
+```{r}
+# Export du meilleur modèle
+saveRDS(model_random_forest,"./meilleur_modele")
+```
