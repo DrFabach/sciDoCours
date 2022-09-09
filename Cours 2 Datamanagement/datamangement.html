@@ -675,8 +675,8 @@
 <div class="column" style="font-size: 0.50em">
 <table>
 <colgroup>
-<col style="width: 35%">
-<col style="width: 64%">
+<col style="width: 36%">
+<col style="width: 63%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -735,11 +735,11 @@
 <table>
 <caption>Table: Livre</caption>
 <colgroup>
-<col style="width: 15%">
-<col style="width: 32%">
-<col style="width: 14%">
-<col style="width: 26%">
-<col style="width: 10%">
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -793,14 +793,14 @@
 <section id="exercice-1" class="slide level2">
 <h2>Exercice</h2>
 <div style="font-size: 0.5em">
-<table style="width:100%;">
+<table>
 <caption>Table: Livre</caption>
 <colgroup>
-<col style="width: 12%">
-<col style="width: 36%">
-<col style="width: 14%">
-<col style="width: 29%">
-<col style="width: 7%">
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -859,14 +859,14 @@
 <section id="exercice-2" class="slide level2">
 <h2>Exercice</h2>
 <div style="font-size: 0.5em">
-<table style="width:100%;">
+<table>
 <caption>Table: Livre</caption>
 <colgroup>
-<col style="width: 12%">
-<col style="width: 36%">
-<col style="width: 14%">
-<col style="width: 29%">
-<col style="width: 7%">
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -926,14 +926,14 @@
 <section id="exercice-3" class="slide level2">
 <h2>Exercice</h2>
 <div style="font-size: 0.5em">
-<table style="width:100%;">
+<table>
 <caption>Table: Livre</caption>
 <colgroup>
-<col style="width: 12%">
-<col style="width: 36%">
-<col style="width: 14%">
-<col style="width: 29%">
-<col style="width: 7%">
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -1545,12 +1545,316 @@ Quelle requête utiliser pour afficher tous les enregistrement de la table exame
 <li class="fragment"><p>Stockées sous forme de nombre par rapport à une date 1er janvier 1900 dans excel</p></li>
 </ul>
 </section></section>
+<section>
 <section id="r" class="title-slide slide level1 center">
 <h1>R</h1>
+
+</section>
+<section id="installation-de-package" class="slide level2">
+<h2>Installation de package</h2>
+<div class="sourceCode" id="cb16"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1"></a><span class="fu">install.package</span>(...)</span>
+<span id="cb16-2"><a href="#cb16-2"></a></span>
+<span id="cb16-3"><a href="#cb16-3"></a><span class="co"># aide pour les fonctions</span></span>
+<span id="cb16-4"><a href="#cb16-4"></a>?install.package</span>
+<span id="cb16-5"><a href="#cb16-5"></a></span>
+<span id="cb16-6"><a href="#cb16-6"></a><span class="fu">install.packages</span>(<span class="st">"readxl"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="chargement-du-package-de-la-base-de-donnée" class="slide level2">
+<h2>Chargement du package + de la base de donnée</h2>
+<div class="sourceCode" id="cb17"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1"></a><span class="fu">library</span>(<span class="st">"readxl"</span>)</span>
+<span id="cb17-2"><a href="#cb17-2"></a></span>
+<span id="cb17-3"><a href="#cb17-3"></a></span>
+<span id="cb17-4"><a href="#cb17-4"></a><span class="co"># Chemin du fichier, remplacer "\" par "/" ou "\\"</span></span>
+<span id="cb17-5"><a href="#cb17-5"></a></span>
+<span id="cb17-6"><a href="#cb17-6"></a><span class="fu">read_excel</span>(<span class="st">"~chemin du fichier~/data1.xlsx"</span>)</span>
+<span id="cb17-7"><a href="#cb17-7"></a></span>
+<span id="cb17-8"><a href="#cb17-8"></a>data1 <span class="ot">&lt;-</span> <span class="fu">read_excel</span>(<span class="st">".data1.xlsx"</span>,</span>
+<span id="cb17-9"><a href="#cb17-9"></a>                   <span class="dv">1</span>,<span class="at">na =</span><span class="fu">c</span>(<span class="st">" "</span>,<span class="st">""</span>,<span class="st">"N/A"</span>,<span class="st">"NA"</span>))</span>
+<span id="cb17-10"><a href="#cb17-10"></a></span>
+<span id="cb17-11"><a href="#cb17-11"></a>data2 <span class="ot">&lt;-</span> <span class="fu">read_excel</span>(<span class="at">path =</span><span class="st">"~chemin du fichier~/data1.xlsx"</span>,</span>
+<span id="cb17-12"><a href="#cb17-12"></a>                    <span class="at">sheet =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="chargement-de-la-base-de-donnée" class="slide level2">
+<h2>Chargement de la base de donnée</h2>
+<div class="cell">
+
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1"></a>data1 <span class="ot">&lt;-</span> <span class="fu">read_excel</span>(<span class="st">"./data1.xlsx"</span>,</span>
+<span id="cb18-2"><a href="#cb18-2"></a>                   <span class="dv">1</span>,<span class="at">na =</span><span class="fu">c</span>(<span class="st">" "</span>,<span class="st">""</span>,<span class="st">"N/A"</span>,<span class="st">"NA"</span>))</span>
+<span id="cb18-3"><a href="#cb18-3"></a></span>
+<span id="cb18-4"><a href="#cb18-4"></a>data2 <span class="ot">&lt;-</span> <span class="fu">read_excel</span>(<span class="at">path =</span><span class="st">"./data1.xlsx"</span>,</span>
+<span id="cb18-5"><a href="#cb18-5"></a>                    <span class="at">sheet =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="structure-de-la-base-de-donnée" class="slide level2">
+<h2>Structure de la base de donnée</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1"></a><span class="fu">dim</span>(data1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 36 45</code></pre>
+</div>
+</div>
+</section>
+<section id="structure-de-la-base-de-donnée-1" class="slide level2">
+<h2>Structure de la base de donnée</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1"></a><span class="fu">str</span>(data1[,<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>tibble [36 x 10] (S3: tbl_df/tbl/data.frame)
+ $ ID de la réponse          : num [1:36] 45 46 47 48 49 50 51 52 53 54 ...
+ $ Date de soumission        : chr [1:36] "2021-07-19 21:16:11" "2021-07-19 21:31:35" "2021-07-19 21:47:58" "2021-07-19 22:04:06" ...
+ $ Dernière page             : num [1:36] 2 2 2 2 NA 2 2 2 2 2 ...
+ $ Langue de départ          : chr [1:36] "fr" "fr" "fr" "fr" ...
+ $ Tête de série             : num [1:36] 4.88e+08 1.86e+09 2.10e+09 1.67e+09 1.97e+09 ...
+ $ Date de lancement         : chr [1:36] "2021-07-19 20:57:49" "2021-07-19 21:18:42" "2021-07-19 21:36:48" "2021-07-19 21:54:21" ...
+ $ Date de la dernière action: chr [1:36] "2021-07-19 21:16:11" "2021-07-19 21:31:35" "2021-07-19 21:47:58" "2021-07-19 22:04:06" ...
+ $ ...8                      : logi [1:36] NA NA NA NA NA NA ...
+ $ ID :                      : num [1:36] 30 NA 32 33 NA 34 35 36 37 39 ...
+ $ Sexe du medcin traitant   : chr [1:36] "Féminin" "Féminin" "Masculin" "Féminin" ...</code></pre>
+</div>
+</div>
+</section>
+<section id="structure-de-la-base-de-donnée-2" class="slide level2">
+<h2>Structure de la base de donnée</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1"></a><span class="fu">head</span>(data1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 x 45
+  `ID de la réponse` `Date de soumission` `Dernière page` `Langue de départ`
+               &lt;dbl&gt; &lt;chr&gt;                          &lt;dbl&gt; &lt;chr&gt;             
+1                 45 2021-07-19 21:16:11                2 fr                
+2                 46 2021-07-19 21:31:35                2 fr                
+3                 47 2021-07-19 21:47:58                2 fr                
+4                 48 2021-07-19 22:04:06                2 fr                
+5                 49 &lt;NA&gt;                              NA fr                
+6                 50 2021-07-27 18:57:00                2 fr                
+# ... with 41 more variables: `Tête de série` &lt;dbl&gt;, `Date de lancement` &lt;chr&gt;,
+#   `Date de la dernière action` &lt;chr&gt;, ...8 &lt;lgl&gt;, `ID :` &lt;dbl&gt;,
+#   `Sexe du medcin traitant` &lt;chr&gt;, `Date de la première consultation` &lt;chr&gt;,
+#   `Délais de prise en charge (mois)` &lt;chr&gt;, `Délais de RDV (mois)` &lt;dbl&gt;,
+#   `Medecin adresseur` &lt;chr&gt;, `Pathologie lié au travail ? [AT]` &lt;chr&gt;,
+#   `Pathologie lié au travail ? [Commentaire]...16` &lt;dbl&gt;,
+#   `Pathologie lié au travail ? [AT non reconnu]` &lt;chr&gt;, ...</code></pre>
+</div>
+</div>
+</section>
+<section id="noms-présents-dans-la-base-de-données" class="slide level2">
+<h2>Noms présents dans la base de données</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1"></a><span class="fu">names</span>(data1)[<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] "ID de la réponse"           "Date de soumission"        
+ [3] "Dernière page"              "Langue de départ"          
+ [5] "Tête de série"              "Date de lancement"         
+ [7] "Date de la dernière action" "...8"                      
+ [9] "ID :"                       "Sexe du medcin traitant"   </code></pre>
+</div>
+</div>
+</section>
+<section id="notion-de-vecteur" class="slide level2">
+<h2>notion de vecteur</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1"></a><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">4</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1 2 3 4</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1"></a><span class="fu">c</span>(<span class="st">"a"</span>,<span class="st">"b"</span>,<span class="st">"c"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "a" "b" "c"</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1"></a><span class="fu">c</span>(<span class="st">"a"</span>,<span class="dv">1</span>,<span class="st">"c"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "a" "1" "c"</code></pre>
+</div>
+</div>
+</section>
+<section id="notion-de-vecteur-1" class="slide level2">
+<h2>notion de vecteur</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1"></a>vecteur<span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"a"</span>,<span class="st">"b"</span>,<span class="st">"c"</span>)</span>
+<span id="cb33-2"><a href="#cb33-2"></a>vecteur2<span class="ot">&lt;-</span> vecteur</span>
+<span id="cb33-3"><a href="#cb33-3"></a>vecteur3<span class="ot">&lt;-</span> <span class="fu">c</span>(vecteur, vecteur2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="variable-dune-base-de-données" class="slide level2">
+<h2>Variable d’une base de données</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1"></a>data1<span class="sc">$</span><span class="st">`</span><span class="at">Pathologie lié au travail ? [AT non reconnu]</span><span class="st">`</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] "Non" "Non" "Non" "Non" NA    "Non" "Non" "Non" "Non" "Non" "Non" "Non"
+[13] "Non" "Non" "Non" "Non" "Non" "Non" "Non" "Non" "Non" "Non" "Non" "Non"
+[25] "Non" "Non" "Non" "Non" "Non" "Non" "Non" "Non" "Non" "Non" "Non" "Non"</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1"></a>data1[,<span class="dv">1</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 36 x 1
+   `ID de la réponse`
+                &lt;dbl&gt;
+ 1                 45
+ 2                 46
+ 3                 47
+ 4                 48
+ 5                 49
+ 6                 50
+ 7                 51
+ 8                 52
+ 9                 53
+10                 54
+# ... with 26 more rows</code></pre>
+</div>
+</div>
+</section>
+<section id="sélection-des-variables" class="slide level2">
+<h2>Sélection des variables</h2>
+<h3 id="base-r">base R</h3>
+<div class="sourceCode" id="cb38"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1"></a>data1<span class="sc">$</span><span class="st">`</span><span class="at">ID de la réponse</span><span class="st">`</span></span>
+<span id="cb38-2"><a href="#cb38-2"></a>data1[<span class="dv">1</span>,<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>]</span>
+<span id="cb38-3"><a href="#cb38-3"></a>data1[,<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>]</span>
+<span id="cb38-4"><a href="#cb38-4"></a>data1[,<span class="sc">-</span><span class="dv">1</span>]</span>
+<span id="cb38-5"><a href="#cb38-5"></a>data1[,<span class="sc">-</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">3</span>,<span class="dv">4</span>)]</span>
+<span id="cb38-6"><a href="#cb38-6"></a></span>
+<span id="cb38-7"><a href="#cb38-7"></a>data1[,<span class="fu">c</span>(<span class="st">"ID de la réponse"</span>)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="sélection-des-variables-1" class="slide level2">
+<h2>Sélection des variables</h2>
+<h3 id="base-r-1">base R</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1"></a><span class="fu">names</span>(data1)<span class="sc">==</span><span class="st">"ID.de.la.r?ponse"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+[13] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+[25] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+[37] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE</code></pre>
+</div>
+</div>
+<div class="sourceCode" id="cb41"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1"></a>data1[,<span class="sc">!</span>(<span class="fu">names</span>(data1)<span class="sc">==</span><span class="st">"ID.de.la.r?ponse"</span>)]</span>
+<span id="cb41-2"><a href="#cb41-2"></a></span>
+<span id="cb41-3"><a href="#cb41-3"></a>data1[,<span class="sc">!</span>(<span class="fu">names</span>(data1)<span class="sc">%in%</span><span class="fu">c</span>(var1, var2 ...)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="dplyr" class="slide level2">
+<h2>Dplyr</h2>
+<ul>
+<li class="fragment">Version classique :</li>
+</ul>
+<div class="fragment">
+<div class="sourceCode" id="cb42"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1"></a><span class="fu">allerauboulot</span>(<span class="fu">preparer</span>(<span class="fu">dejeuner</span>(<span class="fu">jemeleve</span>(moi))))</span>
+<span id="cb42-2"><a href="#cb42-2"></a>var1<span class="ot">&lt;-</span> <span class="fu">jemeleve</span>(moi)</span>
+<span id="cb42-3"><a href="#cb42-3"></a>var2<span class="ot">&lt;-</span> <span class="fu">dejeuner</span>(var1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="fragment">
+<ul>
+<li class="fragment">Version Dplyr :</li>
+</ul>
+<div class="sourceCode" id="cb43"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1"></a>moi<span class="sc">%&gt;%</span>jemeleve<span class="sc">%&gt;%</span>dejeuner<span class="sc">%&gt;%</span>preparer<span class="sc">%&gt;%</span>allerauboulot</span>
+<span id="cb43-2"><a href="#cb43-2"></a>data1<span class="sc">%&gt;%</span>dim</span>
+<span id="cb43-3"><a href="#cb43-3"></a>data1<span class="sc">%&gt;%</span>names<span class="sc">%&gt;%</span>dput</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="selection-de-variable-dplyr" class="slide level2">
+<h2>Selection de variable, Dplyr</h2>
+<div class="sourceCode" id="cb44"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb44-2"><a href="#cb44-2"></a></span>
+<span id="cb44-3"><a href="#cb44-3"></a>data1 <span class="sc">%&gt;%</span> <span class="fu">select</span>(var1)</span>
+<span id="cb44-4"><a href="#cb44-4"></a>data1 <span class="sc">%&gt;%</span> <span class="fu">select</span>(<span class="fu">c</span>(var1, var2, var3))</span>
+<span id="cb44-5"><a href="#cb44-5"></a>data1<span class="sc">%&gt;%</span><span class="fu">select</span>(<span class="sc">-</span>var1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell">
+
+</div>
+</section>
+<section id="changer-le-type-de-données" class="slide level2">
+<h2>Changer le type de données :</h2>
+<h3 id="base-r-2">base R</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1"></a><span class="fu">as.numeric</span>(<span class="fu">c</span>(<span class="st">'1'</span>,<span class="st">'2'</span>,<span class="st">'3'</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1 2 3</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1"></a><span class="fu">as.character</span>(<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "1" "2" "3"</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1"></a><span class="fu">as.factor</span>(<span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">4</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 2 3 4
+Levels: 2 3 4</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1"></a><span class="co"># Attention pas de as.numeric directement sur un as.factor</span></span>
+<span id="cb51-2"><a href="#cb51-2"></a><span class="fu">as.factor</span>(<span class="fu">c</span>(<span class="dv">4</span>,<span class="dv">3</span>,<span class="dv">2</span>))<span class="sc">%&gt;%</span><span class="fu">as.character</span>()<span class="sc">%&gt;%</span><span class="fu">as.numeric</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 4 3 2</code></pre>
+</div>
+</div>
+</section>
+<section id="changer-le-type-de-données-1" class="slide level2">
+<h2>Changer le type de données :</h2>
+<h3 id="base-r-3">base R</h3>
+<div class="sourceCode" id="cb53"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1"></a>data1<span class="sc">$</span>Sexe.du.medcin.traitant<span class="ot">&lt;-</span><span class="fu">as.factor</span>(data1<span class="sc">$</span>Sexe.du.medcin.traitant)</span>
+<span id="cb53-2"><a href="#cb53-2"></a>data1<span class="sc">$</span>Medecin.adresseur<span class="ot">&lt;-</span> <span class="fu">as.factor</span>(data1<span class="sc">$</span>Medecin.adresseur)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="changer-le-type-de-données-2" class="slide level2">
+<h2>Changer le type de données :</h2>
+<h3 id="dplyr-1">dplyr</h3>
+<div class="sourceCode" id="cb54"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1"></a>data1<span class="ot">&lt;-</span>data1<span class="sc">%&gt;%</span></span>
+<span id="cb54-2"><a href="#cb54-2"></a>  <span class="fu">mutate</span>(<span class="at">Sexe.du.medcin.traitant=</span><span class="fu">as.factor</span>(Sexe.du.medcin.traitant),</span>
+<span id="cb54-3"><a href="#cb54-3"></a>                      <span class="at">Medecin.adresseur =</span> <span class="fu">as.factor</span>(Medecin.adresseur))</span>
+<span id="cb54-4"><a href="#cb54-4"></a></span>
+<span id="cb54-5"><a href="#cb54-5"></a>data1<span class="ot">&lt;-</span>data1<span class="sc">%&gt;%</span></span>
+<span id="cb54-6"><a href="#cb54-6"></a>  <span class="fu">mutate_at</span>(<span class="fu">c</span>(<span class="st">"Sexe.du.medcin.traitant"</span>,<span class="st">"Medecin.adresseur"</span>),</span>
+<span id="cb54-7"><a href="#cb54-7"></a>                  as.factor)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="modification-des-variables" class="slide level2">
+<h2>Modification des variables</h2>
+</section>
+<section id="base-r-4" class="slide level2">
+<h2>Base R</h2>
+<div class="sourceCode" id="cb55"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1"></a>data1<span class="sc">$</span>Sexe.du.medcin.traitant[<span class="fu">which</span>(data1<span class="sc">$</span>Sexe.du.medcin.traitant<span class="sc">==</span><span class="dv">45</span>)]<span class="ot">&lt;-</span></span>
+<span id="cb55-2"><a href="#cb55-2"></a>    <span class="cn">NA</span></span>
+<span id="cb55-3"><a href="#cb55-3"></a>data1<span class="sc">$</span>Sexe.du.medcin.traitant<span class="sc">%&gt;%</span><span class="fu">droplevels</span>()</span>
+<span id="cb55-4"><a href="#cb55-4"></a>data1<span class="sc">$</span>Sexe.du.medcin.traitant[<span class="fu">which</span>(data1<span class="sc">$</span>Sexe.du.medcin.traitant<span class="sc">==</span><span class="st">"f"</span>)]<span class="ot">&lt;-</span> </span>
+<span id="cb55-5"><a href="#cb55-5"></a>    <span class="st">"Féminin"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="modification-des-variables-1" class="slide level2">
+<h2>Modification des variables</h2>
+<h3 id="dplyr-2">dplyr</h3>
+<div class="sourceCode" id="cb56"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1"></a>data1<span class="sc">$</span>Sexe.du.medcin.traitant<span class="ot">&lt;-</span> <span class="fu">as.character</span>(data1<span class="sc">$</span>Sexe.du.medcin.traitant)</span>
+<span id="cb56-2"><a href="#cb56-2"></a>data1<span class="ot">&lt;-</span>data1<span class="sc">%&gt;%</span></span>
+<span id="cb56-3"><a href="#cb56-3"></a>  <span class="fu">mutate</span>(<span class="at">Sexe.du.medcin.traitant =</span> </span>
+<span id="cb56-4"><a href="#cb56-4"></a>      <span class="fu">case_when</span>(Sexe.du.medcin.traitant<span class="sc">==</span><span class="dv">45</span><span class="sc">~</span><span class="cn">NA_character_</span>,</span>
+<span id="cb56-5"><a href="#cb56-5"></a>                Sexe.du.medcin.traitant<span class="sc">==</span><span class="st">"f"</span><span class="sc">~</span><span class="st">"Féminin"</span>,</span>
+<span id="cb56-6"><a href="#cb56-6"></a>                Sexe.du.medcin.traitant<span class="sc">==</span><span class="st">"m"</span><span class="sc">~</span><span class="st">"Masculin"</span>,</span>
+<span id="cb56-7"><a href="#cb56-7"></a>                <span class="cn">TRUE</span> <span class="sc">~</span>Sexe.du.medcin.traitant)<span class="sc">%&gt;%</span>as.factor)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="remplacement-des-données-manquantes" class="slide level2">
+<h2>Remplacement des données manquantes</h2>
+<h3 id="base-r-5">base R</h3>
+<div class="sourceCode" id="cb57"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1"></a>data[,indice][<span class="fu">is.na</span>(data[,indice])]<span class="ot">&lt;-</span><span class="dv">0</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="dplyr-3" class="slide level2">
+<h2>dplyr</h2>
+<div class="sourceCode" id="cb58"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1"></a>data2<span class="sc">%&gt;%</span><span class="fu">mutate_at</span>(<span class="st">"Age"</span>, </span>
+<span id="cb58-2"><a href="#cb58-2"></a>                  <span class="cf">function</span>(x) <span class="fu">ifelse</span>(<span class="fu">is.na</span>(x),<span class="dv">0</span>,x))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="extraction-de-termes" class="slide level2">
+<h2>extraction de termes</h2>
+<div class="sourceCode" id="cb59"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1"></a><span class="fu">library</span>(stringr)</span>
+<span id="cb59-2"><a href="#cb59-2"></a>data1<span class="sc">$</span>fibromyalgie <span class="ot">&lt;-</span><span class="fu">str_detect</span>(data1<span class="sc">$</span>var1,<span class="st">"fibromyalgie"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="joindre-base-de-données" class="slide level2">
+<h2>Joindre base de données</h2>
+<div class="sourceCode" id="cb60"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1"></a>basefinal<span class="ot">&lt;-</span>base1<span class="sc">%&gt;%</span><span class="fu">left_join</span>(base2,<span class="at">by =</span><span class="fu">c</span>(<span class="st">"id"</span> <span class="ot">=</span> <span class="st">"id"</span>))</span>
+<span id="cb60-2"><a href="#cb60-2"></a>basefinal<span class="ot">&lt;-</span>base1<span class="sc">%&gt;%</span><span class="fu">inner_join</span>(base2,<span class="at">by =</span><span class="fu">c</span>(<span class="st">"id"</span> <span class="ot">=</span> <span class="st">"id"</span>))</span>
+<span id="cb60-3"><a href="#cb60-3"></a>basefinal<span class="ot">&lt;-</span>base1<span class="sc">%&gt;%</span><span class="fu">right_join</span>(base2,<span class="at">by =</span><span class="fu">c</span>(<span class="st">"id"</span> <span class="ot">=</span> <span class="st">"id"</span>))</span>
+<span id="cb60-4"><a href="#cb60-4"></a>basefinal<span class="ot">&lt;-</span>base1<span class="sc">%&gt;%</span><span class="fu">outer_join</span>(base2,<span class="at">by =</span><span class="fu">c</span>(<span class="st">"id"</span> <span class="ot">=</span> <span class="st">"id"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="ecrire-la-base-de-données-finales" class="slide level2">
+<h2>Ecrire la base de données finales</h2>
+<div class="sourceCode" id="cb61"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb61-1"><a href="#cb61-1"></a></span>
+<span id="cb61-2"><a href="#cb61-2"></a><span class="fu">write.csv2</span>(basefinal,<span class="st">"C:/Users/enseignant/Desktop/basefinal.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="footer footer-default">
 <p>Master Intelligence des données de santé / UE Technique</p>
 </div>
-</section>
+</section></section>
     </div>
   </div>
 
