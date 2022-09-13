@@ -15,6 +15,7 @@ footer: "Master Intelligence des données de santé / UE Technique"
 show-slide-number: all
 jupyter: false
 cap-location: bottom
+self-contained: true
 execute:
   echo: true
 ---
