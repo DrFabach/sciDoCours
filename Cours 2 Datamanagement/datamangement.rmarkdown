@@ -1,0 +1,899 @@
+---
+title: "2-Datamangement"
+format:
+  revealjs: 
+    theme: [dark]
+    
+editor: visual
+page-layout: full
+author: "Thibaut FABACHER"
+institute: "GMRC"
+incremental: true
+slide-number: h/v
+progress: true
+footer: "Master Intelligence des données de santé / UE Technique"
+show-slide-number: all
+jupyter: false
+cap-location: bottom
+self-contained: true
+execute:
+  echo: true
+---
+
+
+#### A rajouter/ Modifier####
+MEttre des exemples de jointures en sql
+Modifier la fin sur R
+
+
+# SQL
+
+## Le langage SQL
+
+-   Perme d'interroger un logiciel sgbdr (système de gestion de base de données)
+
+-   SGBR : MySQL, Oracle Database, SQLite...
+
+-   ! Différent SQL pour différente SGBR
+
+## Base de données relationnelle
+
+-   La relation, chaque ligne est unique
+-   Possède une clef unique
+
+| identifiant | masse | diamètre | couleur |
+|-------------|-------|----------|---------|
+| 1           | 151 g | 8.3 cm   | rouge   |
+| 3           | 169 g | 9.1 cm   | jaune   |
+| 3           | 134g  | 8.0 cm   | jaune   |
+
+## Clefs
+
+![](images/paste-DA535792.png)
+
+## Intérêt des clefs
+
+| libellé  | prix_au_kilo | maturation | goût          |
+|----------|--------------|------------|---------------|
+| Ariane   | 3.19         | tardive    | sucré/acidulé |
+| Gala     | 3.49         | précoce    | sucré         |
+| Reinette | 3.19         | mi-saison  | sucré         |
+| Boskoop  | 2.99         | mi-saison  | acidulé       |
+| \[...\]  | \[...\]      | \[...\]    | \[...\]       |
+
+## Intérêt des clefs
+
+| identifiant | masse   | diamètre | couleur | nom_variété |
+|-------------|---------|----------|---------|-------------|
+| 14          | 142 g   | 7.3 cm   | rouge   | Ariane      |
+| 25          | 182 g   | 7.5 cm   | rouge   | Gala        |
+| 16          | 140 g   | 7.9 cm   | rouge   | Ariane      |
+| \[...\]     | \[...\] | \[...\]  | \[...\] | \[...\]     |
+
+## Intérêt des clefs
+
+![](images/paste-46257B4C.png)
+
+## Intérêt des clefs
+
+Pas de redondance pour le stockage
+
+![](images/paste-4629A47E.png)
+
+## Table d'association
+
+![](images/paste-88521DFF.png)
+
+## LE SQL
+
+### Langage pour interroger ces bases
+
+::: columns
+::: {.column width="40%"}
+``` sql
+SELECT * 
+FROM pommes ;
+```
+:::
+
+::: {.column width="60%" style="font-size: 0.75em"}
+| identifiant | masse | diamètre | couleur |
+|-------------|-------|----------|---------|
+| 1           | 151 g | 8.3 cm   | rouge   |
+| 2           | 169 g | 9.1 cm   | jaune   |
+| 3           | 134 g | 8.0 cm   | jaune   |
+:::
+:::
+
+## LE SQL
+
+### Projection
+
+::: columns
+::: {.column width="40%"}
+``` sql
+SELECT identifiant, masse 
+FROM
+Pommes  ;
+```
+:::
+
+::: {.column width="60%" style="font-size: 0.75em"}
+| identifiant | masse | diamètre | couleur |
+|-------------|-------|----------|---------|
+| 1           | 151 g | 8.3 cm   | rouge   |
+| 2           | 169 g | 9.1 cm   | jaune   |
+| 3           | 134 g | 8.0 cm   | jaune   |
+:::
+:::
+
+## SQL
+
+### Restriction
+
+::: columns
+::: {.column width="40%"}
+``` sql
+SELECT * from
+Pommes 
+Where identifiant =1 ;
+```
+:::
+
+::: {.column width="60%" style="font-size: 0.75em"}
+| identifiant | masse | diamètre | couleur |
+|-------------|-------|----------|---------|
+| 1           | 151 g | 8.3 cm   | rouge   |
+| 2           | 169 g | 9.1 cm   | jaune   |
+| 3           | 134 g | 8.0 cm   | jaune   |
+:::
+:::
+
+## SQL
+
+::: columns
+::: {.column width="50%" style="font-size: 0.50em"}
+| Opérateur                     | Teste si ...                                           |
+|--------------------------|----------------------------------------------|
+| A = B                         | A égal à B                                             |
+| A \<\> B                      | A différent de B                                       |
+| A \> B et A \< B              | A supérieur à B / A inférieur à B                      |
+| A \>= B et A \<= B            | A supérieur ou égal à B / A inférieur ou égal à B      |
+| A BETWEEN B AND C             | A est compris entre B et C                             |
+| A LIKE 'chaîne de caractères' | (nous verrons cet opérateur dans un prochain chapitre) |
+| A IN (B1, B2, B3, etc.)       | A est présent dans la liste (B1, B2, etc.)             |
+| A IS NULL                     | A n'a pas de valeur                                    |
+:::
+
+::: {.column width="50%"}
+-   Restriction :
+
+    Opérateur disponible
+
+-   Opérateur logique :
+
+    OR, AND, NOT
+:::
+:::
+
+## Exercice
+
+::: {style="font-size: 0.5em"}
+| **id_livre** | **titre**                    | **isbn_10** | **auteur**             | **prix** |
+|---------------|---------------|---------------|---------------|---------------|
+| 1            | Forteresse digitale          | 2709626306  | Dan Brown              | 20.5     |
+| 2            | La jeune fille et la nuit    | 2253237620  | Guillaume Musso        | 21.9     |
+| 3            | T'choupi se brosse les dents | 2092589547  | Thierry Courtin        | 5.7      |
+| 4            | La Dernière Chasse           | 2226439412  | Jean-Christophe Grangé | 22.9     |
+| 5            | Le Signal                    | 2226319484  | Maxime Chattam         | 23.9     |
+
+: Table: Livre
+:::
+
+## Exercice
+
+::: {style="font-size: 0.5em"}
+| id_livre | titre                        | isbn_10    | auteur                 | prix |
+|---------------|---------------|---------------|---------------|---------------|
+| 1        | Forteresse digitale          | 2709626306 | Dan Brown              | 20.5 |
+| 2        | La jeune fille et la nuit    | 2253237620 | Guillaume Musso        | 21.9 |
+| 3        | T'choupi se brosse les dents | 2092589547 | Thierry Courtin        | 5.7  |
+| 4        | La Dernière Chasse           | 2226439412 | Jean-Christophe Grangé | 22.9 |
+| 5        | Le Signal                    | 2226319484 | Maxime Chattam         | 23.9 |
+
+: Table: Livre
+:::
+
+Quelle requête utiliser pour afficher l'ensemble des enregistrements de la table ?
+
+. . .
+
+``` {.sql code-line-numbers="2|1-2"}
+SELECT *
+FROM livres;
+```
+
+## Exercice
+
+::: {style="font-size: 0.5em"}
+| id_livre | titre                        | isbn_10    | auteur                 | prix |
+|---------------|---------------|---------------|---------------|---------------|
+| 1        | Forteresse digitale          | 2709626306 | Dan Brown              | 20.5 |
+| 2        | La jeune fille et la nuit    | 2253237620 | Guillaume Musso        | 21.9 |
+| 3        | T'choupi se brosse les dents | 2092589547 | Thierry Courtin        | 5.7  |
+| 4        | La Dernière Chasse           | 2226439412 | Jean-Christophe Grangé | 22.9 |
+| 5        | Le Signal                    | 2226319484 | Maxime Chattam         | 23.9 |
+
+: Table: Livre
+:::
+
+Quelle requête utiliser pour sélectionner uniquement les livres qui ont un **prix strictement supérieur à 20** ?
+
+. . .
+
+``` {.sql code-line-numbers="2|1-2|1-3"}
+SELECT *
+FROM livres
+WHERE prix > 20;
+```
+
+## Exercice
+
+::: {style="font-size: 0.5em"}
+| id_livre | titre                        | isbn_10    | auteur                 | prix |
+|---------------|---------------|---------------|---------------|---------------|
+| 1        | Forteresse digitale          | 2709626306 | Dan Brown              | 20.5 |
+| 2        | La jeune fille et la nuit    | 2253237620 | Guillaume Musso        | 21.9 |
+| 3        | T'choupi se brosse les dents | 2092589547 | Thierry Courtin        | 5.7  |
+| 4        | La Dernière Chasse           | 2226439412 | Jean-Christophe Grangé | 22.9 |
+| 5        | Le Signal                    | 2226319484 | Maxime Chattam         | 23.9 |
+
+: Table: Livre
+:::
+
+Quelle requête utiliser pour récupérer les livres de la table qui ont **un prix compris entre 20 et 22** ?
+
+. . .
+
+``` {.sql code-line-numbers="2|1-2|1-3"}
+SELECT *
+FROM livres
+WHERE prix BETWEEN 20 AND 22;
+```
+
+## Le SQL
+
+::: columns
+::: {.column width="50%"}
+![](images/paste-6A4477B7.png)
+:::
+
+::: {.column width="50%"}
+Jointure entre les tables :
+
+``` {.sql code-line-numbers="1|2-3|2-4|" style="font-size: 0.75em"}
+#
+SELECT * 
+FROM pommes, 
+variete
+WHERE pommes.nom_varieté =variete.libellé ;
+```
+
+\
+
+``` {.sql code-line-numbers="1|2|2-3|" style="font-size: 0.70em"}
+#
+SELECT * 
+FROM pommes 
+JOIN  variete ON pommes.nom_varieté =variete.libellé ;
+```
+:::
+:::
+
+## Les jointures en SQL
+
+![Inner join](images/paste-870773B7.png)
+
+## Les jointures en SQL
+
+![Left Join](images/paste-3FD81248.png)
+
+## Les jointures en SQL
+
+::: {style="font-size: 0.5em"}
+![Full join](images/paste-A1A68DEB.png){width="218"}
+
+![Outer Join](images/paste-C52C4D45.png){width="215"}
+
+![Right Join](images/paste-3EF90FDD.png){width="211"}
+:::
+
+## Exercice
+
+::: {style="font-size: 0.5em"}
+| id_etudiant | prenom    | nom      |
+|-------------|-----------|----------|
+| 30          | Joseph    | Biblo    |
+| 31          | Paul      | Bismuth  |
+| 32          | Jean      | Michel   |
+| 33          | Ted       | Bundy    |
+| 34          | Caroline  | Martinez |
+| 35          | Joséphine | Henry    |
+
+: Table : Etudiant
+
+\
+
+| id  | id_examen | id_etudiant | matiere             | note |
+|-----|-----------|-------------|---------------------|------|
+| 788 | 45        | 30          | Histoire-Geographie | 10.5 |
+| 789 | 87        | 33          | Mathématiques       | 14   |
+| 790 | 87        | 34          | Mathématiques       | 4    |
+| 791 | 45        | 31          | Histoire-Geographie | 15.5 |
+| 792 | 45        | 32          | Histoire-Geographie | 8    |
+| 793 | 87        | 31          | Mathématiques       | 14   |
+
+: Table : Examen
+:::
+
+## Exercice
+
+::: columns
+::: {.column width="40%" style="font-size: 0.4em"}
+| id_etudiant | prenom    | nom      |
+|-------------|-----------|----------|
+| 30          | Joseph    | Biblo    |
+| 31          | Paul      | Bismuth  |
+| 32          | Jean      | Michel   |
+| 33          | Ted       | Bundy    |
+| 34          | Caroline  | Martinez |
+| 35          | Joséphine | Henry    |
+
+: Table : Etudiant
+:::
+
+::: {.column width="60%" style="font-size: 0.4em"}
+| id  | id_examen | id_etudiant | matiere             | note |
+|-----|-----------|-------------|---------------------|------|
+| 788 | 45        | 30          | Histoire-Geographie | 10.5 |
+| 789 | 87        | 33          | Mathématiques       | 14   |
+| 790 | 87        | 34          | Mathématiques       | 4    |
+| 791 | 45        | 31          | Histoire-Geographie | 15.5 |
+| 792 | 45        | 32          | Histoire-Geographie | 8    |
+| 793 | 87        | 31          | Mathématiques       | 14   |
+
+: Table : Examen
+:::
+:::
+
+\
+Quelle requête utiliser pour afficher tous les enregistrement de la table examens avec en plus, si c'est possible, le prenom et le nom de l'étudiant ?
+
+. . .
+
+``` {.sql code-line-numbers="4|4-5|1-5" style="font-size: 0.70em"}
+SELECT tbl_ex.*, 
+et.prenom, 
+et.nom
+FROM examens tbl_ex
+LEFT JOIN etudiants tbl_et ON tbl_ex.id_etudiant = tbl_et.id_etudiant;
+```
+
+## Exercice
+
+::: columns
+::: {.column width="40%" style="font-size: 0.4em"}
+| id_etudiant | prenom    | nom      |
+|-------------|-----------|----------|
+| 30          | Joseph    | Biblo    |
+| 31          | Paul      | Bismuth  |
+| 32          | Jean      | Michel   |
+| 33          | Ted       | Bundy    |
+| 34          | Caroline  | Martinez |
+| 35          | Joséphine | Henry    |
+
+: Table : Etudiant
+:::
+
+::: {.column width="60%" style="font-size: 0.4em"}
+| id  | id_examen | id_etudiant | matiere             | note |
+|-----|-----------|-------------|---------------------|------|
+| 788 | 45        | 30          | Histoire-Geographie | 10.5 |
+| 789 | 87        | 33          | Mathématiques       | 14   |
+| 790 | 87        | 34          | Mathématiques       | 4    |
+| 791 | 45        | 31          | Histoire-Geographie | 15.5 |
+| 792 | 45        | 32          | Histoire-Geographie | 8    |
+| 793 | 87        | 31          | Mathématiques       | 14   |
+
+: Table : Examen
+:::
+:::
+
+Quelle requête utiliser pour afficher les résultats d'histoire des étudiants qui ont un resultats ?
+
+. . .
+
+``` {.sql code-line-numbers="4|4-5|4-6|" style="font-size: 0.70em"}
+SELECT et.prenom, 
+et.nom,
+ex.note
+FROM etudiants tbl_et 
+INNER JOIN examens tbl_ex ON tbl_ex.id_etudiant = tbl_et.id_etudiant
+WHERE ex.matiere = "Histoire-Geographie" ;
+```
+
+# Data management
+
+## Les données
+
+Les données sont des valeurs de variables quantitatives ou qualitatives appartenant à un ensemble de sujet.
+
+## Données Brutes
+
+-   Données disponible dans la base de données d'origine\
+-   Preprocessing nécessaire pour les analyser\
+-   Souvent dans des bases de données relationnelles
+
+## Comment mettre en forme des données ?
+
+\
+
+### Notion de tidy data :
+
+-   1 variable par colonne
+-   1 une information par ligne
+-   si tables multiples, clefs de lien présente dans les tables
+-   1 ligne avec des noms de colonnes, noms des variables
+-   1 table par fichier
+
+## Données pour l'analyse
+
+### Souvent dans un fichier plat :
+
+-   1 Individu par ligne
+
+-   Redondance d'information
+
+-   Nécessité de croiser des tables d'origine
+
+## Noms des variables
+
+-   En minuscule
+
+-   Sans accent
+
+-   Pas de doublons
+
+-   Débutent pas une lettre
+
+## Données
+
+-   Brutes : pas d'unité
+
+-   Descriptive: Vrai/faux, oui/non , 1/0
+
+-   Une donnée par variables
+
+-   Homogène : attention à la casse
+
+## Fichier descriptif
+
+-   Information précises sur les variables (unités de mesure)
+
+## Liste d'instruction :
+
+**`Données brutes ▶️ tidy`**
+
+-   L'idéal : un script R/python
+
+-   En entrée les données brutes
+
+-   En sortie les données propre
+
+-   Préciser les étapes supplémentaires dans ce script
+
+## Importer un fichier
+
+``` {.r code-line-numbers="1-2|1-3|"}
+# Le plus simple
+read.csv2(...)
+BDD<- read.csv2(...)
+
+
+## D'autres solutions
+library(xlsx)
+read.xlsx(...)
+```
+
+## Regarder la structure d'un fichier
+
+
+```{r echo = F}
+BDD<- mtcars
+
+```
+
+```{r echo = T}
+str(BDD)
+```
+
+
+## Analyser les types de vriables
+
+Différents types de variables : - Quantitatives
+
+-   Qualitatives
+
+-   Dates
+
+-   Texte Libre
+
+## Variables Quantitatives
+
+-   Stockées sous un format numérique
+
+-   Discrètes ou continues
+
+-   Possibilité de convertir de «character» à numérique :
+
+. . .
+
+``` {.r code-line-numbers="1|"}
+#
+as.numeric(var)
+```
+
+## Variables qualitatives
+
+-   Variables à plusieurs modalités :
+    -   Nominales
+    -   Ordinales
+-   Représenter sous forme de facteur dans r
+
+. . .
+
+``` {.r code-line-numbers="1|"}
+#
+as.factor(var)
+```
+
+-   Eviter les variables factoriel à plus de 5 modalités
+
+-   Cas spécifique si deux modalités : variables binomiales
+
+## Variables qualitatives
+
+❗Questions à choix multiples dans un questionnaire
+
+![](images/paste-C6FE4590.png){width="475"}
+
+## Variables qualitatives
+
+Peuvent toujours être séparées en n variables binaires (n = nombre de modalités)
+
+![](images/paste-9788F881.png){width="478"}
+
+## Dates
+
+❗❗❗❗❗❗❗❗❗❗❗❗❗❗
+
+-   Format anglais : mois/jour/année
+
+-   Format Français : jour/mois/année
+
+-   Stockées sous forme de nombre par rapport à une date 1er janvier 1900 dans excel
+
+# R
+
+## Installation de package
+
+```{.r}
+install.package(...)
+
+# aide pour les fonctions
+?install.package
+
+install.packages("readxl")
+```
+
+
+## Chargement du package + de la base de donnée
+
+```{.r}
+library("readxl")
+
+
+# Chemin du fichier, remplacer "\" par "/" ou "\\"
+
+read_excel("~chemin du fichier~/data1.xlsx")
+
+data1 <- read_excel(".data1.xlsx",
+                   1,na =c(" ","","N/A","NA"))
+
+data2 <- read_excel(path ="~chemin du fichier~/data1.xlsx",
+                    sheet = 2)
+
+```
+
+## Chargement de la base de donnée
+
+
+```{r echo = F}
+library("readxl")
+```
+
+```{r}
+data1 <- read_excel("./data1.xlsx",
+                   1,na =c(" ","","N/A","NA"))
+
+data2 <- read_excel(path ="./data1.xlsx",
+                    sheet = 2)
+
+```
+
+
+
+## Structure de la base de donnée
+
+
+```{r}
+dim(data1)
+```
+
+
+## Structure de la base de donnée
+
+
+```{r}
+str(data1[,1:10])
+```
+
+
+## Structure de la base de donnée
+
+
+```{r}
+head(data1)
+
+```
+
+
+## Noms présents dans la base de données
+
+
+```{r}
+names(data1)[1:10]
+```
+
+
+
+
+## notion de vecteur
+
+
+```{r}
+c(1,2,3,4)
+c("a","b","c")
+
+c("a",1,"c")
+
+```
+
+
+
+## notion de vecteur
+
+
+```{r}
+vecteur<- c("a","b","c")
+vecteur2<- vecteur
+vecteur3<- c(vecteur, vecteur2)
+
+
+```
+
+
+
+## Variable d'une base de données
+
+
+```{r}
+data1$`Pathologie lié au travail ? [AT non reconnu]`
+
+data1[,1]
+```
+
+
+
+
+## Sélection des variables
+### base R
+
+```{.r}
+data1$`ID de la réponse`
+data1[1,1:3]
+data1[,1:3]
+data1[,-1]
+data1[,-c(1,3,4)]
+
+data1[,c("ID de la réponse")]
+```
+
+## Sélection des variables
+### base R
+
+
+```{r}
+names(data1)=="ID.de.la.r?ponse"
+```
+
+
+```{.r}
+data1[,!(names(data1)=="ID.de.la.r?ponse")]
+
+data1[,!(names(data1)%in%c(var1, var2 ...)]
+```
+
+
+## Dplyr
+
+- Version classique :
+
+. . .
+
+```{.r}
+allerauboulot(preparer(dejeuner(jemeleve(moi))))
+var1<- jemeleve(moi)
+var2<- dejeuner(var1)
+```
+
+. . . 
+
+- Version Dplyr : 
+
+```{.r}
+moi%>%jemeleve%>%dejeuner%>%preparer%>%allerauboulot
+data1%>%dim
+data1%>%names%>%dput
+```
+
+## Selection de variable, Dplyr
+
+```{.r}
+library(dplyr)
+
+data1 %>% select(var1)
+data1 %>% select(c(var1, var2, var3))
+data1%>%select(-var1)
+```
+
+
+```{r echo = F}
+library(dplyr)
+```
+
+
+
+
+
+## Changer le type de données :
+### base R
+
+```{r}
+
+as.numeric(c('1','2','3'))
+as.character(c(1,2,3))
+as.factor(c(2,3,4))
+
+# Attention pas de as.numeric directement sur un as.factor
+as.factor(c(4,3,2))%>%as.character()%>%as.numeric()
+```
+
+
+
+## Changer le type de données :
+### base R
+
+```{.r}
+data1$Sexe.du.medcin.traitant<-as.factor(data1$Sexe.du.medcin.traitant)
+data1$Medecin.adresseur<- as.factor(data1$Medecin.adresseur)
+```
+
+
+## Changer le type de données :
+### dplyr
+
+```{.r}
+data1<-data1%>%
+  mutate(Sexe.du.medcin.traitant=as.factor(Sexe.du.medcin.traitant),
+                      Medecin.adresseur = as.factor(Medecin.adresseur))
+
+data1<-data1%>%
+  mutate_at(c("Sexe.du.medcin.traitant","Medecin.adresseur"),
+                  as.factor)
+```
+
+
+
+
+## Modification des variables
+
+## Base R
+
+
+```{.r}
+data1$Sexe.du.medcin.traitant[which(data1$Sexe.du.medcin.traitant==45)]<-
+    NA
+data1$Sexe.du.medcin.traitant%>%droplevels()
+data1$Sexe.du.medcin.traitant[which(data1$Sexe.du.medcin.traitant=="f")]<- 
+    "Féminin"
+
+```
+
+
+## Modification des variables
+### dplyr
+
+```{.r}
+data1$Sexe.du.medcin.traitant<- as.character(data1$Sexe.du.medcin.traitant)
+data1<-data1%>%
+  mutate(Sexe.du.medcin.traitant = 
+      case_when(Sexe.du.medcin.traitant==45~NA_character_,
+                Sexe.du.medcin.traitant=="f"~"Féminin",
+                Sexe.du.medcin.traitant=="m"~"Masculin",
+                TRUE ~Sexe.du.medcin.traitant)%>%as.factor)
+
+```
+
+
+
+
+## Remplacement des données manquantes
+
+### base R
+
+```{.r}
+data[,indice][is.na(data[,indice])]<-0
+```
+
+
+
+## dplyr 
+
+
+```{.r}
+data2%>%mutate_at("Age", 
+                  function(x) ifelse(is.na(x),0,x))
+```
+
+
+
+## extraction de termes
+
+
+```{.r}
+library(stringr)
+data1$fibromyalgie <-str_detect(data1$var1,"fibromyalgie")
+
+```
+
+
+
+## Joindre base de données
+```{.r}
+basefinal<-base1%>%left_join(base2,by =c("id" = "id"))
+basefinal<-base1%>%inner_join(base2,by =c("id" = "id"))
+basefinal<-base1%>%right_join(base2,by =c("id" = "id"))
+basefinal<-base1%>%outer_join(base2,by =c("id" = "id"))
+```
+
+
+
+
+## Ecrire la base de données finales
+```{.r}
+
+write.csv2(basefinal,"C:/Users/enseignant/Desktop/basefinal.csv")
+```
+
+
