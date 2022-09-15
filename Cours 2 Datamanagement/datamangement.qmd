@@ -20,6 +20,11 @@ execute:
   echo: true
 ---
 
+#### A rajouter/ Modifier####
+MEttre des exemples de jointures en sql
+Modifier la fin sur R
+
+
 # SQL
 
 ## Le langage SQL
