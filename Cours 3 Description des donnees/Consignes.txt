@@ -1,0 +1,32 @@
+# A faire :
+
+Récupérer une base de données et décrire les données. 
+
+## Données disponibles
+ 
+Soit partir sur la base de données [infert](https://stat.ethz.ch/R-manual/R-devel/library/datasets/html/infert.html), soit prendre une autre base de données disponible :
+
+ - library R
+ - [Open data](https://datashare.nida.nih.gov/)
+ - Data.gouv
+
+## Critères base de données
+
+La base de données doit comprendre au moins:
+
+- 2 variables quantitatives 
+- 2 variables qualitatives 
+
+
+## Décrire les différentes variables
+
+Utiliser les paramètres de position et dispersion pour décrire l'ensemble des variables.
+
+## Croiser les variables avec la variable d'intérêt
+
+Utiliser les paramètres de position et dispersion pour décrire l'ensemble des variables en fonction de la variable groupe d'intérêt.
+
+
+## Préparer une présentation
+
+3 diapos max, et vous focaliser sur un élément important, une problématique que vous n'avez réussi à résoudre ou un élément surprenant.

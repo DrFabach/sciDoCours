@@ -1,0 +1,533 @@
+---
+title: "Description des données"
+format:
+  revealjs: 
+    theme: [dark]
+    
+editor: visual
+page-layout: full
+author: "Thibaut FABACHER"
+institute: "GMRC"
+incremental: true
+slide-number: h/v
+progress: true
+footer: "Master Intelligence des données de santé / UE Technique"
+show-slide-number: all
+jupyter: false
+cap-location: bottom
+self-contained: true
+execute:
+  echo: true
+---
+
+# Plan
+
+1.  Correction du devoir
+
+2.  Rappels
+
+3.  Définitions
+
+4.  Statistiques descriptives
+
+------------------------------------------------------------------------
+
+# Correction du devoir
+
+## Éléments importants
+
+### Encodages de caractères
+
+![](images/paste-2ACBDAAB.png)
+
+------------------------------------------------------------------------
+
+![](images/paste-BBFD082F.png)
+
+## Application de fonction
+
+``` r
+# Executer une fonction 
+
+fonction(arg1 = ... , arg2 = ... , arg3 = ....)
+
+# L'attribuer à un objet la sortie de la fonction
+
+nom_objet <- fonction(arg1 = ... , arg2 = ... , arg3 = ....)
+```
+
+## Chargement d'un package
+
+``` r
+# S'il n'est pas encore installé:
+
+install.packages("nom_packages")
+## Code à exécuter une seule fois
+
+# Chargement du package
+library(nom_packages)
+## Code à exécuter une fois par session
+```
+
+## Différence entre chaîne de caractères et objet
+
+``` r
+# Marche 
+BDD<- read.csv("path")
+
+## ne marche pas 
+BDD<- read.csv(path)
+
+## marche
+chemin <- "path"
+BDD<- read.csv(chemin)
+```
+
+# Rappels sur les statistiques
+
+------------------------------------------------------------------------
+
+## Les statistiques au lycée
+
+-   Moyennes, probabilités
+
+-   Espérance et variance ?
+
+-   Loi Bernoulli / binomiale ?
+
+## Exemple : Notes d'un élève
+
+-   Notes d'un élève, relevées sur une année
+-   Contrôle de biologie
+-   5 notes sur le trimestre
+
+## Résultats d'un élève
+
+| 11  | 8   | 9   | 10  | 11  |
+|-----|-----|-----|-----|-----|
+
+-   Moy : $\frac{11+8+9+10+11}{5} =9.8$
+
+-   Bon indicateur d'un profil moyen
+
+-   Pas de notion de régularité
+
+## 2e élève
+
+| 4   | 19  | 1   | 20  | 5   |
+|-----|-----|-----|-----|-----|
+
+-   Moy : $\frac{4+19+1+20+5}{5} =9.8$
+-   Même moyenne, mais élève irrégulier
+
+------------------------------------------------------------------------
+
+## Quelle différence ?
+
+```{r echo = F}
+library(tidyverse)
+x1= c(11,8,9,10,11)
+x2 = c(4,19,1,20,5)
+notes = 1:5
+a<-data.frame(notes = c(x1,x2),examens = notes, eleves = c(1,1,1,1,1,2,2,2,2,2)%>%as.factor())
+
+
+
+a%>%ggplot(aes(x=examens, y= notes, color=eleves)) + geom_line(size=1) +theme_light()
+
+```
+
+## La variabilité
+
+-   Phénomène de dispersion\
+
+-   Indique la dispersion autour de la moyenne
+
+-   Plus elle est grande, moins bonne est la précision
+
+-   Information **complémentaire** à la moyenne
+
+## La variance
+
+-   $\sigma^2 = \frac{\displaystyle\sum_{i=1}^{n}(x_i - \mu)^2} {n}$
+
+-   $Var(X) = \mathbb{E}[X²]-\mathbb{E}[X]$
+
+-   Écart-type : $\sigma = \sqrt{Var(X)}$
+
+## La variance : Un outil fondamental
+
+-   Permets de faire des comparaisons
+
+![](images/paste-E92C29FA.png)
+
+------------------------------------------------------------------------
+
+![](images/paste-BA263059.png)
+
+## La variance : Un outil fondamental
+
+-   Comparer deux variables
+-   Comparer deux traitements
+-   Montrer qu'un traitement est meilleur.
+-   Mettre en avant un effet thérapeutique.
+
+. . .
+
+**La moyenne ne suffit pas pour conclure. La variance est un indicateur indispensable !**
+
+# Population et Échantillon
+
+------------------------------------------------------------------------
+
+## La population complète
+
+::: columns
+::: {.column width="50%"}
+-   Dans l'idéal, les comparaisons sont effectuées sur la population TOTALE
+
+-   **Problème**: Impossible de connaître TOUS les patients
+:::
+
+::: {.column width="50%"}
+![](images/paste-852778C7.png)
+:::
+:::
+
+. . .
+
+Échantillon
+
+## Échantillon
+
+-   **Le plus grand possible !!!**
+
+-   La précision des estimations augmente avec la taille d'échantillon.
+
+-   Exemple: Connaître le taux de vote pour un candidat aux présidentielles en interrogeant:
+
+    -   4 personnes ?
+    -   4590 personnes ?
+
+## Échantillon
+
+-   Doit être représentatif de la population -\> éviter les problèmes de **biais**
+
+-   Choisi **aléatoirement**
+
+-   Patients comparables
+
+## La puissance
+
+-   Puissance d'un test, d'une conclusion
+
+![](images/paste-3E64B0F6.png)
+
+## L'échantillon : Problèmes usuels
+
+-   Données manquantes : Non relevées, perdues, patient absent
+
+-   Conséquences :
+
+    -   Coût
+    -   Temps
+    -   Demandes d'augmentation auprès des autorités de santé...
+    -   Etc..
+
+## Les erreurs d'échantillonnage
+
+![](images/paste-4377D0F7.png)
+
+## Conclusions
+
+-   L'échantillon, un représentant de la population
+
+-   Savoir à l'avance quelle est la précision souhaitée
+
+-   Prévoir les coûts
+
+-   Attention aux données manquantes
+
+# Variables quantitatives et qualitatives
+
+## Variable quantitative
+
+-   Variable qu'il est possible de quantifier, de mesurer.
+
+-   Existe en deux formats: -continues: 12.4, 8.765, ( Taille, Pression artérielle etc...)
+
+    -   Discrètes : 2, 8, 14, 165 ( Nombre de lésions, rechutes, accouchements, etc..)
+
+## Variable qualitative
+
+-   Variable **non dénombrable**
+
+-   Les niveaux de la variable sont appelés **modalités**
+
+-   Nominales / ordinales / binaires
+
+-   Exemples:
+
+    -   OUI / NON
+    -   Un peu / beaucoup / passionnément /...
+    -   Bleu / Vert / Rouge
+    -   Homme / Femme
+
+## Autres types de variables
+
+-   Dates
+    -   Date de naissance
+    -   Date d'hospitalisation
+    -   Date de décès
+-   Remarques (textes libres)
+    -   Ressenti douleur
+    -   Remarques sur l'opération
+    -   Remarques du patient
+-   Numéro divers : identification patient, dossier
+
+# Les statistiques descriptives
+
+# Variables Quantitatives
+
+## Position et Dispersion
+
+![](images/paste-C534BE46.png)
+
+But: **"résumer"** les données observées pour partager des résultats et comparer à d'autres données
+
+## Position et dispersion
+
+-   Il faut résumer en quelques nombres les valeurs prises par la variable quantitative (distribution). Ces nombres sont appelés des paramètres
+
+-   Il existe deux types de paramètres :
+
+    -   Les paramètres de position
+
+    -   Les paramètres de dispersion
+
+## Paramètres de position
+
+-   **Moyenne (arithmétique)** : paramètre de tendance centrale visant à résumer une série de données d'une variable quantitative
+
+${\displaystyle \bar{x} = {\frac {1}{n}}\sum _{i=1}^{n}x_{i}={\frac {x_{1}+x_{2}+\cdots +x_{n}}{n}}}$
+
+``` r
+mean(X, na.rm=T)
+```
+
+## Paramètres de position
+
+-   Médiane: paramètre de tendance centrale. Valeur qui partagent la série d'individu en deux groupes d'effectifs égaux
+
+$P(X\leq m)\geq 1/2 et P(X\geq m)\geq 1/2$
+
+``` r
+median(X, na.rm=T)
+```
+
+-   Si le nombre de sujets est impair, la médiane est la valeur observée chez le sujet médian Ex : 2,2,4,7,8,12,17,19,20
+
+-   Si le nombre est pair, la médiane est située entre les deux valeurs qui partagent la série
+
+## Pourquoi médiane et moyenne
+
+::: columns
+::: {.column width="50%"}
+![](images/paste-987CC576.png)
+:::
+
+::: {.column width="50%"}
+![](images/paste-66D91D95.png)
+:::
+:::
+
+-   si la distribution est asymétrique --\> Mauvais indicateur
+
+## Quartiles
+
+![](images/paste-DA5CDD33.png)
+
+-   Quartiles: les quartiles sont les trois valeurs qui partagent la distribution en 4
+
+``` r
+quantile(X, na.rm = T)
+```
+
+## Déciles/ Percentiles
+
+-   Déciles: les déciles sont les 9 valeurs qui partagent la distribution en 10 groupes de tailles égales
+
+. . .
+
+![](images/paste-C13436FD.png)
+
+Percentiles: idem, mais division en 100 groupes (percentile 97,5 ou 2,5)
+
+``` r
+quantile(x,  probs = c(0.1,0.2,0.5,0.8), na.rm = T)
+```
+
+## Mode
+
+-   Mode: le mode est la valeur qui revient le plus souvent dans la distribution.
+
+![](images/paste-5565678F.png)
+
+# Paramètre de dispersion
+
+-   Le paramètre de position ne suffit pas
+
+![](images/paste-78B1FFD0.png)
+
+## Extrèmes / Etendu
+
+-   Extrêmes: ce sont les 2 valeurs, minimum et maximum de la distribution
+
+. . .
+
+``` r
+min(X, na.rm = T)
+max(X, na.rm = T)
+```
+
+-   Etendue: C'est la différence entre les 2 valeurs extrêmes. Ce paramètre est utile si les valeurs extrêmes ne s'éloignent pas trop des valeurs voisines (Si une des 2 valeurs est aberrante, l'étendue donne une fausse idée de la dispersion)
+
+. . .
+
+``` r
+max(X, na.rm = T) - min(X, na.rm = T)
+```
+
+## L'intervalle interquartile:
+
+-   L'intervalle interquartile: c'est la différence entre les valeurs du premier et du troisième quartile
+-   Cet intervalle s'affranchit des valeurs extrêmes (contrairement à l'étendue), c'est donc un meilleur paramètre de dispersion
+
+## Variance
+
+-   Variance: la variance d'une distribution est la moyenne des carrés des écarts à la moyenne de chaque valeur
+
+![](images/paste-BC35CA71.png)
+
+-   Indicateur de dispersion le plus utilisé
+
+-   Plusieurs formules possibles:
+
+-   Il existe une formule légèrement différente avec le terme "n-1" au dénominateur. Elle est utilisée lorsqu'on estime une variance inconnue en travaillant sur un échantillon de taille "n"
+
+``` r
+var(X, na.rm = T)
+```
+
+## Écart-type
+
+-   Écart-type (déviation standard, sd : standard déviation)
+-   $\sqrt{var}$
+-   unité : identique à l'unité de la variable étudiée
+
+``` r
+sd(X, na.rm = T)
+```
+
+## Coefficient de variation
+
+-   Coefficient de variation: indicateur combinant moyenne et écart-type
+
+-   Calcul : $CV = \frac{\sigma }{\mu}*100\%$
+
+-   C'est un nombre sans dimension, exprimé en pourcentage
+
+-   Il exprime le degré de dispersion d'une distribution en fonction de la valeur moyenne. Il est utilisé pour comparer la dispersion de 2 variables quantitatives de nature différente (unités différentes)
+
+# Variables qualitatives
+
+## Fréquences relatives
+
+-   Fréquence relative: pour résumer une distribution : calculer les fréquences relatives des sujets porteurs de chaque modalité. Ces proportions comprises entre 0 et 1,
+
+. . .
+
+::: {style="font-size: 0.50em"}
+| Stade cancer | N   | Pi (%) |
+|--------------|-----|--------|
+| 1            | 88  | 54     |
+| 2            | 29  | 17,8   |
+| 3            | 34  | 20,9   |
+| 4            | 12  | 7,4    |
+| Total        | 163 | 100    |
+:::
+
+``` r
+table(X)
+prop.table(table(X))
+```
+
+# Croisements
+
+## Croisement entre les variables Quantitatives
+
+-   Évaluation graphique (cf. cours suivant)
+
+-   Coefficient de corrélation linéaire de Bravais Pearson
+
+-   $\rho =\frac{\sum\left[\left(x_i-\overline{x}\right)\left(y_i-\overline{y}\right)\right]}{\sqrt{\mathrm{\Sigma}\left(x_i-\overline{x}\right)^2\  \ast\ \mathrm{\Sigma}(y_i\ -\overline{y})^2}}$
+
+-   $-1\leq \rho \leq 1$
+
+. . .
+
+``` r
+cor(X,Y)
+```
+
+------------------------------------------------------------------------
+
+::: columns
+::: {.column width="33%"}
+![](images/paste-42E5D772.png) $\rho \approx -1$
+:::
+
+::: {.column width="33%"}
+![](images/paste-91B89F99.png) $\rho \approx 0$
+:::
+
+::: {.column width="33%"}
+![](images/paste-A07606EB.png)
+
+$\rho \approx 1$
+:::
+:::
+
+------------------------------------------------------------------------
+
+![](images/1548351202105.gif)
+
+------------------------------------------------------------------------
+
+![](images/1548351202139.gif)
+
+## Croisement entre les variables qualitatives
+
+-   Tableau de contingence
+
+. . .
+
+| age / Sexe | H   | F   |
+|------------|-----|-----|
+| 0-5        | 4   | 4   |
+| 5-10       | 2   | 8   |
+| 1-18       | 4   | 11  |
+
+## Croisement Quanti/Quali
+
+-   Mêmes éléments que description quanti mais par groupe
+
+```{r echo = F}
+library(dplyr)
+library(report)
+iris %>%
+  select(-starts_with("Sepal")) %>%
+  group_by(Species) %>%
+  report() %>%
+  summary()%>%cat
+```
