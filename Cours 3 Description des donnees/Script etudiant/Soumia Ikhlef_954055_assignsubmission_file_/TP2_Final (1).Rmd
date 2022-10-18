@@ -1,0 +1,197 @@
+---
+title: "TP2_final"
+author: "Soumia IKHLEF","Ben Mokhtar Khadidja","Fatima Haouam"
+date: "2022-10-16"
+output: pdf_document
+---
+
+```{r}
+
+install.packages("tidyverse")
+library(tidyverse)
+install.packages("pander")
+library(pander)
+
+install.packages("dplyR")
+library(dplyr)
+```
+
+```{r}
+#read.csv2("infert.csv")
+#data("infert")
+require(datasets)
+?infert            #gives us important info about the dataset
+```
+
+
+```{r}
+
+names(infert)
+str(infert) # type of data 
+
+
+```
+```{r}
+infert$case <- factor(infert$case)
+infert$stratum <- factor(infert$stratum)
+infert$pooled.stratum <- factor(infert$pooled.stratum)
+summary(infert)
+```
+```{r}
+#Dapres les informations récoltés, on sait que pour chaque case on a deux cas.
+#  Si on a 2 cas pour chaque case, on devrait avoir 166 control cases et non  165:
+summary(infert$stratum)
+# on cherche la ligne où stratum est fdifferent de 3--> ligne 74 : 0
+which(summary(infert$stratum) != 3)
+
+# l'individu (ligne) 74 a seulement un  control case,on peut donc le retirer de la dataframe:
+infert <- infert[(infert$stratum != 74),]
+dim(infert)
+
+```
+
+```{r}
+head(infert)
+infert %>% summarise(across(everything(), ~any(is.na(.x))))
+###--> pas de NaN dans la Dataframe --> pas besoin de nettoyer les données 
+
+```
+```{r}
+plot(infert)
+```
+
+
+```{r}
+#Variables quantitatives: age, parity
+#age
+head(infert$age)
+print("moyenne")
+mean(infert$age, na.rm = TRUE)
+print("median")
+median(infert$age, na.rm = TRUE)
+print("minimum:")
+min(infert$age, na.rm = TRUE)
+print("maximum:")
+max(infert$age, na.rm = TRUE)
+print("interval de valeur")
+range(infert$age)
+var(infert$age, na.rm= TRUE)
+sd(infert$age, na.rm= TRUE)
+quantile(infert$age, na.rm= TRUE,0)
+print("premier quantile")
+quantile(infert$age, na.rm= TRUE,0.25)
+print("troisieme quantile:")
+quantile(infert$age, na.rm= TRUE,0.75)
+quantile(infert$age, na.rm= TRUE,1)
+```
+
+
+```{r}
+#parity quantitative
+print("moyenne")
+mean(infert$parity, na.rm = TRUE)
+print("median")
+median(infert$parity, na.rm = TRUE)
+print("minimum:")
+min(infert$parity, na.rm = TRUE)
+print("maximum:")
+max(infert$parity, na.rm = TRUE)
+range(infert$parity)
+print("variance")
+print("interval de valeur")
+var(infert$parity, na.rm= TRUE)
+sd(infert$parity, na.rm= TRUE)
+quantile(infert$parity, na.rm= TRUE,0)
+print("premier quantile")
+quantile(infert$parity, na.rm= TRUE,0.25)
+print("troisieme quantile:")
+quantile(infert$parity, na.rm= TRUE,0.75)
+quantile(infert$parity, na.rm= TRUE,1)
+```
+
+Variables qualitative : 
+---Case status: 1 = case 0 = control
+```{r}
+# remplacer 1= case et 0= control 
+
+mode(infert$case)
+
+infert$case<- str_replace(infert$case, '0', "control")
+infert$case<- str_replace(infert$case, '1', "case")
+
+
+```
+
+
+```{r}
+## Variables qualitatives: case : type boolean : modalité 0,1 (true &)
+head(infert$case)
+str(infert$case)
+#table effectif:
+table(infert$case)
+
+
+```
+
+```{r}
+pander(table(infert$case))
+#table frÃ©quence:
+#prop.table(table(infert$case)) 
+```
+```{r}
+#education
+head(infert$education) 
+str(infert$education)
+```
+
+```{r}
+plot(parity~education, infert, col= 'blue')
+```
+
+
+```{r}
+#table effectifs 
+table(infert$education) 
+pander(table(infert$education))
+prop.table(table(infert$education))
+pander(prop.table(table(infert$education))) 
+```
+
+```{r}
+# Croisement de variable     
+## 1. Quali Quali 
+# table effectif 
+table(infert$case, infert$education)
+# Proportions en ligne 
+prop.table(table(infert$case, infert$education),1)
+# Proportions en colonne
+prop.table(table(infert$case, infert$education),2) 
+# Proportions globales 
+prop.table(table(infert$case, infert$education))
+```
+
+
+```{r}
+## 2. Quanti-quali
+#une quanti avec une variable binaire(meth)   Par la fonction by 
+
+table(infert$age, infert$case)
+
+print("moyenne age par groupe:")
+by(infert$age, infert$case, mean)
+
+```
+
+```{r}
+##3.  Quanti Quanti : parity-age
+table(infert$parity, infert$age)
+```
+
+```{r}
+#correlation 
+
+print("correlation between pooled.stratum & age : ")
+cor(infert$parity , infert$age)  
+print("correlation proche de 0 donc pas de correlation entre les variables")
+```
+
