@@ -18,8 +18,8 @@ Ceci est le script du cours
 
 
 
-BDD<- read.csv2("infert.csv")
-BDD <- infert
+BDD<- mtcars
+
 BDD
 
 #Base de données présente de base dans R : [lien ici](https://stat.ethz.ch/R-manual/R-devel/library/datasets/html/infert.html) 
@@ -135,7 +135,7 @@ BDD[1,]
 head(BDD[,1])
 
 # Interogger variable
-head(BDD$pooled.stratum)
+head(BDD$var)
 
 
 
@@ -155,20 +155,20 @@ head(BDD$pooled.stratum)
 
 
 # Changement de numérique en facteur
-BDD$induced<-as.factor(BDD$induced)
-head(BDD$induced)
+BDD$var<-as.factor(BDD$var)
+head(BDD$var)
 
 
 
 
 # Changement de numérique en facteur avec choix des modalités
-BDD$induced<- factor(BDD$induced,  labels =  c("0","1","2 or more"))
-head(BDD$induced)
+BDD$var<- factor(BDD$var,  labels =  c("0","1","2 or more"))
+head(BDD$var)
 
 
 
 
-BDD$spontaneous<- as.factor(BDD$spontaneous)
+BDD$var<- as.factor(BDD$var)
 
 
 
@@ -287,71 +287,15 @@ Astuce
 
 {r results='asis'}
 library(pander)
-pander(table(BDD$education))
+pander(table(BDD$var))
 
 
 
 - table fréquence
 
 
-prop.table(table(BDD$education))
+prop.table(table(BDD$var))
 
-
-
-
-#### Ecart R ####
-
-# Data Management
-
-## Condition 
-<,>,<=,>=,==
-
-
-# Application d'une condition
-c(1:7)>5
-
-# Recherche des valeurs supérieurs 
-vecteur<-c(1:7)
-vecteur[vecteur>5]
-
-# Plutot utilisé ça
-vecteur[which(vecteur>5)]
-
-vecteur<- c(1,2,3,4,NA,7,8)
-
-
-## Boucle
-
-
-for( i in 1: 10 ){
-  
-  print(i)
-}
-  
-
-
-## Condition
-
-
-#fonction appliqué à un vecteur
-##ifelse
-pander(table(ifelse(BDD$age>25,">25","<25")))
-
-
-# Condition en générale 
-#if, else if et else
-
-ageSup25<- function(x){
-  if(x>25){
-    return(">25")
-  }else if(x==25){
-    return("25")
-  }  else{
-    return("<25")
-  }
-  
-}
-ageSup25(45)
 
 
 
@@ -362,7 +306,7 @@ ageSup25(45)
 
 - table effectif
 
-table(BDD$case, BDD$education)
+table(BDD$var, BDD$var2)
 
 
 -table proportions
@@ -370,15 +314,15 @@ table(BDD$case, BDD$education)
 
 # Proportions en ligne
 
-prop.table(table(BDD$case, BDD$education),1)
+prop.table(table(BDD$var, BDD$var2),1)
 
 # Proportions en colonne
-prop.table(table(BDD$case, BDD$education),2)
+prop.table(table(BDD$var, BDD$var2),2)
 
 
 
 # Proportions globales
-prop.table(table(BDD$case, BDD$education))
+prop.table(table(BDD$var, BDD$var2))
 
 
 
@@ -389,29 +333,29 @@ prop.table(table(BDD$case, BDD$education))
 
 
 # moyenne age groupe 1
-mean(BDD$age[which(BDD$case==1)])
+mean(BDD$age[which(BDD$var==1)])
 
 
 # moyenne age groupe 2
-mean(BDD$age[which(BDD$case==0)])
+mean(BDD$age[which(BDD$var==0)])
 
 
 # moyenne age groupe pas 1 
-mean(BDD$age[which(!BDD$case==1)])
+mean(BDD$age[which(!BDD$var==1)])
 
 
 
 - Par la fonction by
 
 
-by(BDD$age, BDD$case, mean)
+by(BDD$age, BDD$var, mean)
 
 
 ## Quanti Quanti
 
 - correlation
 
-cor(BDD$age, BDD$parity)
+cor(BDD$age, BDD$var)
 
 
 
@@ -426,57 +370,6 @@ mean(vecteur, na.rm = T)
 
 - Calculer moyenne, médiane de vecteur
 
-
-# TD : 
-- Décrire l'ensemble des variables de la base
-- Décrire les variables en fonctions du groupe
-
-
-# A faire pour la semaine prochaine:
-
-Prendre une base de données et décrire les données
-
-## Données disponibles
- 
- - librarie R
- - [Open data](https://datashare.nida.nih.gov/)
-
-## Critères base de données
-
-2 variables quantitatives 
-2 variables qualitatives 
-
-## Décrire les types de variable
-## Décrire les différentes variables
-## Croiser les variables d'interêt 
-## Les présenter 
-
-Bonus : Analyse reproductible
-
-
-library(desctable)
-
-desctable(BDD)
-
-
-
-BDD%>%filter(education == "0-5yrs")%>%dim
-
-sum(BDD$education=="0-5yrs")
-
-
-
-
-BDD$age[which(BDD$education=="0-5yrs")]
-
-BDDage_education0_5ans<-BDD$age[which(BDD$education=="0-5yrs")]
-
-mean(BDDage_education0_5ans)
-
-
-mean(BDD$age[which(BDD$education=="0-5yrs")])
-
-by(BDD$age, BDD$education,FUN = function(x) mean(x,na.rm = T))
 
 
 
