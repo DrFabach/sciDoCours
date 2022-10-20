@@ -1,7 +1,9 @@
-Faire un graphique propre à partir de la base de données infert ou une base de données de votre choix :
+# Consignes :
+Faire deux graphiques différents à partir de la base de données infert ou une base de données de votre choix :
 
-1. Croiser au moins 3 variables
-2. Réduire au maximum les informations redondantes
-3. Corriger les labels
-
+1. Choissisez la meilleure représentation en fonction du type de données (quali, quanti, temporel)
+2. Un des deux graphiques doit représenter au moins 3 variables différentes
+3. Seront également évalués : 
+ - Les échelles et marques choisies
+ - Les aspects esthétiques (label, couleur de fond, aspect des axes.)
  
