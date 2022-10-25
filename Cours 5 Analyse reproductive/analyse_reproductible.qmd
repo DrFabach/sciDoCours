@@ -1,0 +1,267 @@
+---
+title: "5-Analyse reproductible"
+format:
+  revealjs: 
+    theme: [dark]
+    
+editor: visual
+page-layout: full
+author: "Thibaut FABACHER"
+institute: "GMRC"
+incremental: true
+slide-number: h/v
+progress: true
+footer: "Master Intelligence des données de santé / UE Technique"
+show-slide-number: all
+jupyter: false
+cap-location: bottom
+self-contained: true
+execute:
+  echo: true
+---
+
+# Analyses reproductibles
+
+![](images/paste-BA474BD1.png)
+
+## Pourquoi c'est nécessaire
+
+-   Structure de protéine (2001)
+
+. . .
+
+Alertes en 2006 puis retrait pour "erreur de programmation"
+
+. . .
+
+-   LancetGate Covid
+
+## Pourquoi c'est nécessaire
+
+-   Remise en cause fait partie du processus scientifique
+
+-   Rigeur et transparance aussi
+
+## Pourquoi c'est nécessaire
+
+-   Ordinateur source d'erreur
+
+. . .
+
+```{r}
+p = 0.5
+x= 0.4
+(p-x-x)-(p-2*x)
+```
+
+. . .
+
+```{r}
+p = 0.0000005
+x= 0.00000000004
+(p-x-x)-(p-2*x)
+```
+
+## Pourquoi c'est nécessaire
+
+-   Pile logiciel complexe
+
+![](images/ds_stack_tools-768x609.png)
+
+## Pourquoi c'est nécessaire
+
+-   Données complexes
+
+-   Choix subjectifs dans le traitement des données
+
+## Historique
+
+![](images/paste-E7C46A56.png)
+
+## Les carnets de notes
+
+![](images/paste-FF0C892B.png)
+
+## Passage au numérique
+
+### Le mieux : Le fichier Texte
+
+-   Lisible pour tous
+-   Lisible par tous les sytèmes
+-   Fichiers bruts
+
+## Pourquoi un fichier texte
+
+-   toujours possible de les lire avec un éditeur de texte
+-   même des années plus tard
+-   Logiciels de recherche adaptés
+-   Adapté à la gestion de version
+
+## Problème d'un fichier texte
+
+-   Pas de mise en forme
+
+-   Pas de lien de navigation
+
+-   Pas d'outils complexe comme biblio et table des matières
+
+## Solution
+
+![](images/paste-AAA7C6F2.png)
+
+## Les langages de balisage
+
+``` html
+                    <div id="mw-content-text" class="mw-body-content mw-content-ltr" lang="fr" dir="ltr"><div class="mw-parser-output"><div class="bandeau-container homonymie plainlinks hatnote" style=""><div class="bandeau-cell bandeau-icone metadata" style="display:table-cell;padding-right:0.5em"><a href="/wiki/Aide:Homonymie" title="Aide:Homonymie"><img alt="Page d’aide sur l’homonymie" src="//upload.wikimedia.org/wikipedia/commons/thumb/a/a9/Logo_disambig.svg/20px-Logo_disambig.svg.png" decoding="async" width="20" height="15" class="noviewer" srcset="//upload.wikimedia.org/wikipedia/commons/thumb/a/a9/Logo_disambig.svg/30px-Logo_disambig.svg.png 1.5x, //upload.wikimedia.org/wikipedia/commons/thumb/a/a9/Logo_disambig.svg/40px-Logo_disambig.svg.png 2x" data-file-width="512" data-file-height="375" /></a></div><div class="bandeau-cell" style="display:table-cell;padding-right:0.5em">
+<p>Pour les articles homonymes, voir <a href="/wiki/Balise" class="mw-disambig" title="Balise">Balise</a>.
+</p>
+</div></div>
+<p>En <a href="/wiki/Informatique" title="Informatique">informatique</a>, les <b>langages de balisage</b> représentent une classe de <a href="/wiki/Langage" title="Langage">langages</a> spécialisés dans l'enrichissement d'information textuelle. Ils utilisent des <b>balises</b>, unités syntaxiques délimitant une séquence de caractères ou marquant une position précise à l'intérieur d'un flux de caractères (par exemple un <a href="/wiki/Fichier_texte" title="Fichier texte">fichier texte</a>).
+</p><p>L'inclusion de balises permet de transférer à la fois la <a href="/wiki/Structure_de_donn%C3%A9es" title="Structure de données">structure</a> du document et son contenu. Cette structure est compréhensible par un <a href="/wiki/Programme_informatique" title="Programme informatique">programme informatique</a>, ce qui permet un traitement automatisé du contenu.
+</p>
+<meta property="mw:PageProp/toc" />
+<h2><span id=".C3.89l.C3.A9ments_de_syntaxe"></span><span class="mw-headline" id="Éléments_de_syntaxe">Éléments de syntaxe</span><span class="mw-editsection"><span class="mw-editsection-bracket">[</span><a href="/w/index.php?title=Langage_de_balisage&amp;veaction=edit&amp;section=1" class="mw-editsection-visualeditor" title="Modifier la section : Éléments de syntaxe">modifier</a><span class="mw-editsection-divider"> | </span><a href="/w/index.php?title=Langage_de_balisage&amp;action=edit&amp;section=1" title="Modifier la section : Éléments de syntaxe">modifier le code</a><span class="mw-editsection-bracket">]</span></span></h2>
+<p>La caractéristique principale des langages de balisage est d'utiliser des balises.
+Le rôle des balises est de proposer une syntaxe pour délimiter une séquence de caractères ou pour marquer une position précise dans un flux de caractères.
+</p><p>Un exemple en langage <a href="/wiki/LaTeX" title="LaTeX">LaTeX</a>&#160;:
+</p>
+```
+
+## Intérêt des langages de balisages
+
+-   Automatisé la mise en forme du texte
+
+-   Séparer le fond de la forme
+
+## Les langages de balisages
+
+-   HTML
+-   LATEX
+-   Markdown
+
+## LATEX
+
+-   Très utilisé en science, notamment pour les formule
+
+-   Produit un Pdf
+
+-   Nécessité d'un logiciel pour une sortie en pdf (tinytex, ...)
+
+-   Mise en forme agréable
+
+-   Compliqué, verbeux
+
+------------------------------------------------------------------------
+
+``` latex
+\documentclass[french]{article}
+
+\usepackage[
+backend=biber,
+style=alphabetic,
+citestyle=authoryear
+]{biblatex}
+\addbibresource{These.bib}
+\usepackage{amssymb}
+\usepackage{hyperref}
+\usepackage{url}
+\title{CR réunion}
+\author{Author}
+\date{November 2020}
+
+\begin{document}
+\maketitle
+
+\section{21/10/22}
+\subsection{fait}
+\begin{itemize}
+    \item item1
+    \item item2
+\end{itemize}
+\subsection{Discussion}
+```
+
+------------------------------------------------------------------------
+
+Le latex est très utile pour mettre des formules dans du texte:
+
+$$
+\begin{equation}
+  x = a_0 + \frac{1}{\displaystyle a_1 
+          + \frac{1}{\displaystyle a_2 
+          + \frac{1}{\displaystyle a_3 + a_4}}}
+\end{equation}
+$$
+
+## Markdown
+
+-   Syntaxe simple
+
+-   Aisé à saisir dans un éditeur de texte
+
+-   Lisible sans être formaté
+
+-   Pandoc permet la convertion en html
+
+-   Intégré dans Rstudio (PDF, word, html)
+
+## Markdown
+
+![](images/paste-86FFF5AF.png)
+
+------------------------------------------------------------------------
+
+::: columns
+::: {.column width="50%"}
+rmd
+
+``` markdown
+# Titre niveau 1
+## Titre niveau 2
+### Titre niveau 3
+#### Titre niveau 4
+##### Titre niveau 5
+###### Titre niveau 6
+```
+:::
+
+::: {.column width="50%"}
+html
+
+``` html
+<h1>Titre niveau 1</h1>
+<h2>Titre niveau 2</h2>
+<h3>Titre niveau 3</h3>
+<h4>Titre niveau 4</h4>
+<h5>Titre niveau 5</h5>
+```
+:::
+:::
+
+# Gestion de version
+
+![](images/paste-59AE5866.png)
+
+## Gestion de version
+
+![](images/paste-ACEBC573.png)
+
+## Gestion de version Git
+
+![](images/paste-7424ABEF.png)
+
+## Git
+
+-   Sophistiqué (peut-être un peu trop)
+
+-   A fait ses preuves
+
+-   Enregistrement des modifications sur plusieurs fichiers
+
+# Document computationel
+
+![](images/paste-17CEB2E0.png)
+
+------------------------------------------------------------------------
+
+![](images/paste-0BDE32E4.png)
