@@ -1,0 +1,139 @@
+---
+title: "7-Machine learning"
+format:
+  revealjs: 
+    theme: [dark]
+    
+editor: visual
+page-layout: full
+author: "Thibaut FABACHER"
+institute: "GMRC"
+incremental: true
+slide-number: h/v
+progress: true
+footer: "Master Intelligence des données de santé / UE Technique"
+show-slide-number: all
+jupyter: false
+cap-location: bottom
+self-contained: true
+execute:
+  echo: true
+---
+
+# Techniques prédictives/Apprentissage machine
+
+------------------------------------------------------------------------
+
+![](images/paste-C703E056.png)
+
+------------------------------------------------------------------------
+
+![](images/paste-CC4723A6.png)
+
+------------------------------------------------------------------------
+
+# Machine Learning
+
+-   Domaine de l'intelligence artificielle
+
+-   Consiste à entraîner des modèles informatiques à effectuer des tâches sans avoir été explicitement programmés pour les accomplir
+
+-   Les modèles peuvent s'améliorer au fil du temps en apprenant à partir de données
+
+-   Exemple : Traduction automatique Reconnaissance vocale...
+
+# Différence Stat / Machine learning
+
+::: columns
+::: {.column width="50%"}
+-   décrire et comprendre les phénomènes à partir de données
+
+-   hypothetico-déductive (part d'hypothèses et utilise des tests statistiques pour les vérifier)
+
+-   données souvent de taille limitée et structurées
+
+-   modèles simples et faciles à comprendre
+:::
+
+::: {.column width="50%"}
+-   prédire les résultats futurs à partir de données passées
+
+-   inductive (part de données et essaie de déduire les règles sous-jacentes)
+
+-   peut être utilisé avec des données de grande taille et non structurées
+
+-   modèles complexes et difficiles à interpréter (réseaux de neurones, arbres de décision)
+:::
+:::
+
+------------------------------------------------------------------------
+
+![](images/paste-5AC12112.png)
+
+------------------------------------------------------------------------
+
+![](images/paste-0B5EF447.png)
+
+------------------------------------------------------------------------
+
+![](images/paste-62094BB1.png)
+
+------------------------------------------------------------------------
+
+![](images/paste-E405AE42.png)
+
+# Apprentissage supervisé
+
+-   modèle est entraîné sur un jeu de données annotées
+-   Le jeu de données contient des exemples d'entrée et de sortie souhaités
+-   L'objectif: généraliser apprentissage à partir de ces exemples pour prédire la sortie correcte pour de nouvelles entrées
+
+# Apprentissage supervisé
+
+$$\hat{y} = f(x, \theta)$$
+
+où $x$ est l'entrée, $\theta$ sont les paramètres du modèle et $\hat{y}$ est la valeur prédite par le modèle pour l'entrée $x$.
+
+Objectifs : Trouver les valeurs optimales de $\theta$ qui minimisent l'erreur entre les valeurs prédites et valeurs réelles.
+
+-   Fonction de coût avec optimisation
+
+# Apprentissage non supervisé
+
+-   Découvrir une structure au sein d'un ensemble d'individus caractérisés par des covariables X
+
+-   Label est inconnu
+
+# Apprentissage non supervisé
+
+$$\hat{y} = f(x, \theta)$$
+
+où $x$ est l'entrée, $\theta$ sont les paramètres du modèle et $\hat{y}$ est la valeur prédite par le modèle pour l'entrée $x$.
+
+Objectifs : trouver des structures ou des patterns dans les données qui peuvent être utilisés pour effectuer des tâches utiles
+
+Les paramètres du modèle sont mis à jour en utilisant une fonction de coût et une méthode d'optimisation afin de trouver des structures ou des patterns dans les données
+
+# Supervisé / Non supervisé
+
+::: columns
+::: {.column width="50%"}
+![](images/paste-4C4C3D59.png)
+:::
+
+::: {.column width="50%"}
+![](images/paste-995E345F.png)
+:::
+:::
+
+# Supervisé / Non supervisé
+
+::: columns
+::: {.column width="50%"}
+![](images/paste-034B2423.png)
+:::
+
+::: {.column width="50%"}
+![](images/paste-228BE891.png)
+:::
+:::
