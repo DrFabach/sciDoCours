@@ -24,11 +24,11 @@ execute:
 
 ------------------------------------------------------------------------
 
-![](images/paste-C703E056.png)
+![](images/paste-C703E056.png){style="background-color : white;"}
 
 ------------------------------------------------------------------------
 
-![](images/paste-CC4723A6.png)
+![](images/paste-CC4723A6.png){style="background-color : white;"}
 
 ------------------------------------------------------------------------
 
@@ -76,7 +76,7 @@ execute:
 
 ------------------------------------------------------------------------
 
-![](images/paste-62094BB1.png)
+![](images/paste-62094BB1.png){style="background-color : white;"}
 
 ------------------------------------------------------------------------
 
@@ -137,3 +137,183 @@ Les paramètres du modèle sont mis à jour en utilisant une fonction de coût e
 ![](images/paste-228BE891.png)
 :::
 :::
+
+# Entrainement d'un modèle
+
+![](images/image-207753511.png)
+
+# Fonctions de coût
+
+1.  Erreur quadratique moyenne (MSE)
+
+-   Utilisée pour les tâches de régression
+
+-   Formule: $$MSE = \frac{1}{n} \sum_{i=1}^{n} (y_i - \hat{y}_i)^2$$
+
+-   Simple à calculer et à interpréter, mais sensible aux outliers et peu robuste face à la skewness des données
+
+2.  Erreur absolue moyenne (MAE)
+
+-   Utilisée pour les tâches de régression
+
+-   Formule: $$MAE = \frac{1}{n} \sum_{i=1}^{n} |y_i - \hat{y}_i|$$
+
+-   Moins sensible aux outliers que le MSE, mais moins intuitive à interpréter
+
+3.  Erreur quadratique moyenne de racine (RMSE)
+
+-   Utilisée pour les tâches de régression
+
+-   Formule: $$RMSE = \sqrt{\frac{1}{n} \sum_{i=1}^{n} (y_i - \hat{y}_i)^2}$$
+
+-   racine carrée de l'erreur quadratique moyenne (MSE)
+
+-   échelle similaire aux vraies valeurs de sortie
+
+4.  Erreur de classification
+
+-   Utilisée pour les tâches de classification
+
+-   Formule: $$Err_{class} = \frac{n_{erreurs}}{n}$$
+
+-   Simple à calculer, mais ne prend pas en compte la probabilité des prédictions
+
+5.  Indice de concordance de Cohen (Cohen's kappa)
+
+-   Utilisée pour les tâches de classification
+
+-   Formule: $$\kappa = \frac{p_o - p_e}{1 - p_e}$$
+
+-   moins sensible aux inégalités de distribution des classes que l'erreur de classification
+
+# Exemple sur la régression lineaire
+
+``` r
+# Chargement des données d'entraînement
+train <- read.csv("train.csv")
+X_train <- train[,1] # variables explicatives
+y_train <- train[,2] # variable à prédire
+
+# Entraînement du modèle de régression linéaire
+model <- lm(y_train ~ X_train)
+
+# Prédiction sur les données d'entraînement
+y_pred <- predict(model, X_train)
+
+# Calcul de l'erreur quadratique moyenne
+mse <- mean((y_train - y_pred)^2)
+
+# Affichage de l'erreur
+print(mse)
+```
+
+# Exemple sur données
+
+```{r include = F}
+# Load the pander library
+library(pander)
+```
+
+```{r }
+# Load the serialized R object from the specified file
+data_tot <- readRDS("data.rds")
+```
+
+------------------------------------------------------------------------
+
+## Création d'un jeu d'entrainement
+
+```{r}
+# Set the seed for the random number generator to the value 45
+set.seed(45)
+
+# Generate a random sample of 100 elements from the rows of the 'data_tot' data frame, without replacement
+sample_train <- sample(1:dim(data_tot)[1], 100, replace = F)
+
+# Subset the 'data_tot' data frame to select only the rows in the random sample
+data <- data_tot[sample_train,]
+
+```
+
+------------------------------------------------------------------------
+
+## Entrainement d'un modèle avec une variable
+
+```{r}
+# Fit a linear regression model to the data with 'hospital_los_day' as the dependent variable and 'sapsi_first' as the independent variable
+fit1 <- lm(hospital_los_day ~ sapsi_first, data = data)
+
+# Print a summary of the fitted model
+summary(fit1)
+```
+
+------------------------------------------------------------------------
+
+## Calcul de la MSE
+
+```{r}
+# Use the fitted model to make predictions on the data
+y_pred <- predict(fit1, data)
+
+# Calculate the mean squared error between the actual dependent variable values and the predicted values
+mse <- mean((data$hospital_los_day - y_pred)^2)
+
+print(mse)
+```
+
+------------------------------------------------------------------------
+
+## Modèle avec deux variable
+
+```{r}
+## Add second variable
+fit2 <- lm(hospital_los_day ~ sapsi_first+age, data = data)
+#summary(fit2)
+y_pred2 <- predict(fit2, data)
+mse2 <- mean((data$hospital_los_day - y_pred2)^2)
+
+print(mse2)
+```
+
+## Autre type de choix d'hyperparamètres
+
+```{r include = F}
+library(ggplot2)
+library(tidyverse)
+```
+
+```{r}
+p1<-data %>% ggplot(aes(x=sapsi_first,y=hospital_los_day))+geom_jitter()+theme_light()
+p1
+```
+
+------------------------------------------------------------------------
+
+```{r}
+p2<-data %>% ggplot(aes(x=sapsi_first,y=hospital_los_day))+geom_jitter()+theme_light()+
+  geom_smooth( method = lm, formula = y ~ x, se = FALSE)
+p2
+```
+
+------------------------------------------------------------------------
+
+```{r}
+p3<-data %>% ggplot(aes(x=sapsi_first,y=hospital_los_day))+geom_jitter()+theme_light()+
+  geom_smooth( method = lm, formula = y ~ poly(x,2), se = FALSE)
+p3
+```
+
+------------------------------------------------------------------------
+
+```{r}
+p4<-data %>% ggplot(aes(x=sapsi_first,y=hospital_los_day))+geom_jitter()+theme_light()+
+  geom_smooth( method = lm, formula = y ~ poly(x,3), se = FALSE)
+p4
+```
+
+------------------------------------------------------------------------
+
+```{r}
+library(gridExtra)
+grid.arrange(p1, p2, p3, p4, nrow = 2)
+```
