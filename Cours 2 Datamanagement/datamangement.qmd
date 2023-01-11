@@ -152,7 +152,7 @@ Where identifiant =1 ;
 ::: columns
 ::: {.column width="50%" style="font-size: 0.50em"}
 | Opérateur                     | Teste si ...                                           |
-|--------------------------|----------------------------------------------|
+|-------------------------------|--------------------------------------------------------|
 | A = B                         | A égal à B                                             |
 | A \<\> B                      | A différent de B                                       |
 | A \> B et A \< B              | A supérieur à B / A inférieur à B                      |
@@ -178,7 +178,7 @@ Where identifiant =1 ;
 
 ::: {style="font-size: 0.5em"}
 | **id_livre** | **titre**                    | **isbn_10** | **auteur**             | **prix** |
-|---------------|---------------|---------------|---------------|---------------|
+|--------------|------------------------------|-------------|------------------------|----------|
 | 1            | Forteresse digitale          | 2709626306  | Dan Brown              | 20.5     |
 | 2            | La jeune fille et la nuit    | 2253237620  | Guillaume Musso        | 21.9     |
 | 3            | T'choupi se brosse les dents | 2092589547  | Thierry Courtin        | 5.7      |
@@ -192,7 +192,7 @@ Where identifiant =1 ;
 
 ::: {style="font-size: 0.5em"}
 | id_livre | titre                        | isbn_10    | auteur                 | prix |
-|---------------|---------------|---------------|---------------|---------------|
+|----------|------------------------------|------------|------------------------|------|
 | 1        | Forteresse digitale          | 2709626306 | Dan Brown              | 20.5 |
 | 2        | La jeune fille et la nuit    | 2253237620 | Guillaume Musso        | 21.9 |
 | 3        | T'choupi se brosse les dents | 2092589547 | Thierry Courtin        | 5.7  |
@@ -215,7 +215,7 @@ FROM livres;
 
 ::: {style="font-size: 0.5em"}
 | id_livre | titre                        | isbn_10    | auteur                 | prix |
-|---------------|---------------|---------------|---------------|---------------|
+|----------|------------------------------|------------|------------------------|------|
 | 1        | Forteresse digitale          | 2709626306 | Dan Brown              | 20.5 |
 | 2        | La jeune fille et la nuit    | 2253237620 | Guillaume Musso        | 21.9 |
 | 3        | T'choupi se brosse les dents | 2092589547 | Thierry Courtin        | 5.7  |
@@ -239,7 +239,7 @@ WHERE prix > 20;
 
 ::: {style="font-size: 0.5em"}
 | id_livre | titre                        | isbn_10    | auteur                 | prix |
-|---------------|---------------|---------------|---------------|---------------|
+|----------|------------------------------|------------|------------------------|------|
 | 1        | Forteresse digitale          | 2709626306 | Dan Brown              | 20.5 |
 | 2        | La jeune fille et la nuit    | 2253237620 | Guillaume Musso        | 21.9 |
 | 3        | T'choupi se brosse les dents | 2092589547 | Thierry Courtin        | 5.7  |
@@ -841,5 +841,3 @@ basefinal<-base1%>%outer_join(base2,by =c("id" = "id"))
 
 write.csv2(basefinal,"C:/Users/enseignant/Desktop/basefinal.csv")
 ```
-
-![](images/Ulf_Kristersson_in_2018_Swedish_general_election,_2018_(cropped).jpg)

@@ -2,8 +2,7 @@
 title: "7-Machine learning"
 format:
   revealjs: 
-    theme: [dark]
-    
+    theme: [dark, custom.scss] 
 editor: visual
 page-layout: full
 author: "Thibaut FABACHER"
@@ -140,7 +139,7 @@ Les paramètres du modèle sont mis à jour en utilisant une fonction de coût e
 
 # Entrainement d'un modèle
 
-![](images/image-207753511.png)
+![](images/image-207753511.png){width="368"}
 
 # Fonctions de coût
 
@@ -152,6 +151,8 @@ Les paramètres du modèle sont mis à jour en utilisant une fonction de coût e
 
 -   Simple à calculer et à interpréter, mais sensible aux outliers et peu robuste face à la skewness des données
 
+------------------------------------------------------------------------
+
 2.  Erreur absolue moyenne (MAE)
 
 -   Utilisée pour les tâches de régression
@@ -159,6 +160,8 @@ Les paramètres du modèle sont mis à jour en utilisant une fonction de coût e
 -   Formule: $$MAE = \frac{1}{n} \sum_{i=1}^{n} |y_i - \hat{y}_i|$$
 
 -   Moins sensible aux outliers que le MSE, mais moins intuitive à interpréter
+
+------------------------------------------------------------------------
 
 3.  Erreur quadratique moyenne de racine (RMSE)
 
@@ -168,7 +171,9 @@ Les paramètres du modèle sont mis à jour en utilisant une fonction de coût e
 
 -   racine carrée de l'erreur quadratique moyenne (MSE)
 
--   échelle similaire aux vraies valeurs de sortie
+------------------------------------------------------------------------
+
+    ## échelle similaire aux vraies valeurs de sortie
 
 4.  Erreur de classification
 
@@ -177,14 +182,6 @@ Les paramètres du modèle sont mis à jour en utilisant une fonction de coût e
 -   Formule: $$Err_{class} = \frac{n_{erreurs}}{n}$$
 
 -   Simple à calculer, mais ne prend pas en compte la probabilité des prédictions
-
-5.  Indice de concordance de Cohen (Cohen's kappa)
-
--   Utilisée pour les tâches de classification
-
--   Formule: $$\kappa = \frac{p_o - p_e}{1 - p_e}$$
-
--   moins sensible aux inégalités de distribution des classes que l'erreur de classification
 
 # Exemple sur la régression lineaire
 
@@ -317,3 +314,154 @@ p4
 library(gridExtra)
 grid.arrange(p1, p2, p3, p4, nrow = 2)
 ```
+
+## Classification binaire
+
+$$y_i \in {0, 1}$$
+
+$$\hat{y} = f(X)$$
+
+Fonction de seuil nécessaire pour revenir sur 0,1
+
+ex : $\hat{y} \geq 0.5$ classe 1 et $\hat{y} < 0.5$ classe 0
+
+évaluation de l'algo par $$y_i \neq \hat{y}_i$$
+
+## Mesure de performance pour un classifieur binaire
+
+### Tableau de contingence
+
+|         | y_pred = 0 | y_pred = 1 |
+|---------|------------|------------|
+| *y = 0* | TP         | FP         |
+| *y = 1* | FN         | TN         |
+
+------------------------------------------------------------------------
+
+### Sensibilité/rappel
+
+|         | y_pred = 0 | y_pred = 1 |
+|---------|------------|------------|
+| *y = 0* | **TP**     | FP         |
+| *y = 1* | **FN**     | TN         |
+
+-   $$\text{Sensibilité} = \frac{TP}{TP + FN}$$
+
+-   **détecter** correctement les exemples positifs
+
+-   utiles quand exemples positifs sont rares
+
+------------------------------------------------------------------------
+
+### Spécificité
+
+|         | y_pred = 0 | y_pred = 1 |
+|---------|------------|------------|
+| *y = 0* | TP         | **FP**     |
+| *y = 1* | FN         | **TN**     |
+
+-   $$\text{Spécificité} = \frac{TN}{TN + FP}$$
+
+-   **détecter** correctement les exemples négatifs
+
+------------------------------------------------------------------------
+
+### Précision / VPP
+
+|         | y_pred = 0 | y_pred = 1 |
+|---------|------------|------------|
+| *y = 0* | **TP**     | **FP**     |
+| *y = 1* | FN         | TN         |
+
+-   $$\text{Précision} = \frac{TP}{TP + FP}$$
+
+-   **prédire** correctement la classe positive
+
+------------------------------------------------------------------------
+
+### Précision / VPP
+
+|         | y_pred = 0 | y_pred = 1 |
+|---------|------------|------------|
+| *y = 0* | **TP**     | **FP**     |
+| *y = 1* | FN         | TN         |
+
+-   $$\text{Précision} = \frac{TP}{TP + FP}$$
+
+-   **prédire** correctement la classe positive
+
+------------------------------------------------------------------------
+
+### Précision / VPP
+
+|         | y_pred = 0 | y_pred = 1 |
+|---------|------------|------------|
+| *y = 0* | TP         | FP         |
+| *y = 1* | **FN**     | **TN**     |
+
+-   $$\text{VPN} = \frac{TN}{TN + FN}$$
+
+-   **prédire** correctement la classe négative
+
+------------------------------------------------------------------------
+
+### Accuracy / taux de bonnes réponses
+
+|         | y_pred = 0 | y_pred = 1 |
+|---------|------------|------------|
+| *y = 0* | TP         | FP         |
+| *y = 1* | FN         | TN         |
+
+-   $$\text{Accuracy} = \frac{TP + TN}{TP + TN + FP + FN}$$
+
+-   **prédire** correctement la classe de chaque exemple
+
+-   utile lorsque les classes sont équilibrées
+
+## Combinaison d'indicateur
+
+### Courbe ROC
+
+-   performance du classifieur en fonction du seuil de décision
+
+-   sensibilité et spécificité à chaque seuil
+
+![](images/paste-1C1830FB.png){width="444"}
+
+------------------------------------------------------------------------
+
+### Courbe ROC
+
+-   AUC : aire sous la courbe
+
+-   Mesure agrégée de performance
+
+-   AUC = 1 modèle parfait
+
+-   AUC = 0,5 modèle équivalent à choisir au hasard
+
+![](images/paste-5BF98603.png){width="407"}
+
+------------------------------------------------------------------------
+
+### AUPRC
+
+-   Average Precision recall Curve
+
+-   précision et rappel
+
+-   Mieux pour les classifications non équilibrées
+
+------------------------------------------------------------------------
+
+### F1 Score
+
+$$\text{F1 Score} = 2\times\frac{\text{Précision}\times\text{Sensibilité}}{\text{Précision}+\text{Sensibilité}}$$
+
+# Le machine learning en pratique
+
+![](images/paste-414CE25E.png)
+
+-----------
+
+![](images/Supervised-machine-learning-01.jpg)
