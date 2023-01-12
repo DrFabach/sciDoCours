@@ -21,6 +21,10 @@ execute:
 
 # Techniques prédictives/Apprentissage machine
 
+```{r echo = F, include = F}
+rmarkdown::render("Cours 7 Machine learning/machine_learning.qmd","pdf_document")
+```
+
 ------------------------------------------------------------------------
 
 ![](images/paste-C703E056.png){style="background-color : white;"}
@@ -213,7 +217,7 @@ library(pander)
 
 ```{r }
 # Load the serialized R object from the specified file
-data_tot <- readRDS("data.rds")
+data_tot <- readRDS("./TD_ML/data.rds")
 ```
 
 ------------------------------------------------------------------------
@@ -331,19 +335,19 @@ ex : $\hat{y} \geq 0.5$ classe 1 et $\hat{y} < 0.5$ classe 0
 
 ### Tableau de contingence
 
-|         | y_pred = 0 | y_pred = 1 |
-|---------|------------|------------|
-| *y = 0* | TP         | FP         |
-| *y = 1* | FN         | TN         |
+|              | y = 1 | y = 0 |
+|--------------|-------|-------|
+| *y_pred = 1* | TP    | FP    |
+| *y_pred = 0* | FN    | TN    |
 
 ------------------------------------------------------------------------
 
 ### Sensibilité/rappel
 
-|         | y_pred = 0 | y_pred = 1 |
-|---------|------------|------------|
-| *y = 0* | **TP**     | FP         |
-| *y = 1* | **FN**     | TN         |
+|              | y = 1  | y = 0 |
+|--------------|--------|-------|
+| *y_pred = 1* | **TP** | FP    |
+| *y_pred = 0* | **FN** | TN    |
 
 -   $$\text{Sensibilité} = \frac{TP}{TP + FN}$$
 
@@ -355,10 +359,10 @@ ex : $\hat{y} \geq 0.5$ classe 1 et $\hat{y} < 0.5$ classe 0
 
 ### Spécificité
 
-|         | y_pred = 0 | y_pred = 1 |
-|---------|------------|------------|
-| *y = 0* | TP         | **FP**     |
-| *y = 1* | FN         | **TN**     |
+|              | y = 1 | y = 0  |
+|--------------|-------|--------|
+| *y_pred = 1* | TP    | **FP** |
+| *y_pred = 0* | FN    | **TN** |
 
 -   $$\text{Spécificité} = \frac{TN}{TN + FP}$$
 
@@ -368,10 +372,10 @@ ex : $\hat{y} \geq 0.5$ classe 1 et $\hat{y} < 0.5$ classe 0
 
 ### Précision / VPP
 
-|         | y_pred = 0 | y_pred = 1 |
-|---------|------------|------------|
-| *y = 0* | **TP**     | **FP**     |
-| *y = 1* | FN         | TN         |
+|              | y = 1  | y = 0  |
+|--------------|--------|--------|
+| *y_pred = 1* | **TP** | **FP** |
+| *y_pred = 0* | FN     | TN     |
 
 -   $$\text{Précision} = \frac{TP}{TP + FP}$$
 
@@ -379,25 +383,12 @@ ex : $\hat{y} \geq 0.5$ classe 1 et $\hat{y} < 0.5$ classe 0
 
 ------------------------------------------------------------------------
 
-### Précision / VPP
+### VPN
 
-|         | y_pred = 0 | y_pred = 1 |
-|---------|------------|------------|
-| *y = 0* | **TP**     | **FP**     |
-| *y = 1* | FN         | TN         |
-
--   $$\text{Précision} = \frac{TP}{TP + FP}$$
-
--   **prédire** correctement la classe positive
-
-------------------------------------------------------------------------
-
-### Précision / VPP
-
-|         | y_pred = 0 | y_pred = 1 |
-|---------|------------|------------|
-| *y = 0* | TP         | FP         |
-| *y = 1* | **FN**     | **TN**     |
+|              | y = 1  | y = 0  |
+|--------------|--------|--------|
+| *y_pred = 1* | TP     | FP     |
+| *y_pred = 0* | **FN** | **TN** |
 
 -   $$\text{VPN} = \frac{TN}{TN + FN}$$
 
@@ -407,10 +398,10 @@ ex : $\hat{y} \geq 0.5$ classe 1 et $\hat{y} < 0.5$ classe 0
 
 ### Accuracy / taux de bonnes réponses
 
-|         | y_pred = 0 | y_pred = 1 |
-|---------|------------|------------|
-| *y = 0* | TP         | FP         |
-| *y = 1* | FN         | TN         |
+|              | y = 1 | y = 0 |
+|--------------|-------|-------|
+| *y_pred = 1* | TP    | FP    |
+| *y_pred = 0* | FN    | TN    |
 
 -   $$\text{Accuracy} = \frac{TP + TN}{TP + TN + FP + FN}$$
 
@@ -462,6 +453,74 @@ $$\text{F1 Score} = 2\times\frac{\text{Précision}\times\text{Sensibilité}}{\te
 
 ![](images/paste-414CE25E.png)
 
------------
+------------------------------------------------------------------------
 
 ![](images/Supervised-machine-learning-01.jpg)
+
+------------------------------------------------------------------------
+
+# Problématiques du machine learning
+
+## Sur et sous apprentissage
+
+![](images/paste-42BEDDE0.png)
+
+------------------------------------------------------------------------
+
+# Principes d'entrainement et de validation
+
+-   Séparation des données en jeu d'entrainement et de test
+
+![](images/paste-31E12568.png)
+
+------------------------------------------------------------------------
+
+![](images/paste-B7D27446.png)
+
+------------------------------------------------------------------------
+
+![](images/paste-3369E69C.png)
+
+------------------------------------------------------------------------
+
+![](images/paste-FF3233AA.png)
+
+------------------------------------------------------------------------
+
+![](images/paste-80466BA2.png)
+
+------------------------------------------------------------------------
+
+![](images/paste-D927C5FB.png)
+
+------------------------------------------------------------------------
+
+![](images/paste-77BC0C00.png)
+
+------------------------------------------------------------------------
+
+![](images/paste-6B52C392.png)
+
+------------------------------------------------------------------------
+
+![](images/paste-3DF40891.png)
+
+------------------------------------------------------------------------
+
+## Cross validation
+
+![](images/paste-C9100467.png)
+
+------------------------------------------------------------------------
+
+![](images/paste-90550990.png)
+
+------------------------------------------------------------------------
+
+![](images/paste-8F3D1907.png)
+
+------------------------------------------------------------------------
+
+## Validation croisée, itérative avec brassage des données
+
+![](images/paste-60D433A6.png)
