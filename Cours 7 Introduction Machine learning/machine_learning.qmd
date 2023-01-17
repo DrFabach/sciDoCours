@@ -1,0 +1,526 @@
+---
+title: "7-Machine learning"
+format:
+  revealjs: 
+    theme: [dark, custom.scss] 
+editor: visual
+page-layout: full
+author: "Thibaut FABACHER"
+institute: "GMRC"
+incremental: true
+slide-number: h/v
+progress: true
+footer: "Master Intelligence des données de santé / UE Technique"
+show-slide-number: all
+jupyter: false
+cap-location: bottom
+self-contained: true
+execute:
+  echo: true
+---
+
+# Techniques prédictives/Apprentissage machine
+
+```{r echo = F, include = F}
+rmarkdown::render("Cours 7 Machine learning/machine_learning.qmd","pdf_document")
+```
+
+------------------------------------------------------------------------
+
+![](images/paste-C703E056.png){style="background-color : white;"}
+
+------------------------------------------------------------------------
+
+![](images/paste-CC4723A6.png){style="background-color : white;"}
+
+------------------------------------------------------------------------
+
+# Machine Learning
+
+-   Domaine de l'intelligence artificielle
+
+-   Consiste à entraîner des modèles informatiques à effectuer des tâches sans avoir été explicitement programmés pour les accomplir
+
+-   Les modèles peuvent s'améliorer au fil du temps en apprenant à partir de données
+
+-   Exemple : Traduction automatique Reconnaissance vocale...
+
+# Différence Stat / Machine learning
+
+::: columns
+::: {.column width="50%"}
+-   décrire et comprendre les phénomènes à partir de données
+
+-   hypothetico-déductive (part d'hypothèses et utilise des tests statistiques pour les vérifier)
+
+-   données souvent de taille limitée et structurées
+
+-   modèles simples et faciles à comprendre
+:::
+
+::: {.column width="50%"}
+-   prédire les résultats futurs à partir de données passées
+
+-   inductive (part de données et essaie de déduire les règles sous-jacentes)
+
+-   peut être utilisé avec des données de grande taille et non structurées
+
+-   modèles complexes et difficiles à interpréter (réseaux de neurones, arbres de décision)
+:::
+:::
+
+------------------------------------------------------------------------
+
+![](images/paste-5AC12112.png)
+
+------------------------------------------------------------------------
+
+![](images/paste-0B5EF447.png)
+
+------------------------------------------------------------------------
+
+![](images/paste-62094BB1.png){style="background-color : white;"}
+
+------------------------------------------------------------------------
+
+![](images/paste-E405AE42.png)
+
+# Apprentissage supervisé
+
+-   modèle est entraîné sur un jeu de données annotées
+-   Le jeu de données contient des exemples d'entrée et de sortie souhaités
+-   L'objectif: généraliser apprentissage à partir de ces exemples pour prédire la sortie correcte pour de nouvelles entrées
+
+# Apprentissage supervisé
+
+$$\hat{y} = f(x, \theta)$$
+
+où $x$ est l'entrée, $\theta$ sont les paramètres du modèle et $\hat{y}$ est la valeur prédite par le modèle pour l'entrée $x$.
+
+Objectifs : Trouver les valeurs optimales de $\theta$ qui minimisent l'erreur entre les valeurs prédites et valeurs réelles.
+
+-   Fonction de coût avec optimisation
+
+# Apprentissage non supervisé
+
+-   Découvrir une structure au sein d'un ensemble d'individus caractérisés par des covariables X
+
+-   Label est inconnu
+
+# Apprentissage non supervisé
+
+$$\hat{y} = f(x, \theta)$$
+
+où $x$ est l'entrée, $\theta$ sont les paramètres du modèle et $\hat{y}$ est la valeur prédite par le modèle pour l'entrée $x$.
+
+Objectifs : trouver des structures ou des patterns dans les données qui peuvent être utilisés pour effectuer des tâches utiles
+
+Les paramètres du modèle sont mis à jour en utilisant une fonction de coût et une méthode d'optimisation afin de trouver des structures ou des patterns dans les données
+
+# Supervisé / Non supervisé
+
+::: columns
+::: {.column width="50%"}
+![](images/paste-4C4C3D59.png)
+:::
+
+::: {.column width="50%"}
+![](images/paste-995E345F.png)
+:::
+:::
+
+# Supervisé / Non supervisé
+
+::: columns
+::: {.column width="50%"}
+![](images/paste-034B2423.png)
+:::
+
+::: {.column width="50%"}
+![](images/paste-228BE891.png)
+:::
+:::
+
+# Entrainement d'un modèle
+
+![](images/image-207753511.png){width="368"}
+
+# Fonctions de coût
+
+1.  Erreur quadratique moyenne (MSE)
+
+-   Utilisée pour les tâches de régression
+
+-   Formule: $$MSE = \frac{1}{n} \sum_{i=1}^{n} (y_i - \hat{y}_i)^2$$
+
+-   Simple à calculer et à interpréter, mais sensible aux outliers et peu robuste face à la skewness des données
+
+------------------------------------------------------------------------
+
+2.  Erreur absolue moyenne (MAE)
+
+-   Utilisée pour les tâches de régression
+
+-   Formule: $$MAE = \frac{1}{n} \sum_{i=1}^{n} |y_i - \hat{y}_i|$$
+
+-   Moins sensible aux outliers que le MSE, mais moins intuitive à interpréter
+
+------------------------------------------------------------------------
+
+3.  Erreur quadratique moyenne de racine (RMSE)
+
+-   Utilisée pour les tâches de régression
+
+-   Formule: $$RMSE = \sqrt{\frac{1}{n} \sum_{i=1}^{n} (y_i - \hat{y}_i)^2}$$
+
+-   racine carrée de l'erreur quadratique moyenne (MSE)
+
+------------------------------------------------------------------------
+
+    ## échelle similaire aux vraies valeurs de sortie
+
+4.  Erreur de classification
+
+-   Utilisée pour les tâches de classification
+
+-   Formule: $$Err_{class} = \frac{n_{erreurs}}{n}$$
+
+-   Simple à calculer, mais ne prend pas en compte la probabilité des prédictions
+
+# Exemple sur la régression lineaire
+
+``` r
+# Chargement des données d'entraînement
+train <- read.csv("train.csv")
+X_train <- train[,1] # variables explicatives
+y_train <- train[,2] # variable à prédire
+
+# Entraînement du modèle de régression linéaire
+model <- lm(y_train ~ X_train)
+
+# Prédiction sur les données d'entraînement
+y_pred <- predict(model, X_train)
+
+# Calcul de l'erreur quadratique moyenne
+mse <- mean((y_train - y_pred)^2)
+
+# Affichage de l'erreur
+print(mse)
+```
+
+# Exemple sur données
+
+```{r include = F}
+# Load the pander library
+library(pander)
+```
+
+```{r }
+# Load the serialized R object from the specified file
+data_tot <- readRDS("./TD_ML/data.rds")
+```
+
+------------------------------------------------------------------------
+
+## Création d'un jeu d'entrainement
+
+```{r}
+# Set the seed for the random number generator to the value 45
+set.seed(45)
+
+# Generate a random sample of 100 elements from the rows of the 'data_tot' data frame, without replacement
+sample_train <- sample(1:dim(data_tot)[1], 100, replace = F)
+
+# Subset the 'data_tot' data frame to select only the rows in the random sample
+data <- data_tot[sample_train,]
+
+```
+
+------------------------------------------------------------------------
+
+## Entrainement d'un modèle avec une variable
+
+```{r}
+# Fit a linear regression model to the data with 'hospital_los_day' as the dependent variable and 'sapsi_first' as the independent variable
+fit1 <- lm(hospital_los_day ~ sapsi_first, data = data)
+
+# Print a summary of the fitted model
+summary(fit1)
+```
+
+------------------------------------------------------------------------
+
+## Calcul de la MSE
+
+```{r}
+# Use the fitted model to make predictions on the data
+y_pred <- predict(fit1, data)
+
+# Calculate the mean squared error between the actual dependent variable values and the predicted values
+mse <- mean((data$hospital_los_day - y_pred)^2)
+
+print(mse)
+```
+
+------------------------------------------------------------------------
+
+## Modèle avec deux variable
+
+```{r}
+## Add second variable
+fit2 <- lm(hospital_los_day ~ sapsi_first+age, data = data)
+#summary(fit2)
+y_pred2 <- predict(fit2, data)
+mse2 <- mean((data$hospital_los_day - y_pred2)^2)
+
+print(mse2)
+```
+
+## Autre type de choix d'hyperparamètres
+
+```{r include = F}
+library(ggplot2)
+library(tidyverse)
+```
+
+```{r}
+p1<-data %>% ggplot(aes(x=sapsi_first,y=hospital_los_day))+geom_jitter()+theme_light()
+p1
+```
+
+------------------------------------------------------------------------
+
+```{r}
+p2<-data %>% ggplot(aes(x=sapsi_first,y=hospital_los_day))+geom_jitter()+theme_light()+
+  geom_smooth( method = lm, formula = y ~ x, se = FALSE)
+p2
+```
+
+------------------------------------------------------------------------
+
+```{r}
+p3<-data %>% ggplot(aes(x=sapsi_first,y=hospital_los_day))+geom_jitter()+theme_light()+
+  geom_smooth( method = lm, formula = y ~ poly(x,2), se = FALSE)
+p3
+```
+
+------------------------------------------------------------------------
+
+```{r}
+p4<-data %>% ggplot(aes(x=sapsi_first,y=hospital_los_day))+geom_jitter()+theme_light()+
+  geom_smooth( method = lm, formula = y ~ poly(x,3), se = FALSE)
+p4
+```
+
+------------------------------------------------------------------------
+
+```{r}
+library(gridExtra)
+grid.arrange(p1, p2, p3, p4, nrow = 2)
+```
+
+## Classification binaire
+
+$$y_i \in {0, 1}$$
+
+$$\hat{y} = f(X)$$
+
+Fonction de seuil nécessaire pour revenir sur 0,1
+
+ex : $\hat{y} \geq 0.5$ classe 1 et $\hat{y} < 0.5$ classe 0
+
+évaluation de l'algo par $$y_i \neq \hat{y}_i$$
+
+## Mesure de performance pour un classifieur binaire
+
+### Tableau de contingence
+
+|              | y = 1 | y = 0 |
+|--------------|-------|-------|
+| *y_pred = 1* | TP    | FP    |
+| *y_pred = 0* | FN    | TN    |
+
+------------------------------------------------------------------------
+
+### Sensibilité/rappel
+
+|              | y = 1  | y = 0 |
+|--------------|--------|-------|
+| *y_pred = 1* | **TP** | FP    |
+| *y_pred = 0* | **FN** | TN    |
+
+-   $$\text{Sensibilité} = \frac{TP}{TP + FN}$$
+
+-   **détecter** correctement les exemples positifs
+
+-   utiles quand exemples positifs sont rares
+
+------------------------------------------------------------------------
+
+### Spécificité
+
+|              | y = 1 | y = 0  |
+|--------------|-------|--------|
+| *y_pred = 1* | TP    | **FP** |
+| *y_pred = 0* | FN    | **TN** |
+
+-   $$\text{Spécificité} = \frac{TN}{TN + FP}$$
+
+-   **détecter** correctement les exemples négatifs
+
+------------------------------------------------------------------------
+
+### Précision / VPP
+
+|              | y = 1  | y = 0  |
+|--------------|--------|--------|
+| *y_pred = 1* | **TP** | **FP** |
+| *y_pred = 0* | FN     | TN     |
+
+-   $$\text{Précision} = \frac{TP}{TP + FP}$$
+
+-   **prédire** correctement la classe positive
+
+------------------------------------------------------------------------
+
+### VPN
+
+|              | y = 1  | y = 0  |
+|--------------|--------|--------|
+| *y_pred = 1* | TP     | FP     |
+| *y_pred = 0* | **FN** | **TN** |
+
+-   $$\text{VPN} = \frac{TN}{TN + FN}$$
+
+-   **prédire** correctement la classe négative
+
+------------------------------------------------------------------------
+
+### Accuracy / taux de bonnes réponses
+
+|              | y = 1 | y = 0 |
+|--------------|-------|-------|
+| *y_pred = 1* | TP    | FP    |
+| *y_pred = 0* | FN    | TN    |
+
+-   $$\text{Accuracy} = \frac{TP + TN}{TP + TN + FP + FN}$$
+
+-   **prédire** correctement la classe de chaque exemple
+
+-   utile lorsque les classes sont équilibrées
+
+## Combinaison d'indicateur
+
+### Courbe ROC
+
+-   performance du classifieur en fonction du seuil de décision
+
+-   sensibilité et spécificité à chaque seuil
+
+![](images/paste-1C1830FB.png){width="444"}
+
+------------------------------------------------------------------------
+
+### Courbe ROC
+
+-   AUC : aire sous la courbe
+
+-   Mesure agrégée de performance
+
+-   AUC = 1 modèle parfait
+
+-   AUC = 0,5 modèle équivalent à choisir au hasard
+
+![](images/paste-5BF98603.png){width="407"}
+
+------------------------------------------------------------------------
+
+### AUPRC
+
+-   Average Precision recall Curve
+
+-   précision et rappel
+
+-   Mieux pour les classifications non équilibrées
+
+------------------------------------------------------------------------
+
+### F1 Score
+
+$$\text{F1 Score} = 2\times\frac{\text{Précision}\times\text{Sensibilité}}{\text{Précision}+\text{Sensibilité}}$$
+
+# Le machine learning en pratique
+
+![](images/paste-414CE25E.png)
+
+------------------------------------------------------------------------
+
+![](images/Supervised-machine-learning-01.jpg)
+
+------------------------------------------------------------------------
+
+# Problématiques du machine learning
+
+## Sur et sous apprentissage
+
+![](images/paste-42BEDDE0.png)
+
+------------------------------------------------------------------------
+
+# Principes d'entrainement et de validation
+
+-   Séparation des données en jeu d'entrainement et de test
+
+![](images/paste-31E12568.png)
+
+------------------------------------------------------------------------
+
+![](images/paste-B7D27446.png)
+
+------------------------------------------------------------------------
+
+![](images/paste-3369E69C.png)
+
+------------------------------------------------------------------------
+
+![](images/paste-FF3233AA.png)
+
+------------------------------------------------------------------------
+
+![](images/paste-80466BA2.png)
+
+------------------------------------------------------------------------
+
+![](images/paste-D927C5FB.png)
+
+------------------------------------------------------------------------
+
+![](images/paste-77BC0C00.png)
+
+------------------------------------------------------------------------
+
+![](images/paste-6B52C392.png)
+
+------------------------------------------------------------------------
+
+![](images/paste-3DF40891.png)
+
+------------------------------------------------------------------------
+
+## Cross validation
+
+![](images/paste-C9100467.png)
+
+------------------------------------------------------------------------
+
+![](images/paste-90550990.png)
+
+------------------------------------------------------------------------
+
+![](images/paste-8F3D1907.png)
+
+------------------------------------------------------------------------
+
+## Validation croisée, itérative avec brassage des données
+
+![](images/paste-60D433A6.png)

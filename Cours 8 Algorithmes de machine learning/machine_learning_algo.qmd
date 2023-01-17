@@ -1,0 +1,22 @@
+---
+title: "7-Machine learning"
+format:
+  revealjs: 
+    theme: [dark, custom.scss] 
+editor: visual
+page-layout: full
+author: "Thibaut FABACHER"
+institute: "GMRC"
+incremental: true
+slide-number: h/v
+progress: true
+footer: "Master Intelligence des donnéees de santé / UE Technique"
+show-slide-number: all
+jupyter: false
+cap-location: bottom
+self-contained: true
+execute:
+  echo: true
+---
+
+
