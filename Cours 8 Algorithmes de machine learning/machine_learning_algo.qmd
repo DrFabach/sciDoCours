@@ -354,6 +354,11 @@ Pb avec les classifications non équilibrés
 
 ![](images/paste-AED8BB0A.png)
 
+## GIF
+
+![Interpretability and Random Forests \| by Tom Grigg \| Towards Data
+Science](https://miro.medium.com/max/1200/1*RI9_LbQ5A9D1izBaU1ypzQ.gif){alt="Interpretability and Random Forests | by Tom Grigg | Towards Data Science"}
+
 ## Implémentation R et Python
 
 -   r : rpart
@@ -657,3 +662,23 @@ boosting
 produire des décisions précises à partir de règles faibles (weaklearner)
 
 ![](images/image-660090245.png)
+
+# Kmean clustering
+
+![![machine
+learning](https://i0.wp.com/datascientest.com/wp-content/uploads/2020/05/kmeans-2.png?fit=377%252C368&ssl=1){alt="machine learning"}](https://i0.wp.com/datascientest.com/wp-content/uploads/2020/05/kmeans1.png?fit=377%252C368&ssl=1){alt="kmeans"}
+
+## Principes
+
+![](https://miro.medium.com/max/700/1*RsgSfd_S1RudtEe69gkCZQ.gif){alt=""}
+
+-   Place the *K* centroids at random locations
+
+-   Assign all data points to the closest centroid (using Euclidean
+    distance)
+
+-   Compute the new centroids as the mean of all points in the cluster
+
+## ACP
+
+## ![](https://delladata.fr/wp-content/uploads/2020/08/Q7HIP.gif){alt=""}
