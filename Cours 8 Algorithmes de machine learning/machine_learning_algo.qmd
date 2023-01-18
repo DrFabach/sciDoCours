@@ -137,29 +137,17 @@ execute:
 
 -   It is an ensemble learning method for classification and regression problems
 
--   XGBoost is based on decision trees, but uses a more regularized model formalization to control over-fitting
-
--   The regularization term is controlled by a parameter called "gamma"
+-   XGBoost is based on decision trees
 
 -   XGBoost algorithm can handle missing values and can be used for feature selection
 
--   XGBoost is known for its high performance and is often used in Kaggle competitions
-
 ------------------------------------------------------------------------
 
-## **Lasso**
+## Regression with regulation
 
--   Lasso stands for "Least Absolute Shrinkage and Selection Operator"
+-   
 
--   It is a linear regression model with L1 regularization
-
--   L1 regularization encourages some of the coefficients to be exactly equal to zero
-
--   Lasso can be used for feature selection, by setting the coefficients of less important features to zero
-
--   Lasso can be written mathematically as: \$\\min\_{w} \\frac{1}{2n\_{samples}}\|\|X w-y\|\|*{2}\^{2} + \\alpha\|\|w\|\|*{1}\$
-
-------------------------------------------------------------------------
+    ## $\beta = argmin_{\beta} \frac{1}{n}||Y - X\beta||_2^2 + \lambda_1||\beta||_1 + \frac{\lambda_2}{2}||\beta||_2^2$
 
 # Arbre de decision
 
@@ -191,15 +179,35 @@ execute:
 
 -   L'impureté de Gini : $$ Gini = 1 - \sum_{i=1}^{n}P(i|t)^2 $$
 
-où \$ P(i\|t) \$ : la probabilité d'appartenance à la classe \$ i \$ pour les données dans le nœud \$ t \$.
+- $P(i|t)$ : la probabilité d'appartenance à la classe $i$ pour les données dans le nœud $t$.
 
 L'impureté de Gini : probabilité qu'un élément choisi au hasard dans le nœud soit mal classé.
+
+## Critère de séparation des données:
 
 -   L'entropie :
 
 $$ H(S) = -\sum_{i=1}^{n}P(i|S)log(P(i|S)) $$
 
-où \$ P(i\|S) \$ : la probabilité d'appartenance à la classe \$ i \$ pour les données dans l'ensemble \$ S \$. L'entropie : incertitude des données dans l'ensemble.
+- $P(i|S)$ : la probabilité d'appartenance à la classe $i$ pour les données dans l'ensemble $S$. L'entropie : incertitude des données dans l'ensemble.
+
+## Exemple visuel
+
+![](images/paste-29D428D9.png)
+
+------------------------------------------------------------------------
+
+![](images/paste-CC4E82B9.png)
+
+------------------------------------------------------------------------
+
+![](images/paste-2C2BE9F7.png)
+
+------------------------------------------------------------------------
+
+![](images/paste-DFD335AC.png)
+
+------------------------------------------------------------------------
 
 ## Exemple arbre de décision
 
@@ -223,18 +231,125 @@ où \$ P(i\|S) \$ : la probabilité d'appartenance à la classe \$ i \$ pour les
 | vert    | 0.6        | 3                | poire     |
 :::
 
-1.  On calcule l'entropie pour chaque propriété  pour chaque propriété (couleur, poids, nombre de pépins) en utilisant les données de l'ensemble. 
+1.  On calcule l'entropie pour chaque propriété pour chaque propriété (couleur, poids, nombre de pépins) en utilisant les données de l'ensemble.
 
-$$ Gini(couleur) = 1 - \sum_{i=1}^{n}P(i|couleur)^2 = 1 - () - () $$ 
+--------------
 
-$$ Gini(poids) = 1 - \sum_{i=1}^{n}P(i|poids)^2 $$ 
+::: {style="font-size : 10px;"}
+| couleur | poids (kg) | nombre de pépins | type      |
+|---------|------------|------------------|-----------|
+| rouge   | 0.5        | 5                | fraise    |
+| rouge   | 0.8        | 10               | framboise |
+| jaune   | 0.3        | 2                | cerise    |
+| vert    | 0.7        | 8                | pomme     |
+| vert    | 0.6        | 3                | poire     |
+:::
+
+$$ Gini(base) = 1-1/5^2-1/5^2-1/5^2-1/5^2-1/5^2 $$
+
+$$ Gini(couleur) = 1 - \sum_{i=1}^{n}P(i|couleur)^2  $$
+
+$$ Gini(poids) = 1 - \sum_{i=1}^{n}P(i|poids)^2 $$
 
 $$ Gini(nombre\ de\ pépins) = 1 - \sum_{i=1}^{n}P(i|nombre\ de\ pépins)^2 $$
 
-2.  propriété qui minimise l'impureté de Gini pour séparation : "couleur".
+## Calcul pour couleur :
 
-3.  On crée deux sous-nœuds pour les fruits rouges et les fruits non rouges.
+$$ Gini(rouge) = 1 - \sum_{i=1}^{n}P(i|rouge)^2 = 1 - 0^2 - 0^2-0.5^2-0.5^2 = 0.5 $$
 
-4.  On répète les étapes 1 à 3 pour chaque sous-nœud en utilisant uniquement les données associées à ce sous-nœud. Exemple, $$ Gini(poids | couleur = rouge) = 1 - \sum_{i=1}^{n}P(i|poids,couleur = rouge)^2 $$
+$$ Gini(jaune) = 1 - \sum_{i=1}^{n}P(i|rouge)^2 =\\ 1 - 0^2 - 0^2-1^2-0^2 = 1 $$ $$ Gini(vert) = 1 - \sum_{i=1}^{n}P(i|rouge)^2 = 1 - 0.5^2 - 0^2-0.5^2-0^2 = 0.75 $$ 
+$$ Impurete\_moyenne = 2/5*Gini(rouge)+1/5*Gini(ver)+2/5*Gini(jaune) = 0.7 $$ 
+
+## Calcul pour nombre de pépins :
+
+- $$ Gini(nbpepin>4) = 1 - \sum_{i=1}^{n}P(i|nbpepin>4)^2 =\\ 1 -0^2- 0^2 - 1/3^2-1/3^2-1/3^2 = 0.66 $$
+
+- $$ Gini(nbpep\leq4) = 1 - \sum_{i=1}^{n}P(i|\leq4)^2 = \\1 -1/2^2- 1/2^2 - 0^2-0^2-0^2 = 0.75 $$ 
+
+- $$Gini(nb\_pep) = 2/3*0.66+1/3*0.75 = 0.69 $$
+
+------------
+
+2.  propriété qui minimise l'impureté de Gini pour séparation : $nb_pep \leq4$.
+
+3.  On crée deux sous-nœuds pour les fruits avec plus ou moins de 4 pépins
+
+4.  On répète les étapes 1 à 3 pour chaque sous-nœud en utilisant uniquement les données associées à ce sous-nœud. Exemple, $$ Gini(poids | nbpep\leq4) = 1 - \sum_{i=1}^{n}P(i|poids,nbpep\leq4)^2 $$
 
 5.  On répète jusqu'au critère de fin
+
+## Hyperparamètres arbre de decision
+
+-   Criterion : entropy ou gini
+
+-   splitter : best ou random
+
+-   Profondeur maximale : $Max\_depth$
+
+-   Nombre minimum d'éléments dans un noeud de feuille : $Min\_samples\_leaf$
+
+-   Nombre maximum de feuilles : $Max\_leaf\_nodes$
+
+-   Nombre minimum de split : $Min\_samples\_split$
+
+## Pruning arbre :
+
+-   Pré-élagage : règle d'arrêt évaluer à chaque nouveau nœud qui stoppe la construction de l'arbre -\> méthode de haut en bas
+
+-   Post-élagage : Construction de l'arbre dans son intégralité puis calcul de l'intérêt de chaque nœud en partant des nœud terminaux -\> méthode de bas en haut
+
+## Avantages inconvenients :
+
+::: columns
+::: {.column width="50%"}
+\- Compréhensible par un humain
+
+\- Pas besoin de normaliser les données
+
+\- Accepte les données quanti et quali
+:::
+
+::: {.column width="50%"}
+Pb de surrapprentissage
+
+Pb avec les classifications non équilibrés
+:::
+:::
+
+------------------------------------------------------------------------
+
+![](images/paste-AED8BB0A.png)
+
+## Implémentation R et Python
+
+-   r : rpart https://ouvrir.passages.cnrs.fr/arbre_decision/\_book/pratique.html
+
+-   python : sklearn.tree.DecisionTreeClassifier
+
+## Régression logistique
+
+<https://mlu-explain.github.io/logistic-regression/>
+
+-   Y binaire
+
+-   Modélisation de $$ P(Y=1) $$
+
+-   $P(y=1|x) = \frac{1}{1 + e^{-(b_0 + b_1x_1 + b_2x_2 + ... + b_nx_n)}}$
+
+-   Fonction sigmoïdale comprise entre 0 et 1
+
+![](images/paste-1E517856.png){width="360"}
+
+## Régression linéaire
+
+-   Y quantitative
+
+- $y = b_0 + b_1x_1 + b_2x_2 + ... + b_nx_n$
+
+## Regression pénalisée
+
+- Ridge : 
+$SSE_{ridge} = \sum_{i=1}^{n} (y_i - \beta^TX_i)^2 + \lambda \beta^T\beta$
+
+
+$\sum_{i=1}^n (y_i - \hat{y}i)^2 + \lambda \sum{j=1}^p |\beta_j|$
