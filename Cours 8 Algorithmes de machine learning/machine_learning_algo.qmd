@@ -19,4 +19,222 @@ execute:
   echo: true
 ---
 
+<!-- #\| output-location: column-fragment -->
 
+# Algorithmes de machine learning
+
+------------------------------------------------------------------------
+
+## **Linear Regression**
+
+-   Used for predicting a continuous value
+
+-   Example: predicting housing prices
+
+-   Formulas:
+
+-   $y = mx + b$ (where $y$ is the predicted value, $x$ is the input feature, $m$ is the slope, and $b$ is the y-intercept)
+
+-   Mean Squared Error (MSE) loss function: $\frac{1}{n}\sum_{i=1}^n(y_i - \hat{y_i})^2$
+
+------------------------------------------------------------------------
+
+## **Logistic Regression**
+
+-   Used for predicting a binary outcome (e.g. yes/no, pass/fail)
+
+-   Example: predicting whether a customer will make a purchase
+
+-   Formulas:
+
+-   sigmoid function: \$ \frac{1}{1 + e^{-z}}\$ (where $z$ is the input to the function)
+
+-   Cross-Entropy loss function: $-\sum_{i=1}^n y_i log(\hat{y_i}) + (1-y_i)log(1-\hat{y_i})$
+
+------------------------------------------------------------------------
+
+## **Decision Tree**
+
+-   Used for both classification and regression
+
+-   Example: predicting if a customer will churn
+
+-   Formulas:
+
+-   Information Gain: $IG(D_{p},f) = I(D_{p})-\sum_{j=1}^{m} \frac{N_j}{N_p}I(D_j)$
+
+-   Gini Index : $Gini(D)= 1-\sum_{i=1}^{c}p_i^2$
+
+------------------------------------------------------------------------
+
+## **Random Forest**
+
+-   Used for both classification and regression
+
+-   Example: predicting if a customer will default on a loan
+
+-   Formulas:
+
+-   Bootstrap Aggregating (Bagging)
+
+-   Random Subspace Method (RSM)
+
+------------------------------------------------------------------------
+
+## **Support Vector Machine (SVM)**
+
+-   Used for classification
+
+-   Example: detecting spam emails
+
+-   Formulas:
+
+-   Linear SVM : $y = wx + b$
+
+-   Non-Linear SVM : $y = \sum_{i=1}^{n} \alpha_i y_i K(x_i,x) + b$
+
+------------------------------------------------------------------------
+
+## **Neural Network**
+
+-   Used for both classification and regression, as well as unsupervised learning
+
+-   Example: image recognition
+
+-   Formulas:
+
+-   Feedforward: $a = f(Wx + b)$
+
+-   Backpropagation: $\frac{\partial L}{\partial w} = \frac{\partial L}{\partial a} * \frac{\partial a}{\partial w}$
+
+------------------------------------------------------------------------
+
+## **K-means Clustering**
+
+-   Used for unsupervised learning
+
+-   Example: customer segmentation
+
+-   Formulas:
+
+-   Distance: $d(x,y) = \sqrt{\sum_{i=1}^{n}(x_i-y_i)^2}$
+
+-   Centroid: $\mu_j = \frac{\sum_{i=1}^{n} 1_{c_i = j} x_i}{\sum_{i=1}^{n} 1_{c_i = j}}$
+
+------------------------------------------------------------------------
+
+## **Principal Component Analysis (PCA)**
+
+-   Used for unsupervised learning
+
+-   Example: dimensionality reduction
+
+------------------------------------------------------------------------
+
+## **XGBoost**
+
+-   XGBoost stands for "eXtreme Gradient Boosting"
+
+-   It is an ensemble learning method for classification and regression problems
+
+-   XGBoost is based on decision trees, but uses a more regularized model formalization to control over-fitting
+
+-   The regularization term is controlled by a parameter called "gamma"
+
+-   XGBoost algorithm can handle missing values and can be used for feature selection
+
+-   XGBoost is known for its high performance and is often used in Kaggle competitions
+
+------------------------------------------------------------------------
+
+## **Lasso**
+
+-   Lasso stands for "Least Absolute Shrinkage and Selection Operator"
+
+-   It is a linear regression model with L1 regularization
+
+-   L1 regularization encourages some of the coefficients to be exactly equal to zero
+
+-   Lasso can be used for feature selection, by setting the coefficients of less important features to zero
+
+-   Lasso can be written mathematically as: \$\\min\_{w} \\frac{1}{2n\_{samples}}\|\|X w-y\|\|*{2}\^{2} + \\alpha\|\|w\|\|*{1}\$
+
+------------------------------------------------------------------------
+
+# Arbre de decision
+
+<https://mlu-explain.github.io/decision-tree/>
+
+-   algorithme d'apprentissage supervisé
+
+-   tâches de classification et de régression
+
+-   nœud interne de l'arbre représente une caractéristique ou une propriété,
+
+-   chaque nœud feuille représente une étiquette de classe ou une valeur
+
+-   construction en divisant récursivement en fonction de la caractéristique qui donne les sous-ensembles les plus purs
+
+# Construction Arbre de decision
+
+-   en partant de la racine, qui représente l'ensemble des données d'entraînement
+
+-   on choisit la caractéristique qui divise le mieux les données en sous-ensembles purs selon le critère choisi
+
+-   jusqu'à ce qu'un certain critère d'arrêt soit atteint : profondeur max, nobre minnimum de données par noeud
+
+-   feuilles représentent les classes cibles
+
+-   Arbre utiliser pour classifier des nouvelles données
+
+## Critère de séparation des données:
+
+-   L'impureté de Gini : $$ Gini = 1 - \sum_{i=1}^{n}P(i|t)^2 $$
+
+où \$ P(i\|t) \$ : la probabilité d'appartenance à la classe \$ i \$ pour les données dans le nœud \$ t \$.
+
+L'impureté de Gini : probabilité qu'un élément choisi au hasard dans le nœud soit mal classé.
+
+-   L'entropie :
+
+$$ H(S) = -\sum_{i=1}^{n}P(i|S)log(P(i|S)) $$
+
+où \$ P(i\|S) \$ : la probabilité d'appartenance à la classe \$ i \$ pour les données dans l'ensemble \$ S \$. L'entropie : incertitude des données dans l'ensemble.
+
+## Exemple arbre de décision
+
+| couleur | poids (kg) | nombre de pépins | type      |
+|---------|------------|------------------|-----------|
+| rouge   | 0.5        | 5                | fraise    |
+| rouge   | 0.8        | 10               | framboise |
+| jaune   | 0.3        | 2                | cerise    |
+| vert    | 0.7        | 8                | pomme     |
+| vert    | 0.6        | 3                | poire     |
+
+## Exemple arbre de décision
+
+::: {style="font-size : 10px;"}
+| couleur | poids (kg) | nombre de pépins | type      |
+|---------|------------|------------------|-----------|
+| rouge   | 0.5        | 5                | fraise    |
+| rouge   | 0.8        | 10               | framboise |
+| jaune   | 0.3        | 2                | cerise    |
+| vert    | 0.7        | 8                | pomme     |
+| vert    | 0.6        | 3                | poire     |
+:::
+
+1.  On calcule l'entropie pour chaque propriété  pour chaque propriété (couleur, poids, nombre de pépins) en utilisant les données de l'ensemble. 
+
+$$ Gini(couleur) = 1 - \sum_{i=1}^{n}P(i|couleur)^2 = 1 - () - () $$ 
+
+$$ Gini(poids) = 1 - \sum_{i=1}^{n}P(i|poids)^2 $$ 
+
+$$ Gini(nombre\ de\ pépins) = 1 - \sum_{i=1}^{n}P(i|nombre\ de\ pépins)^2 $$
+
+2.  propriété qui minimise l'impureté de Gini pour séparation : "couleur".
+
+3.  On crée deux sous-nœuds pour les fruits rouges et les fruits non rouges.
+
+4.  On répète les étapes 1 à 3 pour chaque sous-nœud en utilisant uniquement les données associées à ce sous-nœud. Exemple, $$ Gini(poids | couleur = rouge) = 1 - \sum_{i=1}^{n}P(i|poids,couleur = rouge)^2 $$
+
+5.  On répète jusqu'au critère de fin
