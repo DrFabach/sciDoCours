@@ -2,6 +2,15 @@
 
 # Entrainer un algorithme ( glm et knn) pour predire hosp_exp_flg .
 
+vpn <- function(table){
+  (table[2,2] * table[1,1] - table[1,2] * table[2,1]) /
+    sqrt((table[2,2] + table[1,2]) * 
+           (table[2,2] + table[2,1]) * 
+           (table[1,1] + table[1,2]) * 
+           (table[1,1] + table[2,1]))
+}
+
+
 
 
 data_tot<- readRDS("data.rds")
