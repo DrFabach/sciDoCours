@@ -280,11 +280,11 @@ $$ Gini(nombre\ de\ pépins) = 1 - \sum_{i=1}^{n}P(i|nombre\ de\ pépins)^2 $$
 
 ## Calcul pour couleur :
 
-$$ Gini(rouge) = 1 - \sum_{i=1}^{n}P(i|rouge)^2 = 1 - 0^2 - 0^2-0.5^2-0.5^2 = 0.5 $$
+$$ Gini(rouge) = 1 - \sum_{i=1}^{n}P(i|rouge)^2 = 1 - 0^2 - 0^2-0.5^2-0.5^2 = 0.75 $$
 
-$$ Gini(jaune) = 1 - \sum_{i=1}^{n}P(i|rouge)^2 =\\ 1 - 0^2 - 0^2-1^2-0^2 = 1 $$
+$$ Gini(jaune) = 1 - \sum_{i=1}^{n}P(i|rouge)^2 =\\ 1 - 0^2 - 0^2-1^2-0^2 = 0 $$
 $$ Gini(vert) = 1 - \sum_{i=1}^{n}P(i|rouge)^2 = 1 - 0.5^2 - 0^2-0.5^2-0^2 = 0.75 $$
-$$ Impurete\_moyenne = 2/5*Gini(rouge)+1/5*Gini(ver)+2/5*Gini(jaune) = 0.7 $$
+$$ Impurete\_moyenne = 2/5*Gini(rouge)+1/5*Gini(ver)\\+2/5*Gini(jaune) = 0.6 $$
 
 ## Calcul pour nombre de pépins :
 

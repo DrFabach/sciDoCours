@@ -2,14 +2,6 @@
 
 # Entrainer un algorithme ( glm et knn) pour predire hosp_exp_flg .
 
-vpn <- function(table){
-  (table[2,2] * table[1,1] - table[1,2] * table[2,1]) /
-    sqrt((table[2,2] + table[1,2]) * 
-           (table[2,2] + table[2,1]) * 
-           (table[1,1] + table[1,2]) * 
-           (table[1,1] + table[2,1]))
-}
-
 
 
 
@@ -19,7 +11,7 @@ data_tot<- readRDS("data.rds")
 
 ### Chargement des données
 library(ggplot2)
-library(tidyverse)
+library(dplyr)
 library(class)
 
 set.seed(45)
@@ -44,53 +36,128 @@ data_test <- data_tot[-sample_train,]
 
 ### Test de l'entrainement des modèles sur un fold
 
-folds <- cut(seq(1,nrow( ___ )),breaks=10,labels=FALSE)
+folds <- cut(sample(seq(1,nrow( data_train ))),breaks=10,labels=FALSE)
 
 
 
-fit<- glm(_____ ~ ___ , data = data_train[!folds==1,], family = "binomial")
+fit<- glm(hosp_exp_flg ~ . , data = data_train[!folds==1,], family = "binomial")
 summary(fit)
 
 
-predictions<- predict(___,data_train[!folds==1,],type = "response")
+predictions<- predict(fit,data_train[!folds==1,],type = "response")
 
 ##Seuil à 0.5
-table(predictions>0.5, data_train$___[!folds==1] )
+table(predictions>0.5, data_train$hosp_exp_flg[!folds==1] )
 
-F1 = ___
-acc= ___
-rappel = ___
-precision = ___
-sensibilite = ___
-specificite =___
-vpn = ___
+indice_performance<- function(prediction, y_vrai ){
+  VP <- sum(prediction & y_vrai )
+  VN <- sum( (!prediction) & (!y_vrai) )
+  FP <- sum(prediction & !y_vrai)
+  FN <- sum( !prediction & y_vrai)
+  sensibilite_rappel = VP/(VP+ FN)
+  specificite = VN/(VN+FP)
+  preci_VPP = VP / (VP + FP)
+  VPN<- VN/(VN + FN)
+  Accuracy <- (VP + VN )/ (VP+VN+FP+FN)
+  F1 <- 2*(sensibilite_rappel*preci_VPP)/(sensibilite_rappel+preci_VPP)
 
+  return(list(performance=list(
+    sensibilite_rappel=sensibilite_rappel,
+    specificite=specificite,
+    preci_VPP=preci_VPP,
+    VPN=VPN,
+    Accuracy=Accuracy,
+    F1=F1
+  ),
+  table_contingence= table(prediction, y_vrai)))
+
+}
+indice_performance(predictions >0.5,data_train$hosp_exp_flg[!folds==1]==1)
 
 
 ## Cross validation du meilleur seuil glm  : 
-seuils<- ____
+seuils<- c(1:100)/100
 res_data<- data.frame()
-for(i in ___){
-  for( ___ in seuils){
-    fit_i<- glm(___ ~ ___ , data = data_train [___,], family ="binomial")
-    predictions_i<- predict(data_train [___,],type = "response")
-    
-    ___
-    tableau_contingence<- table( ____ > ___,  data_test$___)
-    ___parametres de performance____
+for(i in 1:10){
+  for( seuil_i in seuils){
+    fit_i<- glm(hosp_exp_flg ~ age +bmi +saps_first +age * bmi  , data = data_train [!folds==i,], family ="binomial")
+    predictions_i<- predict(fit_i,data_train [folds==i,],type = "response")
     
     res_data<-rbind(res_data,
-                    data.frame( ___parametres de performance_____)
+                    data.frame(fold= i ,seuil = seuil_i,
+                               indice_performance(predictions_i >seuil_i,data_train$hosp_exp_flg[folds==i]==1)$performance
+                    )
     )
   }
 }
 
+dim(res_data)
+res_mean<-res_data%>%group_by(seuil)%>%summarise_at(c("sensibilite_rappel",
+                                            "specificite",
+                                            "preci_VPP","Accuracy","F1"), function(x) median(x, na.rm = T))
+
+
+res_mean%>%arrange(desc(Accuracy))
+table( data_train$hosp_exp_flg)
+res_mean%>%ggplot(aes(x=seuil, y= F1))+geom_line()
 ## Affichage des meilleurs paramètres.
 
 
 ## Refaire la meme chose avec un knn et cv le nombre de voisin .
+res_data<- data.frame()
+voisins<-c(1:50)
+for(i in 1:10){
+  for( n_k in voisins){
+
+    pr<- knn(train = (data_train%>%select(-hosp_exp_flg))[!folds==i,], 
+             test = (data_train%>%select(-hosp_exp_flg)) [folds==i,],
+             cl = data_train[!folds==i, "hosp_exp_flg"],
+             k = n_k)
+
+    
+    res_data<-rbind(res_data,
+                    data.frame(fold= i ,n_k = n_k,
+                               indice_performance(pr==1,data_train$hosp_exp_flg[folds==i]==1)$performance
+                    )
+    )
+  }
+}
+
+res_data
+res_mean<-res_data%>%group_by(n_k)%>%summarise_at(c("sensibilite_rappel",
+                                                      "specificite",
+                                                      "preci_VPP","Accuracy","F1"), function(x) median(x, na.rm = T))
 
 
-## Bonus Essayer de standardiser les variables quantitatives pour voir si ça améliore les résultats
-https://www.statsoft.fr/concepts-statistiques/glossaire/c/centrer.html
+res_mean%>%arrange(desc(F1))
 
+data_train2<- data_train%>%mutate_if(is.numeric,scale)
+
+summary(data_train$age[!folds==1])
+
+res_data<- data.frame()
+voisins<-c(1:50)
+for(i in 1:10){
+  for( n_k in voisins){
+    
+    pr<- knn(train = (data_train2%>%select(-hosp_exp_flg))[!folds==i,], 
+             test = (data_train2%>%select(-hosp_exp_flg)) [folds==i,],
+             cl = data_train2[!folds==i, "hosp_exp_flg"],
+             k = n_k)
+    
+    
+    res_data<-rbind(res_data,
+                    data.frame(fold= i ,n_k = n_k,
+                               indice_performance(pr==1,data_train$hosp_exp_flg[folds==i]==1)$performance
+                    )
+    )
+  }
+}
+
+res_mean<-res_data%>%group_by(n_k)%>%summarise_at(c("sensibilite_rappel",
+                                                    "specificite",
+                                                    "preci_VPP","Accuracy","F1"), function(x) median(x, na.rm = T))
+
+
+res_mean%>%arrange(desc(F1))
+res_mean%>%ggplot(aes(x=n_k, y= F1))+geom_line()
