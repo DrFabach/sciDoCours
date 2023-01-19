@@ -1,0 +1,144 @@
+---
+title: "Td algos ml"
+output: html_notebook
+---
+
+# Librariy dans R
+
+- Historiquement caret
+-  Plus récemment tidymodel
+Lien : https://www.tidymodels.org/
+
+## Import de la base
+
+```{r}
+#install.packages("mlbench")
+library(mlbench)
+
+data("BreastCancer")
+BDD<- BreastCancer
+head(BDD)
+```
+
+# Exploration des données
+
+```{r}
+library(dplyr)
+summary(BDD)
+
+BDD<- BDD%>%mutate_if(is.ordered, as.numeric)
+str(BDD)
+
+BDD<- BDD[complete.cases(BDD),]
+
+dim(BDD)
+```
+
+# Séparer jeu de données
+
+```{r}
+#install.packages("tidymodels")
+library(tidymodels)
+
+sbj_split <- initial_split(BDD, prop = 0.8, Class )
+
+BDD_train<-training(sbj_split)
+BDD_test<-testing(sbj_split)
+
+dim(BDD_train)
+dim(BDD_test)
+```
+
+# Pipeline complet
+
+## Définir cv
+
+```{r}
+BDD_cv<-vfold_cv(BDD_train)
+```
+
+## Definition d'une "recipe"
+
+```{r}
+BDD_recipe <- recipe(Class~. ,BDD_train%>%select(-Id) )%>%
+  step_normalize(all_numeric())
+BDD_recipe
+```
+
+## Definition modèle
+
+```{r}
+rf_model<-
+  rand_forest()%>%
+  set_args(mtry=tune(),
+           trees = tune(),
+           min_n= tune())%>%
+  set_engine("ranger")%>%
+  set_mode("classification")
+
+lr_model<- 
+  logistic_reg()%>%
+  set_engine("glm")%>%
+  set_mode("classification")
+  
+
+```
+
+## Definition Workflow :
+
+```{r}
+rf_workflow <- workflow()%>%
+  add_recipe(BDD_recipe)%>%
+  add_model(rf_model)
+```
+
+
+## Tuner hyperparametres
+
+```{r}
+rf_grid <- expand.grid(mtry =c(3,5,8),
+                       trees = c(100,500,1000),
+                       min_n = c(1,10,20))
+
+rf_tune_results <- rf_workflow %>%
+  tune_grid(resamples = BDD_cv,
+            grid = rf_grid,
+            metrics = metric_set(f_meas, accuracy, roc_auc))
+```
+```{r}
+rf_tune_results%>%collect_metrics()
+```
+
+```{r}
+rf_tune_results%>%select_best("accuracy")
+```
+```{r}
+results<-rf_tune_results%>%collect_metrics()
+results%>%ggplot(aes(y=mean, x= trees, col = .metric))+geom_line()
+```
+
+## Finaliser le workflow
+
+```{r}
+mode_final_rf <- rf_workflow %>% finalize_workflow(rf_tune_results%>%select_best(metric="accuracy"))
+
+```
+## Test sur données de départ
+
+```{r}
+fit<-mode_final_rf%>%last_fit(sbj_split,metrics = metric_set(f_meas, accuracy))
+fit%>%collect_metrics()
+```
+```{r}
+
+model_fit<-fit(mode_final_rf,BDD_train)
+predict(model_fit,BDD)
+```
+
+```{r}
+
+
+
+
+```
+
