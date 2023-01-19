@@ -132,6 +132,7 @@ fit%>%collect_metrics()
 ```{r}
 
 model_fit<-fit(mode_final_rf,BDD_train)
+save(model_fit,"model.rds")
 predict(model_fit,BDD)
 ```
 
