@@ -96,9 +96,9 @@ rf_workflow <- workflow()%>%
 ## Tuner hyperparametres
 
 ```{r}
-rf_grid <- expand.grid(mtry =c(3,5,8),
-                       trees = c(100,500,1000),
-                       min_n = c(1,10,20))
+rf_grid <- expand.grid(mtry =c(3),
+                       trees = c(1,50,100,150,200,400,500,700,1000,1500,2000),
+                       min_n = c(10))
 
 rf_tune_results <- rf_workflow %>%
   tune_grid(resamples = BDD_cv,
