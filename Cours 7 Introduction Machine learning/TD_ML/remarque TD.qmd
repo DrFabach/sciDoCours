@@ -1,0 +1,138 @@
+---
+title: "Untitled"
+format: revealjs
+editor: visual
+---
+
+```{r}
+# install.packages("tidyverse")
+# install.packages("mlr3")
+# install.packages("mlr3learners")
+# install.packages("ranger")
+# install.packages("ggplot")
+library(tidyverse)
+library(mlr3)
+library(mlr3learners)
+library(ggplot2)
+library(ranger)
+library(ggplot2)
+data_tot<- readRDS("data.rds")
+```
+
+# "Soumia Ikhlef","Ghoudelbourk Imen"
+
+```{r}
+#convertion de la colonne "hosp_exp_flg" en un facteur
+data_tot$hosp_exp_flg<- as.factor(data_tot$hosp_exp_flg)
+#classification à partir de "data_tot", avec "hosp_exp_flg" comme cible
+task_obj <- TaskClassif$new("hospred", data_tot, target = "hosp_exp_flg")
+#Création d'un enseble d'entrainement et le reste c'est test
+data_train = sample(task_obj$row_ids, 0.8 * task_obj$nrow)
+data_test = setdiff(task_obj$row_ids, data_train)
+```
+
+```{r}
+#modèle de la Regression Logistique
+logistic_regression_learner <- lrn("classif.log_reg")
+modele_entraine<-logistic_regression_learner$train(task_obj, row_ids = data_train)
+print(modele_entraine)
+modele_entraine$model
+summary(modele_entraine$model)
+```
+
+```{r}
+# modèle de forêt aléatoire (Random Forest)
+model_rf <- lrn("classif.ranger", importance = "permutation")
+model_rf$train(task_obj, row_ids = data_train)
+
+  model_rf$importance()
+```
+
+```{r}
+# Tracer le graphe d'importance
+  importance = as.data.table(model_rf$importance(), keep.rownames = TRUE)
+  colnames(importance) = c("Feature", "Importance")
+  ggplot(data = importance, aes(x = reorder(Feature, Importance), y = Importance)) + 
+    geom_col() + coord_flip() + xlab("") + ggtitle("Importance des features")
+  
+```
+
+Ines CHERIFATI Ines BOUYOUCEF
+
+    Unnamed: 0              int64
+    aline_flg               int64
+    icu_los_day           float64
+    hospital_los_day        int64
+    age                   float64
+    gender_num              int64
+    weight_first          float64
+    bmi                   float64
+    sapsi_first             int64
+    sofa_first              int64
+    service_num             int64
+    day_icu_intime_num      int64
+    hour_icu_intime         int64
+    hosp_exp_flg            int64
+    icu_exp_flg             int64
+    day_28_flg              int64
+    mort_day_censored     float64
+    censor_flg              int64
+    sepsis_flg              int64
+    chf_flg                 int64
+    afib_flg                int64
+    renal_flg               int64
+    liver_flg               int64
+    copd_flg                int64
+    cad_flg                 int64
+    stroke_flg              int64
+    mal_flg                 int64
+    resp_flg                int64
+    map_1st               float64
+    hr_1st                  int64
+    temp_1st              float64
+    spo2_1st                int64
+    abg_count               int64
+    wbc_first             float64
+    hgb_first             float64
+    platelet_first          int64
+    sodium_first            int64
+    potassium_first       float64
+    tco2_first              int64
+    chloride_first          int64
+    bun_first               int64
+    creatinine_first      float64
+    po2_first               int64
+    pco2_first              int64
+    iv_day_1              float64
+
+![](images/image-867824047.png)
+
+    Matrice de confusion : 
+    [[144   4]
+     [  8  17]]
+                  precision    recall  f1-score   support
+
+               0       0.95      0.97      0.96       148
+               1       0.81      0.68      0.74        25
+
+        accuracy                           0.93       173
+       macro avg       0.88      0.83      0.85       173
+    weighted avg       0.93      0.93      0.93       173
+
+![](images/image-960449309.png)
+
+# We used both packages Caret (Mohammed Rafik YAHIA), Tidymodels (Adem BOUKHARI)
+
+# Next, we are going to pre-process the data, with `preProcess()` function. No one hot encoding or imputation needed, only normalization.
+
+rangeModel \<- preProcess(trainingSet, method = "range") trainingSetX \<- predict(rangeModel, newdata = trainingSet)
+
+# Nomalizing test set as well.
+
+rangeModel \<- preProcess(testSet, method = "range") testSetX \<- predict(rangeModel, newdata = testSet)
+
+          Reference
+
+Prediction Dead Alive Dead 221 35 Alive 0 3
+
+     # best model was random forest with 86.1% accuracy
