@@ -20,15 +20,11 @@ execute:
   echo: true
 ---
 
-#### A rajouter/ Modifier
-
-MEttre des exemples de jointures en sql Modifier la fin sur R
-
 # SQL
 
 ## Le langage SQL
 
--   Perme d'interroger un logiciel sgbdr (système de gestion de base de données)
+-   Permet d'interroger un logiciel sgbdr (système de gestion de base de données)
 
 -   SGBR : MySQL, Oracle Database, SQLite...
 
@@ -42,7 +38,7 @@ MEttre des exemples de jointures en sql Modifier la fin sur R
 | identifiant | masse | diamètre | couleur |
 |-------------|-------|----------|---------|
 | 1           | 151 g | 8.3 cm   | rouge   |
-| 3           | 169 g | 9.1 cm   | jaune   |
+| 2           | 169 g | 9.1 cm   | jaune   |
 | 3           | 134g  | 8.0 cm   | jaune   |
 
 ## Clefs
@@ -78,7 +74,7 @@ Pas de redondance pour le stockage
 
 ![](images/paste-4629A47E.png)
 
-## Table d'association
+## Table d\'association
 
 ![](images/paste-88521DFF.png)
 
@@ -152,7 +148,7 @@ Where identifiant =1 ;
 ::: columns
 ::: {.column width="50%" style="font-size: 0.50em"}
 | Opérateur                     | Teste si ...                                           |
-|-------------------------------|--------------------------------------------------------|
+|--------------------------|----------------------------------------------|
 | A = B                         | A égal à B                                             |
 | A \<\> B                      | A différent de B                                       |
 | A \> B et A \< B              | A supérieur à B / A inférieur à B                      |
@@ -174,11 +170,11 @@ Where identifiant =1 ;
 :::
 :::
 
-## Exercice
+## Exercice :
 
 ::: {style="font-size: 0.5em"}
 | **id_livre** | **titre**                    | **isbn_10** | **auteur**             | **prix** |
-|--------------|------------------------------|-------------|------------------------|----------|
+|-------------|-------------------|-------------|--------------|-------------|
 | 1            | Forteresse digitale          | 2709626306  | Dan Brown              | 20.5     |
 | 2            | La jeune fille et la nuit    | 2253237620  | Guillaume Musso        | 21.9     |
 | 3            | T'choupi se brosse les dents | 2092589547  | Thierry Courtin        | 5.7      |
@@ -188,11 +184,11 @@ Where identifiant =1 ;
 : Table: Livre
 :::
 
-## Exercice
+## Exercice :
 
 ::: {style="font-size: 0.5em"}
 | id_livre | titre                        | isbn_10    | auteur                 | prix |
-|----------|------------------------------|------------|------------------------|------|
+|-------------|--------------------|-------------|---------------|-------------|
 | 1        | Forteresse digitale          | 2709626306 | Dan Brown              | 20.5 |
 | 2        | La jeune fille et la nuit    | 2253237620 | Guillaume Musso        | 21.9 |
 | 3        | T'choupi se brosse les dents | 2092589547 | Thierry Courtin        | 5.7  |
@@ -215,7 +211,7 @@ FROM livres;
 
 ::: {style="font-size: 0.5em"}
 | id_livre | titre                        | isbn_10    | auteur                 | prix |
-|----------|------------------------------|------------|------------------------|------|
+|-------------|--------------------|-------------|---------------|-------------|
 | 1        | Forteresse digitale          | 2709626306 | Dan Brown              | 20.5 |
 | 2        | La jeune fille et la nuit    | 2253237620 | Guillaume Musso        | 21.9 |
 | 3        | T'choupi se brosse les dents | 2092589547 | Thierry Courtin        | 5.7  |
@@ -239,7 +235,7 @@ WHERE prix > 20;
 
 ::: {style="font-size: 0.5em"}
 | id_livre | titre                        | isbn_10    | auteur                 | prix |
-|----------|------------------------------|------------|------------------------|------|
+|-------------|--------------------|-------------|---------------|-------------|
 | 1        | Forteresse digitale          | 2709626306 | Dan Brown              | 20.5 |
 | 2        | La jeune fille et la nuit    | 2253237620 | Guillaume Musso        | 21.9 |
 | 3        | T'choupi se brosse les dents | 2092589547 | Thierry Courtin        | 5.7  |
@@ -283,7 +279,8 @@ WHERE pommes.nom_varieté =variete.libellé ;
 #
 SELECT * 
 FROM pommes 
-JOIN  variete ON pommes.nom_varieté =variete.libellé ;
+JOIN  variete ON 
+  pommes.nom_varieté =variete.libellé ;
 ```
 :::
 :::
@@ -407,7 +404,7 @@ LEFT JOIN etudiants tbl_et ON tbl_ex.id_etudiant = tbl_et.id_etudiant;
 :::
 :::
 
-Quelle requête utiliser pour afficher les résultats d'histoire des étudiants qui ont un resultats ?
+Quelle requête utiliser pour afficher les résultats d'histoire des étudiants qui ont u moins un resultats ?
 
 . . .
 
@@ -516,7 +513,9 @@ str(BDD)
 
 ## Analyser les types de vriables
 
-Différents types de variables : - Quantitatives
+Différents types de variables : 
+
+- Quantitatives
 
 -   Qualitatives
 
@@ -819,14 +818,7 @@ data2%>%mutate_at("Age",
                   function(x) ifelse(is.na(x),0,x))
 ```
 
-## extraction de termes
-
-``` r
-library(stringr)
-data1$fibromyalgie <-str_detect(data1$var1,"fibromyalgie")
-```
-
-## Joindre base de données
+## Joindre des bases de données
 
 ``` r
 basefinal<-base1%>%left_join(base2,by =c("id" = "id"))
@@ -835,9 +827,161 @@ basefinal<-base1%>%right_join(base2,by =c("id" = "id"))
 basefinal<-base1%>%outer_join(base2,by =c("id" = "id"))
 ```
 
+## Transformation long/wide
+
+- format d'utilisation des données : une ligne par sujet
+
+- Certaine étude : plusieurs ligne par sujet 
+
+------
+
+::: columns
+::: {.column width="40%" style="font-size: 0.4em"}
+---------------------------------------------------
+ id_patient   glucose_t0   glucose_t1   glucose_t2 
+------------ ------------ ------------ ------------
+     1           0.79         0.81         0.89    
+
+     2           1.24          1           0.87    
+
+     3           0.72         0.87         1.02    
+
+     4           0.99         0.82         1.3     
+
+     5           0.86         1.08         0.68    
+---------------------------------------------------
+
+: Table : wide
+:::
+
+::: {.column width="60%" style="font-size: 0.4em"}
+
+-----------------------------------
+ id_patient     temps      glucose 
+------------ ------------ ---------
+     1        glucose_t0    0.79   
+
+     1        glucose_t1    0.81   
+
+     1        glucose_t2    0.89   
+
+     2        glucose_t0    1.24   
+
+     2        glucose_t1      1    
+
+     2        glucose_t2    0.87   
+
+     3        glucose_t0    0.72   
+
+     3        glucose_t1    0.87   
+
+     3        glucose_t2    1.02   
+
+     4        glucose_t0    0.99   
+
+     4        glucose_t1    0.82   
+
+     4        glucose_t2     1.3   
+
+     5        glucose_t0    0.86   
+
+     5        glucose_t1    1.08   
+
+     5        glucose_t2    0.68   
+-----------------------------------
+
+: Table : long
+:::
+:::
+
+
+``` r
+pivot_longer(BDD,cols = -id_patient,values_to = "glucose", names_to="temps")
+```
+
+
+------
+
+::: columns
+::: {.column width="40%" style="font-size: 0.4em"}
+-----------------------------------
+ id_patient     temps      glucose 
+------------ ------------ ---------
+     1        glucose_t0    0.79   
+
+     1        glucose_t1    0.81   
+
+     1        glucose_t2    0.89   
+
+     2        glucose_t0    1.24   
+
+     2        glucose_t1      1    
+
+     2        glucose_t2    0.87   
+
+     3        glucose_t0    0.72   
+
+     3        glucose_t1    0.87   
+
+     3        glucose_t2    1.02   
+
+     4        glucose_t0    0.99   
+
+     4        glucose_t1    0.82   
+
+     4        glucose_t2     1.3   
+
+     5        glucose_t0    0.86   
+
+     5        glucose_t1    1.08   
+
+     5        glucose_t2    0.68   
+-----------------------------------
+
+: Table : long
+:::
+
+::: {.column width="60%" style="font-size: 0.4em"}
+
+---------------------------------------------------
+ id_patient   glucose_t0   glucose_t1   glucose_t2 
+------------ ------------ ------------ ------------
+     1           0.79         0.81         0.89    
+
+     2           1.24          1           0.87    
+
+     3           0.72         0.87         1.02    
+
+     4           0.99         0.82         1.3     
+
+     5           0.86         1.08         0.68    
+---------------------------------------------------
+
+: Table : wide
+:::
+:::
+
+
+``` r
+pivot_longer(BDD,cols = -id_patient,values_to = "glucose", names_to="temps")
+```
+
+
 ## Ecrire la base de données finales
 
 ``` r
-
 write.csv2(basefinal,"C:/Users/enseignant/Desktop/basefinal.csv")
 ```
+
+
+# Création d'information
+
+## extraction de termes
+
+- Pour les données textuelles, pas d'utilisation tel quel possible
+
+``` r
+library(stringr)
+data1$fibromyalgie <-str_detect(data1$var1,"fibromyalgie")
+```
+
