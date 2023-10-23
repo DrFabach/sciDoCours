@@ -19,7 +19,9 @@ library(ggplot2)
 data_tot<- readRDS("data.rds")
 ```
 
-# "Soumia Ikhlef","Ghoudelbourk Imen"
+# 
+
+"Soumia Ikhlef","Ghoudelbourk Imen"
 
 ```{r}
 #convertion de la colonne "hosp_exp_flg" en un facteur
@@ -52,7 +54,7 @@ model_rf$train(task_obj, row_ids = data_train)
 # Tracer le graphe d'importance
   importance = as.data.table(model_rf$importance(), keep.rownames = TRUE)
   colnames(importance) = c("Feature", "Importance")
-  ggplot(data = importance, aes(x = reorder(Feature, Importance), y = Importance)) + 
+  ggplot(data = importance%>%arrange(desc(Importance))%>%head, aes(x = reorder(Feature, Importance), y = Importance)) + 
     geom_col() + coord_flip() + xlab("") + ggtitle("Importance des features")
   
 ```
@@ -125,14 +127,18 @@ Ines CHERIFATI Ines BOUYOUCEF
 
 # Next, we are going to pre-process the data, with `preProcess()` function. No one hot encoding or imputation needed, only normalization.
 
-rangeModel \<- preProcess(trainingSet, method = "range") trainingSetX \<- predict(rangeModel, newdata = trainingSet)
+rangeModel \<- preProcess(trainingSet, method = "range")
 
-# Nomalizing test set as well.
+trainingSetX \<- predict(rangeModel, newdata = trainingSet)
 
-rangeModel \<- preProcess(testSet, method = "range") testSetX \<- predict(rangeModel, newdata = testSet)
+testSetX \<- predict(rangeModel, newdata = testSet)
 
           Reference
 
-Prediction Dead Alive Dead 221 35 Alive 0 3
+| Prediction | Dead | Alive |
+|------------|------|-------|
+| Dead       | 210  | 10    |
+| Alive      | 11   | 25    |
+| Accuracy   | 86%  |       |
 
      # best model was random forest with 86.1% accuracy
