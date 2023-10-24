@@ -1,7 +1,0 @@
-Par 2 ou 3
-
-Mettre en forme le tableau de données data1 et enregistrer une base finale.
-
-Envoier un script par groupe à thibaut.fabacher@chru-strasbourg.fr avant mardi prochain 18h.
-
-Préparer 3 diapo par groupe à présenter en 5min max en selectionnant 3 parties précises de votre démarche.
