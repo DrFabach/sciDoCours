@@ -956,3 +956,7 @@ library(stringr)
 data1$fibromyalgie <-str_detect(data1$var1,"fibromyalgie")
 ```
 
+## Exercice
+
+Utiliser les bases de données "pbcseq" et "pbc"
+Transformer la table pbcseq au format long et réaliser une jointure entre les tables.
