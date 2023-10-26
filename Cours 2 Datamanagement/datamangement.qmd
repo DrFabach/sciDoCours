@@ -19,6 +19,9 @@ self-contained: true
 execute:
   echo: true
 ---
+```{r}
+## pour l'année prochaine rajouter code python.
+```
 
 # SQL
 
@@ -776,6 +779,14 @@ as.factor(c(2,3,4))
 as.factor(c(4,3,2))%>%as.character()%>%as.numeric()
 ```
 
+-----------
+
+```{r}
+as.Date("01-01-2022",format="%d-%m-%Y")
+
+as.Date("0101-22",format="%d%m-%y")
+```
+
 ## Changer le type de données :
 
 ### base R
@@ -960,3 +971,21 @@ data1$fibromyalgie <-str_detect(data1$var1,"fibromyalgie")
 
 Utiliser les bases de données "pbcseq" et "pbc"
 Transformer la table pbcseq au format long et réaliser une jointure entre les tables.
+
+## Réponse
+
+```{r}
+pbcseq%>%left_join(pbc, by = ("id"="id"))
+
+# Mettre les informations de pbc dans pbcseq
+#pbc%>%left_join(pbcseq, by = ("id"="id"))%>%dim
+pbc%>%dim
+
+pbcseq_wide =pbcseq%>%pivot_wider(id_cols = id,names_from = day,
+                     values_from = c(ascites,ast))
+
+pbc%>%left_join(pbcseq_wide)%>%dim
+
+
+```
+
