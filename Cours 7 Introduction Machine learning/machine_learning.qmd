@@ -22,7 +22,7 @@ execute:
 # Techniques prédictives/Apprentissage machine
 
 ```{r echo = F, include = F}
-rmarkdown::render("Cours 7 Machine learning/machine_learning.qmd","pdf_document")
+# rmarkdown::render("Cours 7 Machine learning/machine_learning.qmd","pdf_document")
 ```
 
 ------------------------------------------------------------------------
@@ -177,7 +177,9 @@ Les paramètres du modèle sont mis à jour en utilisant une fonction de coût e
 
 ------------------------------------------------------------------------
 
-    ## échelle similaire aux vraies valeurs de sortie
+```         
+## échelle similaire aux vraies valeurs de sortie
+```
 
 4.  Erreur de classification
 

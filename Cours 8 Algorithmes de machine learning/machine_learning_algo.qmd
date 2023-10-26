@@ -33,11 +33,9 @@ execute:
 
 -   Formulas:
 
--   $y = mx + b$ (where $y$ is the predicted value, $x$ is the input
-    feature, $m$ is the slope, and $b$ is the y-intercept)
+-   $y = mx + b$ (where $y$ is the predicted value, $x$ is the input feature, $m$ is the slope, and $b$ is the y-intercept)
 
--   Mean Squared Error (MSE) loss function:
-    $\frac{1}{n}\sum_{i=1}^n(y_i - \hat{y_i})^2$
+-   Mean Squared Error (MSE) loss function: $\frac{1}{n}\sum_{i=1}^n(y_i - \hat{y_i})^2$
 
 ------------------------------------------------------------------------
 
@@ -49,11 +47,9 @@ execute:
 
 -   Formulas:
 
--   sigmoid function: \$ \frac{1}{1 + e^{-z}}\$ (where $z$ is the input
-    to the function)
+-   sigmoid function: \$ \frac{1}{1 + e^{-z}}\$ (where $z$ is the input to the function)
 
--   Cross-Entropy loss function:
-    $-\sum_{i=1}^n y_i log(\hat{y_i}) + (1-y_i)log(1-\hat{y_i})$
+-   Cross-Entropy loss function: $-\sum_{i=1}^n y_i log(\hat{y_i}) + (1-y_i)log(1-\hat{y_i})$
 
 ------------------------------------------------------------------------
 
@@ -65,8 +61,7 @@ execute:
 
 -   Formulas:
 
--   Information Gain:
-    $IG(D_{p},f) = I(D_{p})-\sum_{j=1}^{m} \frac{N_j}{N_p}I(D_j)$
+-   Information Gain: $IG(D_{p},f) = I(D_{p})-\sum_{j=1}^{m} \frac{N_j}{N_p}I(D_j)$
 
 -   Gini Index : $Gini(D)= 1-\sum_{i=1}^{c}p_i^2$
 
@@ -102,8 +97,7 @@ execute:
 
 ## **Neural Network**
 
--   Used for both classification and regression, as well as unsupervised
-    learning
+-   Used for both classification and regression, as well as unsupervised learning
 
 -   Example: image recognition
 
@@ -111,8 +105,7 @@ execute:
 
 -   Feedforward: $a = f(Wx + b)$
 
--   Backpropagation:
-    $\frac{\partial L}{\partial w} = \frac{\partial L}{\partial a} * \frac{\partial a}{\partial w}$
+-   Backpropagation: $\frac{\partial L}{\partial w} = \frac{\partial L}{\partial a} * \frac{\partial a}{\partial w}$
 
 ------------------------------------------------------------------------
 
@@ -126,8 +119,7 @@ execute:
 
 -   Distance: $d(x,y) = \sqrt{\sum_{i=1}^{n}(x_i-y_i)^2}$
 
--   Centroid:
-    $\mu_j = \frac{\sum_{i=1}^{n} 1_{c_i = j} x_i}{\sum_{i=1}^{n} 1_{c_i = j}}$
+-   Centroid: $\mu_j = \frac{\sum_{i=1}^{n} 1_{c_i = j} x_i}{\sum_{i=1}^{n} 1_{c_i = j}}$
 
 ------------------------------------------------------------------------
 
@@ -143,13 +135,11 @@ execute:
 
 -   XGBoost stands for "eXtreme Gradient Boosting"
 
--   It is an ensemble learning method for classification and regression
-    problems
+-   It is an ensemble learning method for classification and regression problems
 
 -   XGBoost is based on decision trees
 
--   XGBoost algorithm can handle missing values and can be used for
-    feature selection
+-   XGBoost algorithm can handle missing values and can be used for feature selection
 
 ------------------------------------------------------------------------
 
@@ -161,58 +151,7 @@ execute:
 
 # Arbre de decision
 
-<https://mlu-explain.github.io/decision-tree/>
-
--   algorithme d'apprentissage supervisé
-
--   tâches de classification et de régression
-
--   nœud interne de l'arbre représente une caractéristique ou une
-    propriété,
-
--   chaque nœud feuille représente une étiquette de classe ou une valeur
-
--   construction en divisant récursivement en fonction de la
-    caractéristique qui donne les sous-ensembles les plus purs
-
-# Construction Arbre de decision
-
--   en partant de la racine, qui représente l'ensemble des données
-    d'entraînement
-
--   on choisit la caractéristique qui divise le mieux les données en
-    sous-ensembles purs selon le critère choisi
-
--   jusqu'à ce qu'un certain critère d'arrêt soit atteint : profondeur
-    max, nobre minnimum de données par noeud
-
--   feuilles représentent les classes cibles
-
--   Arbre utiliser pour classifier des nouvelles données
-
-## Critère de séparation des données:
-
--   L'impureté de Gini : $$ Gini = 1 - \sum_{i=1}^{n}P(i|t)^2 $$
-
--   $P(i|t)$ : la probabilité d'appartenance à la classe $i$ pour les
-    données dans le nœud $t$.
-
-L'impureté de Gini : probabilité qu'un élément choisi au hasard dans le
-nœud soit mal classé.
-
-## Critère de séparation des données:
-
--   L'entropie :
-
-$$ H(S) = -\sum_{i=1}^{n}P(i|S)log(P(i|S)) $$
-
--   $P(i|S)$ : la probabilité d'appartenance à la classe $i$ pour les
-    données dans l'ensemble $S$. L'entropie : incertitude des données
-    dans l'ensemble.
-
-------------------------------------------------------------------------
-
-![](images/image-2072109824.png)
+![](images/c573e3d2-d2a4-4183-a2b1-0630d2c1ecdd_720x405-2.gif)
 
 ## Exemple visuel
 
@@ -231,6 +170,52 @@ $$ H(S) = -\sum_{i=1}^{n}P(i|S)log(P(i|S)) $$
 ![](images/paste-DFD335AC.png)
 
 ------------------------------------------------------------------------
+
+# Arbre de decision
+
+<https://mlu-explain.github.io/decision-tree/>
+
+-   algorithme d'apprentissage supervisé
+
+-   tâches de classification et de régression
+
+-   nœud interne de l'arbre représente une caractéristique ou une propriété,
+
+-   chaque nœud feuille représente une étiquette de classe ou une valeur
+
+-   construction en divisant récursivement en fonction de la caractéristique qui donne les sous-ensembles les plus purs
+
+# Construction Arbre de decision
+
+-   en partant de la racine, qui représente l'ensemble des données d'entraînement
+
+-   on choisit la caractéristique qui divise le mieux les données en sous-ensembles purs selon le critère choisi
+
+-   jusqu'à ce qu'un certain critère d'arrêt soit atteint : profondeur max, nobre minnimum de données par noeud
+
+-   feuilles représentent les classes cibles
+
+-   Arbre utiliser pour classifier des nouvelles données
+
+## Critère de séparation des données:
+
+-   L'impureté de Gini : $$ Gini = 1 - \sum_{i=1}^{n}P(i|t)^2 $$
+
+-   $P(i|t)$ : la probabilité d'appartenance à la classe $i$ pour les données dans le nœud $t$.
+
+L'impureté de Gini : probabilité qu'un élément choisi au hasard dans le nœud soit mal classé.
+
+## Critère de séparation des données:
+
+-   L'entropie :
+
+$$ H(S) = -\sum_{i=1}^{n}P(i|S)log(P(i|S)) $$
+
+-   $P(i|S)$ : la probabilité d'appartenance à la classe $i$ pour les données dans l'ensemble $S$. L'entropie : incertitude des données dans l'ensemble.
+
+------------------------------------------------------------------------
+
+![](images/image-2072109824.png)
 
 ## Exemple arbre de décision
 
@@ -254,9 +239,7 @@ $$ H(S) = -\sum_{i=1}^{n}P(i|S)log(P(i|S)) $$
 | vert    | 0.6        | 3                | poire     |
 :::
 
-1.  On calcule l'entropie pour chaque propriété pour chaque propriété
-    (couleur, poids, nombre de pépins) en utilisant les données de
-    l'ensemble.
+1.  On calcule l'entropie pour chaque propriété pour chaque propriété (couleur, poids, nombre de pépins) en utilisant les données de l'ensemble.
 
 ------------------------------------------------------------------------
 
@@ -282,9 +265,7 @@ $$ Gini(nombre\ de\ pépins) = 1 - \sum_{i=1}^{n}P(i|nombre\ de\ pépins)^2 $$
 
 $$ Gini(rouge) = 1 - \sum_{i=1}^{n}P(i|rouge)^2 = 1 - 0^2 - 0^2-0.5^2-0.5^2 = 0.75 $$
 
-$$ Gini(jaune) = 1 - \sum_{i=1}^{n}P(i|rouge)^2 =\\ 1 - 0^2 - 0^2-1^2-0^2 = 0 $$
-$$ Gini(vert) = 1 - \sum_{i=1}^{n}P(i|rouge)^2 = 1 - 0.5^2 - 0^2-0.5^2-0^2 = 0.75 $$
-$$ Impurete\_moyenne = 2/5*Gini(rouge)+1/5*Gini(ver)\\+2/5*Gini(jaune) = 0.6 $$
+$$ Gini(jaune) = 1 - \sum_{i=1}^{n}P(i|rouge)^2 =\\ 1 - 0^2 - 0^2-1^2-0^2 = 0 $$ $$ Gini(vert) = 1 - \sum_{i=1}^{n}P(i|rouge)^2 = 1 - 0.5^2 - 0^2-0.5^2-0^2 = 0.75 $$ $$ Impurete\_moyenne = 2/5*Gini(rouge)+1/5*Gini(ver)\\+2/5*Gini(jaune) = 0.6 $$
 
 ## Calcul pour nombre de pépins :
 
@@ -296,15 +277,11 @@ $$ Impurete\_moyenne = 2/5*Gini(rouge)+1/5*Gini(ver)\\+2/5*Gini(jaune) = 0.6 $$
 
 ------------------------------------------------------------------------
 
-2.  propriété qui minimise l'impureté de Gini pour séparation :
-    $nb_pep \leq4$.
+2.  propriété qui minimise l'impureté de Gini pour séparation : $nb_pep \leq4$.
 
-3.  On crée deux sous-nœuds pour les fruits avec plus ou moins de 4
-    pépins
+3.  On crée deux sous-nœuds pour les fruits avec plus ou moins de 4 pépins
 
-4.  On répète les étapes 1 à 3 pour chaque sous-nœud en utilisant
-    uniquement les données associées à ce sous-nœud. Exemple,
-    $$ Gini(poids | nbpep\leq4) = 1 - \sum_{i=1}^{n}P(i|poids,nbpep\leq4)^2 $$
+4.  On répète les étapes 1 à 3 pour chaque sous-nœud en utilisant uniquement les données associées à ce sous-nœud. Exemple, $$ Gini(poids | nbpep\leq4) = 1 - \sum_{i=1}^{n}P(i|poids,nbpep\leq4)^2 $$
 
 5.  On répète jusqu'au critère de fin
 
@@ -316,8 +293,7 @@ $$ Impurete\_moyenne = 2/5*Gini(rouge)+1/5*Gini(ver)\\+2/5*Gini(jaune) = 0.6 $$
 
 -   Profondeur maximale : $Max\_depth$
 
--   Nombre minimum d'éléments dans un noeud de feuille :
-    $Min\_samples\_leaf$
+-   Nombre minimum d'éléments dans un noeud de feuille : $Min\_samples\_leaf$
 
 -   Nombre maximum de feuilles : $Max\_leaf\_nodes$
 
@@ -325,12 +301,9 @@ $$ Impurete\_moyenne = 2/5*Gini(rouge)+1/5*Gini(ver)\\+2/5*Gini(jaune) = 0.6 $$
 
 ## Pruning arbre :
 
--   Pré-élagage : règle d'arrêt évaluer à chaque nouveau nœud qui stoppe
-    la construction de l'arbre -\> méthode de haut en bas
+-   Pré-élagage : règle d'arrêt évaluer à chaque nouveau nœud qui stoppe la construction de l'arbre -\> méthode de haut en bas
 
--   Post-élagage : Construction de l'arbre dans son intégralité puis
-    calcul de l'intérêt de chaque nœud en partant des nœud terminaux -\>
-    méthode de bas en haut
+-   Post-élagage : Construction de l'arbre dans son intégralité puis calcul de l'intérêt de chaque nœud en partant des nœud terminaux -\> méthode de bas en haut
 
 ## Avantages inconvenients :
 
@@ -356,17 +329,17 @@ Pb avec les classifications non équilibrés
 
 ## GIF
 
-![Interpretability and Random Forests \| by Tom Grigg \| Towards Data
-Science](https://miro.medium.com/max/1200/1*RI9_LbQ5A9D1izBaU1ypzQ.gif){alt="Interpretability and Random Forests | by Tom Grigg | Towards Data Science"}
+![Interpretability and Random Forests \| by Tom Grigg \| Towards Data Science](https://miro.medium.com/max/1200/1*RI9_LbQ5A9D1izBaU1ypzQ.gif){alt="Interpretability and Random Forests | by Tom Grigg | Towards Data Science"}
 
 ## Implémentation R et Python
 
--   r : rpart
-    https://ouvrir.passages.cnrs.fr/arbre_decision/\_book/pratique.html
+-   r : rpart https://ouvrir.passages.cnrs.fr/arbre_decision/\_book/pratique.html
 
 -   python : sklearn.tree.DecisionTreeClassifier
 
 ## Régression logistique
+
+![](images/1%20MtuQBTW0-XbjA2RrP2z3Kw.gif)
 
 <https://mlu-explain.github.io/logistic-regression/>
 
@@ -386,13 +359,11 @@ Science](https://miro.medium.com/max/1200/1*RI9_LbQ5A9D1izBaU1ypzQ.gif){alt="Int
 
 -   $y = b_0 + b_1x_1 + b_2x_2 + ... + b_nx_n$
 
--   possibilité d'effet non linéaire :
-    $y = b_0 + b_1x_1^2 + b_2x_2 + ... + b_nx_n$
+-   possibilité d'effet non linéaire : $y = b_0 + b_1x_1^2 + b_2x_2 + ... + b_nx_n$
 
 ## Regression pénalisée
 
--   Contraindre la valeur des estimateurs des moindre carrés pour
-    réduire la variance
+-   Contraindre la valeur des estimateurs des moindre carrés pour réduire la variance
 
 -   $\beta = argmin_{\beta} { \sum_{i=1}^{n} (y_i - \beta_0 - \sum_{j=1}^{p}x_{ij}\beta_j)^2 + contrainte}$
 
@@ -452,12 +423,15 @@ $\beta = argmin_{\beta} { \sum_{i=1}^{n} (y_i - \beta_0 - \sum_{j=1}^{p}x_{ij}\b
 
 -   lambda (force de la pénalisation)
 
+## GIF
+
+![](images/1%20AVtJDtXoBvhTSMtqzoYIvQ-1.gif)
+
 ## Implémentation R et Python
 
 -   r : glmnet
 
--   python : sklearn.linear_model
-    <https://scikit-learn.org/stable/modules/linear_model.html>
+-   python : sklearn.linear_model <https://scikit-learn.org/stable/modules/linear_model.html>
 
 # SVM (Machine à vecteur de support)
 
@@ -465,8 +439,7 @@ $\beta = argmin_{\beta} { \sum_{i=1}^{n} (y_i - \beta_0 - \sum_{j=1}^{p}x_{ij}\b
 
 -   Séparer l'espace $X$ par un hyperplan
 
--   Classe positive :
-    $g(x) = \begin{cases} 1 & \text{si } w^Tx + b > 0 \\ -1 & \text{sinon} \end{cases}$
+-   Classe positive : $g(x) = \begin{cases} 1 & \text{si } w^Tx + b > 0 \\ -1 & \text{sinon} \end{cases}$
 
 -   définir le meilleur hyperplan par algorithme d'optimisation
 
@@ -482,8 +455,7 @@ $\beta = argmin_{\beta} { \sum_{i=1}^{n} (y_i - \beta_0 - \sum_{j=1}^{p}x_{ij}\b
 
 -   r : e1071
 
--   python : sklearn.svm
-    https://scikit-learn.org/stable/modules/svm.html
+-   python : sklearn.svm https://scikit-learn.org/stable/modules/svm.html
 
 ```{r}
 library(e1071)
@@ -501,6 +473,10 @@ dat = data.frame(x, y = as.factor(y))
 svmfit = svm(y ~ ., data = dat, kernel = "linear", cost = 10, scale = FALSE)
 plot(svmfit, dat)
 ```
+
+## GIF
+
+![](images/l6pscz39.bmp)
 
 ## SVM : Cas non séparable
 
@@ -534,24 +510,19 @@ $$ K(\textbf{x}_i, \textbf{x}_j) = \phi(\textbf{x}_i)^T \phi(\textbf{x}_j) $$
 
 -   
 
-          Noyau linéaire:
+    ```         
+      Noyau linéaire:
+    ```
 
     $$ K(\textbf{x}_i, \textbf{x}_j) = \textbf{x}_i^T \textbf{x}_j $$
 
--   Noyau polynomial:
-    $$ K(\textbf{x}_i, \textbf{x}_j) = (\textbf{x}_i^T \textbf{x}_j + c)^d $$
-    où $c$ est des hyperparamètres de décalage et $d$ est le degré du
-    polynôme.
+-   Noyau polynomial: $$ K(\textbf{x}_i, \textbf{x}_j) = (\textbf{x}_i^T \textbf{x}_j + c)^d $$ où $c$ est des hyperparamètres de décalage et $d$ est le degré du polynôme.
 
 ------------------------------------------------------------------------
 
--   Noyau radial (ou gaussien):
-    $$ K(\textbf{x}_i, \textbf{x}_j) = \exp\left(-\frac{|\textbf{x}_i - \textbf{x}_j|^2}{2\sigma^2}\right) $$
-    où $\sigma$ est un des hyperparamètres appelé la largeur de bande.
+-   Noyau radial (ou gaussien): $$ K(\textbf{x}_i, \textbf{x}_j) = \exp\left(-\frac{|\textbf{x}_i - \textbf{x}_j|^2}{2\sigma^2}\right) $$ où $\sigma$ est un des hyperparamètres appelé la largeur de bande.
 
--   Noyau sigmoid:
-    $$ K(\textbf{x}_i, \textbf{x}_j) = \tanh(\alpha\textbf{x}_i^T \textbf{x}_j + r) $$
-    où $\alpha$ et $r$ sont des hyperparamètres.
+-   Noyau sigmoid: $$ K(\textbf{x}_i, \textbf{x}_j) = \tanh(\alpha\textbf{x}_i^T \textbf{x}_j + r) $$ où $\alpha$ et $r$ sont des hyperparamètres.
 
 ## Hyperparamètre
 
@@ -559,17 +530,19 @@ $$ K(\textbf{x}_i, \textbf{x}_j) = \phi(\textbf{x}_i)^T \phi(\textbf{x}_j) $$
 -   noyau
 -   paramètres des noyaux
 
+## GIF
+
+![](images/1%20XhXJldwvZ9IpGNts41Mefw.gif)
+
 # Bagging et forêts aléatoires
 
 -   Bagging : vient de la contraction de Bootstrap Aggregating
 
--   Idée : plutôt que de constuire un seul estimateur, en construire un
-    grand nombre (sur des échantillons bootstrap) et les agréger.
+-   Idée : plutôt que de constuire un seul estimateur, en construire un grand nombre (sur des échantillons bootstrap) et les agréger.
 
 -   Ajuster le même algo sur les mêmes données : sans interêt
 
--   Ajuster le même algorithme sur des échantillons disjoints : peu
-    généralisable
+-   Ajuster le même algorithme sur des échantillons disjoints : peu généralisable
 
 -   Ajuster bcp d'algorithme différents : compliqué
 
@@ -594,8 +567,7 @@ $$ K(\textbf{x}_i, \textbf{x}_j) = \phi(\textbf{x}_i)^T \phi(\textbf{x}_j) $$
 
 ## Forêt aléatoire
 
-Rappel sur la profondeur des arbres : - petite : biais $\searrow$,
-variance $\nearrow$ - grande : biais $\nearrow$, variance $\searrow$
+Rappel sur la profondeur des arbres : - petite : biais $\searrow$, variance $\nearrow$ - grande : biais $\nearrow$, variance $\searrow$
 
 ## Forêt aléatoire
 
@@ -609,8 +581,7 @@ https://www.stat.berkeley.edu/\~breiman/RandomForests/
 
 ## Coupure aléatoire
 
--   Idée : choisir la "meilleure" variable dans un ensemble réduit de
-    variable
+-   Idée : choisir la "meilleure" variable dans un ensemble réduit de variable
 
 -   $mtry$ variable choisies alétoirement
 
@@ -653,20 +624,17 @@ $\hat{y}(x) = \text{argmax}_{c\in C} \sum_{i=1}^{N}[tree_i(x) = c]$
 
 ## OOB
 
-Estimation possible de l'erreur sur les sujets non sélectionnés par le
-boosting
+Estimation possible de l'erreur sur les sujets non sélectionnés par le boosting
 
 ## Boosting
 
-• Le terme Boosting s'applique à des méthodes générales permettant de
-produire des décisions précises à partir de règles faibles (weaklearner)
+• Le terme Boosting s'applique à des méthodes générales permettant de produire des décisions précises à partir de règles faibles (weaklearner)
 
 ![](images/image-660090245.png)
 
 # Kmean clustering
 
-![![machine
-learning](https://i0.wp.com/datascientest.com/wp-content/uploads/2020/05/kmeans-2.png?fit=377%252C368&ssl=1){alt="machine learning"}](https://i0.wp.com/datascientest.com/wp-content/uploads/2020/05/kmeans1.png?fit=377%252C368&ssl=1){alt="kmeans"}
+![![machine learning](https://i0.wp.com/datascientest.com/wp-content/uploads/2020/05/kmeans-2.png?fit=377%252C368&ssl=1){alt="machine learning"}](https://i0.wp.com/datascientest.com/wp-content/uploads/2020/05/kmeans1.png?fit=377%252C368&ssl=1){alt="kmeans"}
 
 ## Principes
 
@@ -674,8 +642,7 @@ learning](https://i0.wp.com/datascientest.com/wp-content/uploads/2020/05/kmeans-
 
 -   Place the *K* centroids at random locations
 
--   Assign all data points to the closest centroid (using Euclidean
-    distance)
+-   Assign all data points to the closest centroid (using Euclidean distance)
 
 -   Compute the new centroids as the mean of all points in the cluster
 
