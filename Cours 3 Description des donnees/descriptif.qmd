@@ -174,7 +174,8 @@ a%>%ggplot(aes(x=examens, y= notes, color=eleves)) + geom_line(size=1) +theme_li
 
 . . .
 
-**La moyenne ne suffit pas pour conclure. La variance est un indicateur indispensable !**
+**La moyenne ne suffit pas pour conclure. La variance est un indicateur
+indispensable !**
 
 # Population et Échantillon
 
@@ -184,7 +185,8 @@ a%>%ggplot(aes(x=examens, y= notes, color=eleves)) + geom_line(size=1) +theme_li
 
 ::: columns
 ::: {.column width="50%"}
--   Dans l'idéal, les comparaisons sont effectuées sur la population TOTALE
+-   Dans l'idéal, les comparaisons sont effectuées sur la population
+    TOTALE
 
 -   **Problème**: Impossible de connaître TOUS les patients
 :::
@@ -204,14 +206,16 @@ a%>%ggplot(aes(x=examens, y= notes, color=eleves)) + geom_line(size=1) +theme_li
 
 -   La précision des estimations augmente avec la taille d'échantillon.
 
--   Exemple: Connaître le taux de vote pour un candidat aux présidentielles en interrogeant:
+-   Exemple: Connaître le taux de vote pour un candidat aux
+    présidentielles en interrogeant:
 
     -   4 personnes ?
     -   4590 personnes ?
 
 ## Échantillon
 
--   Doit être représentatif de la population -\> éviter les problèmes de **biais**
+-   Doit être représentatif de la population -\> éviter les problèmes de
+    **biais**
 
 -   Choisi **aléatoirement**
 
@@ -254,9 +258,11 @@ a%>%ggplot(aes(x=examens, y= notes, color=eleves)) + geom_line(size=1) +theme_li
 
 -   Variable qu'il est possible de quantifier, de mesurer.
 
--   Existe en deux formats: -continues: 12.4, 8.765, ( Taille, Pression artérielle etc...)
+-   Existe en deux formats: -continues: 12.4, 8.765, ( Taille, Pression
+    artérielle etc...)
 
-    -   Discrètes : 2, 8, 14, 165 ( Nombre de lésions, rechutes, accouchements, etc..)
+    -   Discrètes : 2, 8, 14, 165 ( Nombre de lésions, rechutes,
+        accouchements, etc..)
 
 ## Variable qualitative
 
@@ -293,11 +299,14 @@ a%>%ggplot(aes(x=examens, y= notes, color=eleves)) + geom_line(size=1) +theme_li
 
 ![](images/paste-C534BE46.png)
 
-But: **"résumer"** les données observées pour partager des résultats et comparer à d'autres données
+But: **"résumer"** les données observées pour partager des résultats et
+comparer à d'autres données
 
 ## Position et dispersion
 
--   Il faut résumer en quelques nombres les valeurs prises par la variable quantitative (distribution). Ces nombres sont appelés des paramètres
+-   Il faut résumer en quelques nombres les valeurs prises par la
+    variable quantitative (distribution). Ces nombres sont appelés des
+    paramètres
 
 -   Il existe deux types de paramètres :
 
@@ -307,7 +316,8 @@ But: **"résumer"** les données observées pour partager des résultats et comp
 
 ## Paramètres de position
 
--   **Moyenne (arithmétique)** : paramètre de tendance centrale visant à résumer une série de données d'une variable quantitative
+-   **Moyenne (arithmétique)** : paramètre de tendance centrale visant à
+    résumer une série de données d'une variable quantitative
 
 ${\displaystyle \bar{x} = {\frac {1}{n}}\sum _{i=1}^{n}x_{i}={\frac {x_{1}+x_{2}+\cdots +x_{n}}{n}}}$
 
@@ -317,7 +327,8 @@ mean(X, na.rm=T)
 
 ## Paramètres de position
 
--   Médiane: paramètre de tendance centrale. Valeur qui partagent la série d'individu en deux groupes d'effectifs égaux
+-   Médiane: paramètre de tendance centrale. Valeur qui partagent la
+    série d'individu en deux groupes d'effectifs égaux
 
 $P(X\leq m)\geq 1/2 et P(X\geq m)\geq 1/2$
 
@@ -325,29 +336,39 @@ $P(X\leq m)\geq 1/2 et P(X\geq m)\geq 1/2$
 median(X, na.rm=T)
 ```
 
--   Si le nombre de sujets est impair, la médiane est la valeur observée chez le sujet médian Ex : 2,2,4,7,8,12,17,19,20
+-   Si le nombre de sujets est impair, la médiane est la valeur observée
+    chez le sujet médian Ex : 2,2,4,7,8,12,17,19,20
 
--   Si le nombre est pair, la médiane est située entre les deux valeurs qui partagent la série
+-   Si le nombre est pair, la médiane est située entre les deux valeurs
+    qui partagent la série
 
 ## Pourquoi médiane et moyenne
 
-::: columns
-::: {.column width="50%"}
-![](images/paste-987CC576.png)
-:::
+```{r echo = F}
+df = data.frame(norm= rnorm(10000,1,0), beta = rgamma(10000, 1,100))
 
-::: {.column width="50%"}
-![](images/paste-66D91D95.png)
-:::
-:::
+library(tidyverse)
+ggplot(df,aes(x=norm,linewidth=1.5))+geom_density()+theme_light()+
+    geom_vline(aes(xintercept=mean(norm),linewidth=1.7), color='red')+
+    geom_vline(aes(xintercept=median(norm),linewidth=1.5), color='green')+xlim(c(0,2))
 
+```
+
+------------------------------------------------------------------------
+
+```{r echo = F}
+ggplot(df,aes(x=beta,linewidth=1.5))+geom_density()+theme_light()+
+geom_vline(aes(xintercept=mean(beta),linewidth=1.5), color='red')+
+geom_vline(aes(xintercept=median(beta),linewidth=1.5), color='green')
+```
 -   si la distribution est asymétrique --\> Mauvais indicateur
 
 ## Quartiles
 
 ![](images/paste-DA5CDD33.png)
 
--   Quartiles: les quartiles sont les trois valeurs qui partagent la distribution en 4
+-   Quartiles: les quartiles sont les trois valeurs qui partagent la
+    distribution en 4
 
 ``` r
 quantile(X, na.rm = T)
@@ -355,7 +376,8 @@ quantile(X, na.rm = T)
 
 ## Déciles/ Percentiles
 
--   Déciles: les déciles sont les 9 valeurs qui partagent la distribution en 10 groupes de tailles égales
+-   Déciles: les déciles sont les 9 valeurs qui partagent la
+    distribution en 10 groupes de tailles égales
 
 . . .
 
@@ -369,7 +391,8 @@ quantile(x,  probs = c(0.1,0.2,0.5,0.8), na.rm = T)
 
 ## Mode
 
--   Mode: le mode est la valeur qui revient le plus souvent dans la distribution.
+-   Mode: le mode est la valeur qui revient le plus souvent dans la
+    distribution.
 
 ![](images/paste-5565678F.png)
 
@@ -381,7 +404,8 @@ quantile(x,  probs = c(0.1,0.2,0.5,0.8), na.rm = T)
 
 ## Extrèmes / Etendu
 
--   Extrêmes: ce sont les 2 valeurs, minimum et maximum de la distribution
+-   Extrêmes: ce sont les 2 valeurs, minimum et maximum de la
+    distribution
 
 . . .
 
@@ -390,7 +414,10 @@ min(X, na.rm = T)
 max(X, na.rm = T)
 ```
 
--   Etendue: C'est la différence entre les 2 valeurs extrêmes. Ce paramètre est utile si les valeurs extrêmes ne s'éloignent pas trop des valeurs voisines (Si une des 2 valeurs est aberrante, l'étendue donne une fausse idée de la dispersion)
+-   Etendue: C'est la différence entre les 2 valeurs extrêmes. Ce
+    paramètre est utile si les valeurs extrêmes ne s'éloignent pas trop
+    des valeurs voisines (Si une des 2 valeurs est aberrante, l'étendue
+    donne une fausse idée de la dispersion)
 
 . . .
 
@@ -400,12 +427,15 @@ max(X, na.rm = T) - min(X, na.rm = T)
 
 ## L'intervalle interquartile:
 
--   L'intervalle interquartile: c'est la différence entre les valeurs du premier et du troisième quartile
--   Cet intervalle s'affranchit des valeurs extrêmes (contrairement à l'étendue), c'est donc un meilleur paramètre de dispersion
+-   L'intervalle interquartile: c'est la différence entre les valeurs du
+    premier et du troisième quartile
+-   Cet intervalle s'affranchit des valeurs extrêmes (contrairement à
+    l'étendue), c'est donc un meilleur paramètre de dispersion
 
 ## Variance
 
--   Variance: la variance d'une distribution est la moyenne des carrés des écarts à la moyenne de chaque valeur
+-   Variance: la variance d'une distribution est la moyenne des carrés
+    des écarts à la moyenne de chaque valeur
 
 ![](images/paste-BC35CA71.png)
 
@@ -413,7 +443,9 @@ max(X, na.rm = T) - min(X, na.rm = T)
 
 -   Plusieurs formules possibles:
 
--   Il existe une formule légèrement différente avec le terme "n-1" au dénominateur. Elle est utilisée lorsqu'on estime une variance inconnue en travaillant sur un échantillon de taille "n"
+-   Il existe une formule légèrement différente avec le terme "n-1" au
+    dénominateur. Elle est utilisée lorsqu'on estime une variance
+    inconnue en travaillant sur un échantillon de taille "n"
 
 ``` r
 var(X, na.rm = T)
@@ -437,13 +469,17 @@ sd(X, na.rm = T)
 
 -   C'est un nombre sans dimension, exprimé en pourcentage
 
--   Il exprime le degré de dispersion d'une distribution en fonction de la valeur moyenne. Il est utilisé pour comparer la dispersion de 2 variables quantitatives de nature différente (unités différentes)
+-   Il exprime le degré de dispersion d'une distribution en fonction de
+    la valeur moyenne. Il est utilisé pour comparer la dispersion de 2
+    variables quantitatives de nature différente (unités différentes)
 
 # Variables qualitatives
 
 ## Fréquences relatives
 
--   Fréquence relative: pour résumer une distribution : calculer les fréquences relatives des sujets porteurs de chaque modalité. Ces proportions comprises entre 0 et 1,
+-   Fréquence relative: pour résumer une distribution : calculer les
+    fréquences relatives des sujets porteurs de chaque modalité. Ces
+    proportions comprises entre 0 et 1,
 
 . . .
 

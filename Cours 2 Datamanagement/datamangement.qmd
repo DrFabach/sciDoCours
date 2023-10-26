@@ -19,8 +19,9 @@ self-contained: true
 execute:
   echo: true
 ---
-```{r}
+```{r include=F}
 ## pour l'année prochaine rajouter code python.
+##modifier l'exercice à la fin avec une BDD plus adapté
 ```
 
 # SQL
