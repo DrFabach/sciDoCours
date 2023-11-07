@@ -29,7 +29,7 @@ library(summarytools)
 
 #importer notre jeu de données 
 
-data<- read.csv("Emplacement", header = TRUE)
+data<- read.csv("./Cours 3 Description des donnees/Script etudiant/C_49486_assignsubmission_file_BDD_GroupeC.csv", header = TRUE)
 data
 str(data)
 summary(data)
