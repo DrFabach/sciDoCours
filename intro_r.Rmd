@@ -1,0 +1,134 @@
+---
+title: "Intro r"
+output: html_document
+date: "2023-11-08"
+---
+
+# Exercice sur les fonctions et les boucles
+
+## Data a utiliser
+
+
+```{r}
+version_avec_reponse<- F
+
+hide_result<- function(T){
+  knitr::opts_chunk$set(echo=FALSE)
+}
+show_result<- function() knitr::opts_chunk$set(echo=T)
+
+```
+
+
+```{r}
+library(tidyverse)
+health_data <- data.frame(
+  age = c(25, 30, 35, 40, NA, 45, 50, 55, 60, 65),
+  weight = c(70, 75, 80, 85, 90, 95, NA, 100, 105, 110),
+  height = c(160, 165, 170, 175, 180, NA, 185, 190, 195, 200),
+  gender = c("Male", "Female", "Male", "Female", "Male", "Male", "Female", NA, "Male", "Female"),
+  smoking_status = c("Non-Smoker", "Smoker", NA, "Non-Smoker", "Smoker", "Smoker", "Non-Smoker", "Non-Smoker", "Smoker", "Non-Smoker"),
+  medical_condition = c("Hypertension", "Diabetes", "Asthma", NA, "Hypertension", "Asthma", "Diabetes", "Hypertension", "Asthma", "Diabetes")
+)
+health_data%>%str
+```
+
+
+## Exercice 1:
+
+- Créer une fonction "desc_var", permettant de décrire les variables quanti et quali
+
+- Utiliser les conditions if/else pour permettre de faire une fonction unique
+
+- retourner effectif et proportion pour les variables quali, et moyenne, mediane ... pour les quanti
+
+
+```r
+
+desc_var(x,BDD)
+
+```
+
+### Rappel architecture fonction
+
+```r
+ma_function <- function(argument1, argument2 = valeur_par_défaut, ...){
+
+script de ma fonction
+
+return(resultat)
+
+}
+
+```
+
+- **argument1** est obligatoire car pas de valeur par défaut
+
+- **argument2** non obligatoire car valeur par défaut *valeur_par_défaut*
+
+- **...** arguments non nommés permettant de les passer à une fonction à l'interieur de la fonction sans les spécifier.
+
+- **resultat** sortie de la fonction.
+
+
+
+```{r echo =F, results='asis'}
+hide_result(version_avec_reponse)
+
+cat("## Réponse :")
+```
+
+
+```{r result}
+
+desc_var<- function(var, BDD, ...){
+  x <- BDD[,var]
+  if( is.factor(x)|is.character(x)){
+    
+    res<- data.frame(var =  var,as.data.frame(table(x)))
+    res<- cbind(res,as.data.frame(prop.table(table(x)))[,2])
+    names(res) <- c("Var","Modalite","Freq","Prop")
+    return(res)
+  }else{
+    return(data.frame(Var = var, 
+                      mean = mean(x,...),
+                      median = median(x,...)))
+    
+    
+  }
+  
+}
+
+
+```
+
+
+```{r echo =F}
+show_result()
+```
+
+### Resultat attendu 
+
+```{r}
+desc_var("age",health_data, na.rm = T)
+
+```
+
+
+```{r}
+
+```
+
+
+library(data.table)
+
+desc_var("weight",health_data, na.rm=T)
+
+for (i in names(health_data)){
+  
+  print(desc_var(i, health_data))
+}
+
+lapply(names(health_data), function(x) desc_var(x, health_data))
+
+lapply(names(health_data), function(x) desc_var(x, health_data))%>%rbindlist(fill=T)
