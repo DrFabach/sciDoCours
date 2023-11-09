@@ -359,28 +359,9 @@ display: none;
 <h1>Exercice sur les fonctions et les boucles</h1>
 <div id="data-a-utiliser" class="section level2">
 <h2>Data a utiliser</h2>
-<pre class="r"><code>version_avec_reponse&lt;- F
-
-hide_result&lt;- function(T){
-  knitr::opts_chunk$set(echo=FALSE)
-}
-show_result&lt;- function() knitr::opts_chunk$set(echo=T)</code></pre>
-<pre class="r"><code>library(tidyverse)</code></pre>
-<pre><code>## Warning: le package &#39;tidyverse&#39; a été compilé avec la version R 4.3.1</code></pre>
-<pre><code>## Warning: le package &#39;ggplot2&#39; a été compilé avec la version R 4.3.2</code></pre>
-<pre><code>## Warning: le package &#39;readr&#39; a été compilé avec la version R 4.3.1</code></pre>
-<pre><code>## Warning: le package &#39;lubridate&#39; a été compilé avec la version R 4.3.1</code></pre>
-<pre><code>## ── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
-## ✔ dplyr     1.1.2     ✔ readr     2.1.4
-## ✔ forcats   1.0.0     ✔ stringr   1.5.0
-## ✔ ggplot2   3.4.4     ✔ tibble    3.2.1
-## ✔ lubridate 1.9.2     ✔ tidyr     1.3.0
-## ✔ purrr     1.0.1     
-## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
-## ✖ dplyr::filter() masks stats::filter()
-## ✖ dplyr::lag()    masks stats::lag()
-## ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
-<pre class="r"><code>health_data &lt;- data.frame(
+<pre class="r"><code>library(tidyverse)
+library(pander)
+health_data &lt;- data.frame(
   age = c(25, 30, 35, 40, NA, 45, 50, 55, 60, 65),
   weight = c(70, 75, 80, 85, 90, 95, NA, 100, 105, 110),
   height = c(160, 165, 170, 175, 180, NA, 185, 190, 195, 200),
@@ -388,14 +369,109 @@ show_result&lt;- function() knitr::opts_chunk$set(echo=T)</code></pre>
   smoking_status = c(&quot;Non-Smoker&quot;, &quot;Smoker&quot;, NA, &quot;Non-Smoker&quot;, &quot;Smoker&quot;, &quot;Smoker&quot;, &quot;Non-Smoker&quot;, &quot;Non-Smoker&quot;, &quot;Smoker&quot;, &quot;Non-Smoker&quot;),
   medical_condition = c(&quot;Hypertension&quot;, &quot;Diabetes&quot;, &quot;Asthma&quot;, NA, &quot;Hypertension&quot;, &quot;Asthma&quot;, &quot;Diabetes&quot;, &quot;Hypertension&quot;, &quot;Asthma&quot;, &quot;Diabetes&quot;)
 )
-health_data%&gt;%str</code></pre>
-<pre><code>## &#39;data.frame&#39;:    10 obs. of  6 variables:
-##  $ age              : num  25 30 35 40 NA 45 50 55 60 65
-##  $ weight           : num  70 75 80 85 90 95 NA 100 105 110
-##  $ height           : num  160 165 170 175 180 NA 185 190 195 200
-##  $ gender           : chr  &quot;Male&quot; &quot;Female&quot; &quot;Male&quot; &quot;Female&quot; ...
-##  $ smoking_status   : chr  &quot;Non-Smoker&quot; &quot;Smoker&quot; NA &quot;Non-Smoker&quot; ...
-##  $ medical_condition: chr  &quot;Hypertension&quot; &quot;Diabetes&quot; &quot;Asthma&quot; NA ...</code></pre>
+health_data%&gt;%pander</code></pre>
+<table style="width:97%;">
+<colgroup>
+<col width="8%" />
+<col width="12%" />
+<col width="12%" />
+<col width="12%" />
+<col width="23%" />
+<col width="27%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">age</th>
+<th align="center">weight</th>
+<th align="center">height</th>
+<th align="center">gender</th>
+<th align="center">smoking_status</th>
+<th align="center">medical_condition</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">25</td>
+<td align="center">70</td>
+<td align="center">160</td>
+<td align="center">Male</td>
+<td align="center">Non-Smoker</td>
+<td align="center">Hypertension</td>
+</tr>
+<tr class="even">
+<td align="center">30</td>
+<td align="center">75</td>
+<td align="center">165</td>
+<td align="center">Female</td>
+<td align="center">Smoker</td>
+<td align="center">Diabetes</td>
+</tr>
+<tr class="odd">
+<td align="center">35</td>
+<td align="center">80</td>
+<td align="center">170</td>
+<td align="center">Male</td>
+<td align="center">NA</td>
+<td align="center">Asthma</td>
+</tr>
+<tr class="even">
+<td align="center">40</td>
+<td align="center">85</td>
+<td align="center">175</td>
+<td align="center">Female</td>
+<td align="center">Non-Smoker</td>
+<td align="center">NA</td>
+</tr>
+<tr class="odd">
+<td align="center">NA</td>
+<td align="center">90</td>
+<td align="center">180</td>
+<td align="center">Male</td>
+<td align="center">Smoker</td>
+<td align="center">Hypertension</td>
+</tr>
+<tr class="even">
+<td align="center">45</td>
+<td align="center">95</td>
+<td align="center">NA</td>
+<td align="center">Male</td>
+<td align="center">Smoker</td>
+<td align="center">Asthma</td>
+</tr>
+<tr class="odd">
+<td align="center">50</td>
+<td align="center">NA</td>
+<td align="center">185</td>
+<td align="center">Female</td>
+<td align="center">Non-Smoker</td>
+<td align="center">Diabetes</td>
+</tr>
+<tr class="even">
+<td align="center">55</td>
+<td align="center">100</td>
+<td align="center">190</td>
+<td align="center">NA</td>
+<td align="center">Non-Smoker</td>
+<td align="center">Hypertension</td>
+</tr>
+<tr class="odd">
+<td align="center">60</td>
+<td align="center">105</td>
+<td align="center">195</td>
+<td align="center">Male</td>
+<td align="center">Smoker</td>
+<td align="center">Asthma</td>
+</tr>
+<tr class="even">
+<td align="center">65</td>
+<td align="center">110</td>
+<td align="center">200</td>
+<td align="center">Female</td>
+<td align="center">Non-Smoker</td>
+<td align="center">Diabetes</td>
+</tr>
+</tbody>
+</table>
 </div>
 <div id="exercice-1" class="section level2">
 <h2>Exercice 1:</h2>
@@ -426,26 +502,211 @@ défaut</p></li>
 <li><p><strong>argument2</strong> non obligatoire car valeur par défaut
 <em>valeur_par_défaut</em></p></li>
 <li><p><strong>…</strong> arguments non nommés permettant de les passer
-à une fonction à l’interieur de la fonction sans les spécifier.</p></li>
+à une fonction à l’intérieur de la fonction sans les spécifier.</p></li>
 <li><p><strong>resultat</strong> sortie de la fonction.</p></li>
 </ul>
 </div>
+<div id="réponse" class="section level3">
+<h3>Réponse :</h3>
 </div>
-<div id="réponse" class="section level2">
-<h2>Réponse :</h2>
-<div id="resultat-attendu" class="section level3">
-<h3>Resultat attendu</h3>
+<div id="résultat-attendu" class="section level3">
+<h3>Résultat attendu</h3>
 <pre class="r"><code>desc_var(&quot;age&quot;,health_data, na.rm = T)</code></pre>
 <pre><code>##   Var mean median
 ## 1 age   45     45</code></pre>
-<p>library(data.table)</p>
-<p>desc_var(“weight”,health_data, na.rm=T)</p>
-<p>for (i in names(health_data)){</p>
-<p>print(desc_var(i, health_data)) }</p>
-<p>lapply(names(health_data), function(x) desc_var(x, health_data))</p>
-<p>lapply(names(health_data), function(x) desc_var(x,
-health_data))%&gt;%rbindlist(fill=T)</p>
 </div>
+</div>
+<div id="exercice-2" class="section level2">
+<h2>Exercice 2 :</h2>
+<p>Écrire une boucle for pour appliquer cette fonction à l’ensemble des
+variables de la base.</p>
+<div id="rappel-architecture-for" class="section level3">
+<h3>Rappel architecture for</h3>
+<pre class="r"><code>for( i in ...){
+
+code_a_executer
+
+}
+</code></pre>
+</div>
+<div id="résultat-attendu-1" class="section level3">
+<h3>Résultat attendu :</h3>
+<pre><code>##   Var mean median
+## 1 age   NA     NA
+##      Var mean median
+## 1 weight   NA     NA
+##      Var mean median
+## 1 height   NA     NA
+##      Var Modalite Freq      Prop
+## 1 gender   Female    4 0.4444444
+## 2 gender     Male    5 0.5555556
+##              Var   Modalite Freq      Prop
+## 1 smoking_status Non-Smoker    5 0.5555556
+## 2 smoking_status     Smoker    4 0.4444444
+##                 Var     Modalite Freq      Prop
+## 1 medical_condition       Asthma    3 0.3333333
+## 2 medical_condition     Diabetes    3 0.3333333
+## 3 medical_condition Hypertension    3 0.3333333</code></pre>
+</div>
+</div>
+<div id="exercice-3" class="section level2">
+<h2>Exercice 3 :</h2>
+<p>Transformer cette boucle en application vectorisée de cette fonction
+avec la fonction <em>lapply</em> et stocker le résultat de cette
+fonction dans un objet <em>res</em>.</p>
+<p><strong>fonctionnement de lapply </strong></p>
+<pre class="r"><code>res &lt;- lapply(list, function(x) script_fonction )</code></pre>
+<p>Aide :</p>
+<ul>
+<li><p><a href="https://r4ds.had.co.nz/iteration.html#the-map-functions">R for
+Data Science</a></p></li>
+<li><p><a href="https://delladata.fr/les-fonctions-lapply-sapply-apply/">delladata.fr</a></p></li>
+<li><p><a href="https://r.developpez.com/tutoriels/cours-complet-programmation-r/?page=concepts-avances">developpez.com</a></p></li>
+</ul>
+<div id="résultat-attendu-2" class="section level3">
+<h3>Résultat attendu :</h3>
+<pre><code>## [[1]]
+##   Var mean median
+## 1 age   45     45
+## 
+## [[2]]
+##      Var mean median
+## 1 weight   90     90
+## 
+## [[3]]
+##      Var mean median
+## 1 height  180    180
+## 
+## [[4]]
+##      Var Modalite Freq      Prop
+## 1 gender   Female    4 0.4444444
+## 2 gender     Male    5 0.5555556
+## 
+## [[5]]
+##              Var   Modalite Freq      Prop
+## 1 smoking_status Non-Smoker    5 0.5555556
+## 2 smoking_status     Smoker    4 0.4444444
+## 
+## [[6]]
+##                 Var     Modalite Freq      Prop
+## 1 medical_condition       Asthma    3 0.3333333
+## 2 medical_condition     Diabetes    3 0.3333333
+## 3 medical_condition Hypertension    3 0.3333333</code></pre>
+</div>
+</div>
+<div id="avantage-de-lapply" class="section level2">
+<h2>Avantage de lapply</h2>
+<ul>
+<li><p>Calcul plus rapide</p></li>
+<li><p>Permets de combiner facilement des résultats avec la fonction
+<em>rbind.list</em></p></li>
+</ul>
+<p><strong>Si chaque élément d’une liste est composé d’une dataframe, on
+peut les combiner avec la fonction <em>rbindlist</em> </strong> :</p>
+<pre class="r"><code>library(data.table,warn.conflicts =  F)
+rbindlist(res,fill=T)%&gt;%pander</code></pre>
+<table style="width:93%;">
+<colgroup>
+<col width="27%" />
+<col width="9%" />
+<col width="12%" />
+<col width="20%" />
+<col width="9%" />
+<col width="12%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">Var</th>
+<th align="center">mean</th>
+<th align="center">median</th>
+<th align="center">Modalite</th>
+<th align="center">Freq</th>
+<th align="center">Prop</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">age</td>
+<td align="center">45</td>
+<td align="center">45</td>
+<td align="center">NA</td>
+<td align="center">NA</td>
+<td align="center">NA</td>
+</tr>
+<tr class="even">
+<td align="center">weight</td>
+<td align="center">90</td>
+<td align="center">90</td>
+<td align="center">NA</td>
+<td align="center">NA</td>
+<td align="center">NA</td>
+</tr>
+<tr class="odd">
+<td align="center">height</td>
+<td align="center">180</td>
+<td align="center">180</td>
+<td align="center">NA</td>
+<td align="center">NA</td>
+<td align="center">NA</td>
+</tr>
+<tr class="even">
+<td align="center">gender</td>
+<td align="center">NA</td>
+<td align="center">NA</td>
+<td align="center">Female</td>
+<td align="center">4</td>
+<td align="center">0.4444</td>
+</tr>
+<tr class="odd">
+<td align="center">gender</td>
+<td align="center">NA</td>
+<td align="center">NA</td>
+<td align="center">Male</td>
+<td align="center">5</td>
+<td align="center">0.5556</td>
+</tr>
+<tr class="even">
+<td align="center">smoking_status</td>
+<td align="center">NA</td>
+<td align="center">NA</td>
+<td align="center">Non-Smoker</td>
+<td align="center">5</td>
+<td align="center">0.5556</td>
+</tr>
+<tr class="odd">
+<td align="center">smoking_status</td>
+<td align="center">NA</td>
+<td align="center">NA</td>
+<td align="center">Smoker</td>
+<td align="center">4</td>
+<td align="center">0.4444</td>
+</tr>
+<tr class="even">
+<td align="center">medical_condition</td>
+<td align="center">NA</td>
+<td align="center">NA</td>
+<td align="center">Asthma</td>
+<td align="center">3</td>
+<td align="center">0.3333</td>
+</tr>
+<tr class="odd">
+<td align="center">medical_condition</td>
+<td align="center">NA</td>
+<td align="center">NA</td>
+<td align="center">Diabetes</td>
+<td align="center">3</td>
+<td align="center">0.3333</td>
+</tr>
+<tr class="even">
+<td align="center">medical_condition</td>
+<td align="center">NA</td>
+<td align="center">NA</td>
+<td align="center">Hypertension</td>
+<td align="center">3</td>
+<td align="center">0.3333</td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 
