@@ -9,11 +9,12 @@ date: "2023-11-08"
 ## Data a utiliser
 
 
-```{r}
+```{r echo = F}
 version_avec_reponse<- F
 
-hide_result<- function(T){
-  knitr::opts_chunk$set(echo=FALSE)
+options(tidyverse.quiet = TRUE)
+hide_result<- function(cache_result=T){
+  knitr::opts_chunk$set(echo=cache_result)
 }
 show_result<- function() knitr::opts_chunk$set(echo=T)
 
@@ -22,6 +23,7 @@ show_result<- function() knitr::opts_chunk$set(echo=T)
 
 ```{r}
 library(tidyverse)
+library(pander)
 health_data <- data.frame(
   age = c(25, 30, 35, 40, NA, 45, 50, 55, 60, 65),
   weight = c(70, 75, 80, 85, 90, 95, NA, 100, 105, 110),
@@ -30,7 +32,7 @@ health_data <- data.frame(
   smoking_status = c("Non-Smoker", "Smoker", NA, "Non-Smoker", "Smoker", "Smoker", "Non-Smoker", "Non-Smoker", "Smoker", "Non-Smoker"),
   medical_condition = c("Hypertension", "Diabetes", "Asthma", NA, "Hypertension", "Asthma", "Diabetes", "Hypertension", "Asthma", "Diabetes")
 )
-health_data%>%str
+health_data%>%pander
 ```
 
 
@@ -66,20 +68,18 @@ return(resultat)
 
 - **argument2** non obligatoire car valeur par défaut *valeur_par_défaut*
 
-- **...** arguments non nommés permettant de les passer à une fonction à l'interieur de la fonction sans les spécifier.
+- **...** arguments non nommés permettant de les passer à une fonction à l'intérieur de la fonction sans les spécifier.
 
 - **resultat** sortie de la fonction.
-
-
 
 ```{r echo =F, results='asis'}
 hide_result(version_avec_reponse)
 
-cat("## Réponse :")
+cat("### Réponse :")
 ```
 
 
-```{r result}
+```{r }
 
 desc_var<- function(var, BDD, ...){
   x <- BDD[,var]
@@ -107,28 +107,117 @@ desc_var<- function(var, BDD, ...){
 show_result()
 ```
 
-### Resultat attendu 
+### Résultat attendu 
 
 ```{r}
 desc_var("age",health_data, na.rm = T)
 
 ```
 
+## Exercice 2 :
 
-```{r}
+Écrire une boucle for pour appliquer cette fonction à l'ensemble des variables de la base.
+
+### Rappel architecture for
+
+```r
+for( i in ...){
+
+code_a_executer
+
+}
 
 ```
 
 
-library(data.table)
 
-desc_var("weight",health_data, na.rm=T)
 
-for (i in names(health_data)){
+
+```{r echo =F, results='asis'}
+hide_result(version_avec_reponse)
+
+if(!version_avec_reponse){
+  cat("### Résultat attendu :")
+}else{
+  cat("### Réponse :")
+}
+```
+
+
+
+```{r }
+
+
+for( i in names(health_data)){
   
-  print(desc_var(i, health_data))
+  print( desc_var(i, health_data))
 }
 
-lapply(names(health_data), function(x) desc_var(x, health_data))
+```
 
-lapply(names(health_data), function(x) desc_var(x, health_data))%>%rbindlist(fill=T)
+
+```{r echo =F}
+show_result()
+```
+
+
+
+
+## Exercice 3 :
+
+Transformer cette boucle en application vectorisée de cette fonction avec la fonction *lapply* et stocker le résultat de cette fonction dans un objet *res*.
+
+**fonctionnement de lapply **
+```r
+res <- lapply(list, function(x) script_fonction )
+```
+
+Aide : 
+
+- [R for Data Science](https://r4ds.had.co.nz/iteration.html#the-map-functions)
+
+- [delladata.fr](https://delladata.fr/les-fonctions-lapply-sapply-apply/)
+
+- [developpez.com](https://r.developpez.com/tutoriels/cours-complet-programmation-r/?page=concepts-avances)
+
+
+
+```{r echo =F, results='asis'}
+hide_result(version_avec_reponse)
+
+if(!version_avec_reponse){
+  cat("### Résultat attendu :")
+}else{
+  cat("### Réponse :")
+}
+```
+
+
+
+```{r }
+
+
+res<-lapply( names(health_data),function(i) desc_var(i, health_data, na.rm=T))
+print(res)
+
+```
+
+
+```{r echo =F}
+show_result()
+```
+
+
+## Avantage de lapply 
+
+- Calcul plus rapide
+
+- Permets de combiner facilement des résultats avec la fonction *rbind.list*
+
+**Si chaque élément d'une liste est composé d'une dataframe, on peut les combiner avec la fonction *rbindlist* ** :
+
+```{r}
+library(data.table,warn.conflicts =  F)
+rbindlist(res,fill=T)%>%pander
+```
+

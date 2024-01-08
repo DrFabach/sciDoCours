@@ -19,17 +19,19 @@ self-contained: true
 execute:
   echo: true
 ---
+
 ```{r include=F}
 ## pour l'année prochaine rajouter code python.
 ##modifier l'exercice à la fin avec une BDD plus adapté
+# simplifier la base pour simplifier la correction
 ```
 
 # SQL
 
 ## Le langage SQL
 
--   Permets d'interroger un logiciel sgbdr (système de gestion de base de
-    données)
+-   Permets d'interroger un logiciel sgbdr (système de gestion de base
+    de données)
 
 -   SGBR : MySQL, Oracle Database, SQLite...
 
@@ -165,7 +167,7 @@ Where identifiant =1 ;
 ::: columns
 ::: {.column width="50%" style="font-size: 0.50em"}
 | Opérateur                     | Teste si ...                                           |
-|---------------------------|---------------------------------------------|
+|-------------------------------|--------------------------------------------------------|
 | A = B                         | A égal à B                                             |
 | A \<\> B                      | A différend de B                                       |
 | A \> B et A \< B              | A supérieur à B / A inférieur à B                      |
@@ -191,7 +193,7 @@ Where identifiant =1 ;
 
 ::: {style="font-size: 0.5em"}
 | **id_livre** | **titre**                    | **isbn_10** | **auteur**             | **prix** |
-|---------------|---------------|---------------|---------------|---------------|
+|--------------|------------------------------|-------------|------------------------|----------|
 | 1            | Forteresse digitale          | 2709626306  | Dan Brown              | 20.5     |
 | 2            | La jeune fille et la nuit    | 2253237620  | Guillaume Musso        | 21.9     |
 | 3            | T'choupi se brosse les dents | 2092589547  | Thierry Courtin        | 5.7      |
@@ -205,7 +207,7 @@ Where identifiant =1 ;
 
 ::: {style="font-size: 0.5em"}
 | id_livre | titre                        | isbn_10    | auteur                 | prix |
-|---------------|---------------|---------------|---------------|---------------|
+|----------|------------------------------|------------|------------------------|------|
 | 1        | Forteresse digitale          | 2709626306 | Dan Brown              | 20.5 |
 | 2        | La jeune fille et la nuit    | 2253237620 | Guillaume Musso        | 21.9 |
 | 3        | T'choupi se brosse les dents | 2092589547 | Thierry Courtin        | 5.7  |
@@ -229,7 +231,7 @@ FROM livres;
 
 ::: {style="font-size: 0.5em"}
 | id_livre | titre                        | isbn_10    | auteur                 | prix |
-|---------------|---------------|---------------|---------------|---------------|
+|----------|------------------------------|------------|------------------------|------|
 | 1        | Forteresse digitale          | 2709626306 | Dan Brown              | 20.5 |
 | 2        | La jeune fille et la nuit    | 2253237620 | Guillaume Musso        | 21.9 |
 | 3        | T'choupi se brosse les dents | 2092589547 | Thierry Courtin        | 5.7  |
@@ -254,7 +256,7 @@ WHERE prix > 20;
 
 ::: {style="font-size: 0.5em"}
 | id_livre | titre                        | isbn_10    | auteur                 | prix |
-|---------------|---------------|---------------|---------------|---------------|
+|----------|------------------------------|------------|------------------------|------|
 | 1        | Forteresse digitale          | 2709626306 | Dan Brown              | 20.5 |
 | 2        | La jeune fille et la nuit    | 2253237620 | Guillaume Musso        | 21.9 |
 | 3        | T'choupi se brosse les dents | 2092589547 | Thierry Courtin        | 5.7  |
@@ -460,7 +462,7 @@ appartenant à un ensemble de sujets.
 ### Notion de tidy data :
 
 -   1 variable par colonne
--   1  information par ligne
+-   1 information par ligne
 -   si tables multiples, clefs de lien présentes dans les tables
 -   1 ligne avec des noms de colonnes, noms des variables
 -   1 table par fichier
@@ -780,7 +782,7 @@ as.factor(c(2,3,4))
 as.factor(c(4,3,2))%>%as.character()%>%as.numeric()
 ```
 
------------
+------------------------------------------------------------------------
 
 ```{r}
 as.Date("01-01-2022",format="%d-%m-%Y")
@@ -970,8 +972,8 @@ data1$fibromyalgie <-str_detect(data1$var1,"fibromyalgie")
 
 ## Exercice
 
-Utiliser les bases de données "pbcseq" et "pbc"
-Transformer la table pbcseq au format long et réaliser une jointure entre les tables.
+Utiliser les bases de données "pbcseq" et "pbc" Transformer la table
+pbcseq au format long et réaliser une jointure entre les tables.
 
 ## Réponse
 
@@ -989,4 +991,3 @@ pbc%>%left_join(pbcseq_wide)%>%dim
 
 
 ```
-

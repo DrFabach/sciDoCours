@@ -1,0 +1,232 @@
+---
+title: "3-Visualisation"
+format:
+  revealjs: 
+    theme: [dark]
+    
+editor: visual
+page-layout: full
+author: "Thibaut FABACHER"
+institute: "GMRC"
+incremental: true
+slide-number: h/v
+progress: true
+footer: "Master Intelligence des données de santé / UE Technique"
+show-slide-number: all
+jupyter: false
+cap-location: bottom
+self-contained: true
+execute:
+  echo: true
+---
+
+# Visualisation des données sur R
+
+## Références :
+
+-   [r Graph gallery](https://r-graph-gallery.com/)
+
+- GGplot vs base R
+
+## Principe de base ggplot2
+
+ - élement du tidyverse
+ 
+ - ajout de couches successives
+
+---------------
+
+```{r}
+library(ggplot2)
+plt = ggplot(infert, aes(x=case, fill=education))
+plt
+```
+
+
+---------------
+
+```{r}
+str(plt)
+```
+---------------
+
+```{r}
+plt = plt + geom_bar(position = "dodge")
+plt
+```
+
+---------------
+
+```{r}
+plt = plt + scale_fill_manual(values = c("#32a852","#eb4034","#fcba03"),
+                              name ="Education")
+plt
+```
+
+
+---------------
+
+```{r}
+plt = plt + theme_light()
+plt
+```
+
+---------------
+
+```{r}
+plt = plt + labs(title = "Education for case and control")
+plt
+```
+
+---------------
+
+```{r}
+plt = plt +  scale_x_continuous(breaks = c(0, 1)) + 
+  xlab("Case") + ylab("Count")
+plt
+```
+
+
+## R de base
+
+
+```{r}
+barplot(table(infert$education,infert$case),beside = TRUE,main = "Education for case and control",
+        xlab = "Education",
+        col = c("#32a852","#eb4034","#fcba03")
+)
+legend("topright",c("0-5yrs" , "6-11yrs", "12+ yrs"),
+       fill =  c("#32a852","#eb4034","#fcba03"))
+```
+
+# Type de graphs
+
+## Nuage de points
+
+
+
+
+```{r}
+ggplot(mtcars, aes(x= mpg, y = drat))+geom_point()
+```
+
+
+----------------------
+```{r}
+ggplot(mtcars)+geom_point(aes(x= mpg, y = drat),shape=14)
+```
+
+----------------------
+```{r}
+ggplot(mtcars)+geom_point(aes(x= mpg, y = drat, shape = factor(cyl)))
+```
+
+
+## histogramme
+
+```{r}
+  ggplot(infert, aes(x= age))+ geom_histogram(binwidth = 5,color="black",boundary = 0)
+```
+
+
+
+## diagramme en boite
+
+```{r}
+ggplot(mtcars, aes(y = mpg, x="mtcars"))+ geom_boxplot()
+
+```
+
+##  Violin plot
+
+
+```{r}
+ggplot(mtcars, aes(y = mpg, x="mpg"))+ geom_violin()
+```
+
+
+## Diagramme en barre
+
+```{r}
+ggplot(mtcars, aes(x = factor(cyl)))+ geom_bar()+xlab("cyl")
+```
+
+# Croisement
+
+## Quanti Quali
+
+
+```{r}
+ggplot(mtcars, aes(x=factor(cyl),y=mpg ))+ geom_boxplot()+xlab("cyl")
+
+```
+
+
+------------------------
+```{r}
+ggplot(mtcars, aes(x=factor(cyl),y=mpg ))+ geom_violin()+xlab("cyl")
+
+```
+
+------------------------
+```{r}
+ggplot(mtcars, aes(x=factor(cyl),y=mpg ))+ geom_point()+xlab("cyl")
+
+```
+
+
+------------------------
+```{r}
+ggplot(mtcars, aes(x=factor(cyl),y=mpg ))+ geom_jitter()+xlab("cyl")
+
+```
+------------------------
+```{r}
+ggplot(mtcars, aes(x=factor(cyl),y=mpg ))+ geom_point(alpha=0.3)+xlab("cyl")
+
+```
+
+
+
+
+
+
+
+
+
+## Quanti Quanti
+
+
+```{r}
+
+ggplot(mtcars, aes(x = factor(cyl), fill = factor(am)))+
+geom_bar(position = "dodge")
+```
+
+
+## Encodage redondant
+
+
+```{r}
+ggplot(mtcars,aes(x= mpg, y= drat, size = mpg, color = mpg))+
+geom_point()+theme_light()
+```
+
+
+## Violin plot Consommation Cylindre
+
+
+
+```{r}
+library(ggstatsplot)
+
+ggbetweenstats(
+  data = infert,
+  x = case,
+  y = age
+)
+
+```
+
+
+#Exemples de graphique

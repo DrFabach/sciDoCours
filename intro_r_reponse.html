@@ -502,15 +502,32 @@ défaut</p></li>
 <li><p><strong>argument2</strong> non obligatoire car valeur par défaut
 <em>valeur_par_défaut</em></p></li>
 <li><p><strong>…</strong> arguments non nommés permettant de les passer
-à une fonction à l’intérieur de la fonction sans les spécifier.</p></li>
+à une fonction à l’interieur de la fonction sans les spécifier.</p></li>
 <li><p><strong>resultat</strong> sortie de la fonction.</p></li>
 </ul>
 </div>
 <div id="réponse" class="section level3">
 <h3>Réponse :</h3>
+<pre class="r"><code>desc_var&lt;- function(var, BDD, ...){
+  x &lt;- BDD[,var]
+  if( is.factor(x)|is.character(x)){
+    
+    res&lt;- data.frame(var =  var,as.data.frame(table(x)))
+    res&lt;- cbind(res,as.data.frame(prop.table(table(x)))[,2])
+    names(res) &lt;- c(&quot;Var&quot;,&quot;Modalite&quot;,&quot;Freq&quot;,&quot;Prop&quot;)
+    return(res)
+  }else{
+    return(data.frame(Var = var, 
+                      mean = mean(x,...),
+                      median = median(x,...)))
+    
+    
+  }
+  
+}</code></pre>
 </div>
-<div id="résultat-attendu" class="section level3">
-<h3>Résultat attendu</h3>
+<div id="resultat-attendu" class="section level3">
+<h3>Resultat attendu</h3>
 <pre class="r"><code>desc_var(&quot;age&quot;,health_data, na.rm = T)</code></pre>
 <pre><code>##   Var mean median
 ## 1 age   45     45</code></pre>
@@ -518,7 +535,7 @@ défaut</p></li>
 </div>
 <div id="exercice-2" class="section level2">
 <h2>Exercice 2 :</h2>
-<p>Écrire une boucle for pour appliquer cette fonction à l’ensemble des
+<p>Ecrire une boucle for pour appliquer cette fonction à l’ensemble des
 variables de la base.</p>
 <div id="rappel-architecture-for" class="section level3">
 <h3>Rappel architecture for</h3>
@@ -529,8 +546,12 @@ code_a_executer
 }
 </code></pre>
 </div>
-<div id="résultat-attendu-1" class="section level3">
-<h3>Résultat attendu :</h3>
+<div id="réponse-1" class="section level3">
+<h3>Réponse :</h3>
+<pre class="r"><code>for( i in names(health_data)){
+  
+  print( desc_var(i, health_data))
+}</code></pre>
 <pre><code>##   Var mean median
 ## 1 age   NA     NA
 ##      Var mean median
@@ -551,7 +572,7 @@ code_a_executer
 </div>
 <div id="exercice-3" class="section level2">
 <h2>Exercice 3 :</h2>
-<p>Transformer cette boucle en application vectorisée de cette fonction
+<p>Transformer cette boucle en application vectorisé de cette fonction
 avec la fonction <em>lapply</em> et stocker le résultat de cette
 fonction dans un objet <em>res</em>.</p>
 <p><strong>fonctionnement de lapply </strong></p>
@@ -563,8 +584,10 @@ Data Science</a></p></li>
 <li><p><a href="https://delladata.fr/les-fonctions-lapply-sapply-apply/">delladata.fr</a></p></li>
 <li><p><a href="https://r.developpez.com/tutoriels/cours-complet-programmation-r/?page=concepts-avances">developpez.com</a></p></li>
 </ul>
-<div id="résultat-attendu-2" class="section level3">
-<h3>Résultat attendu :</h3>
+<div id="réponse-2" class="section level3">
+<h3>Réponse :</h3>
+<pre class="r"><code>res&lt;-lapply( names(health_data),function(i) desc_var(i, health_data, na.rm=T))
+print(res)</code></pre>
 <pre><code>## [[1]]
 ##   Var mean median
 ## 1 age   45     45
@@ -598,11 +621,11 @@ Data Science</a></p></li>
 <h2>Avantage de lapply</h2>
 <ul>
 <li><p>Calcul plus rapide</p></li>
-<li><p>Permets de combiner facilement des résultats avec la fonction
+<li><p>Permet de combiner facilement des résultats avec la fonction
 <em>rbind.list</em></p></li>
 </ul>
-<p><strong>Si chaque élément d’une liste est composé d’une dataframe, on
-peut les combiner avec la fonction <em>rbindlist</em> </strong> :</p>
+<p><strong>Si chaque élements d’une liste est composé d’une dataframe,
+on peut les combiner avec la fonction <em>rbindlist</em> </strong> :</p>
 <pre class="r"><code>library(data.table,warn.conflicts =  F)
 rbindlist(res,fill=T)%&gt;%pander</code></pre>
 <table style="width:93%;">
