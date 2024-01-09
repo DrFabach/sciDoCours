@@ -173,7 +173,7 @@ Les paramètres du modèle sont mis à jour en utilisant une fonction de coût e
 
 $$Y=X\cdot\theta + \epsilon$$
 
-```{r include=FALSE}
+```{r echo=FALSE}
 library(dplyr)
 library(ggplot2)
 BDD = data.frame(x = rnorm(100,10,1), e = rnorm(100))
@@ -183,9 +183,9 @@ BDD%>%ggplot(aes(x=x,y=y)) + geom_point() +theme_light()
 
 # Solution dans le cadre d'une régression linéaire
 
-On cherche $$\hat{\theta} = \binom{\hat{a}}{\hat{b}}$$ où $$\hat{y} = \hat{a}\cdot x+\hat{b}$$pour que $\hat{y}$ soit le plus proche de $y$
+On cherche $\hat{\theta} = \binom{\hat{a}}{\hat{b}}$ où $\hat{y} = \hat{a}\cdot x+\hat{b}$ pour que $\hat{y}$ soit le plus proche de $y$
 
-```{r}
+```{r echo = FALSE}
 BDD%>%ggplot(aes(x=x,y=y)) + geom_point() +theme_light() + geom_abline(aes(intercept=0,slope=4), col="red")
 ```
 
@@ -241,9 +241,7 @@ Fonction a minimiser pour trouver la meilleure solution
 
 ------------------------------------------------------------------------
 
-```         
-## échelle similaire aux vraies valeurs de sortie
-```
+
 
 4.  Erreur de classification
 
@@ -252,6 +250,24 @@ Fonction a minimiser pour trouver la meilleure solution
 -   Formule: $$Err_{class} = \frac{n_{erreurs}}{n}$$
 
 -   Simple à calculer, mais ne prend pas en compte la probabilité des prédictions
+
+
+
+# Exemple sur données fictive
+
+```{r echo = F}
+BDD = data.frame(x = rnorm(100,0,5), e = rnorm(100,0,5))
+BDD$y = ((BDD$x)^3)/40 + BDD$e+50
+BDD%>%ggplot(aes(x=x,y=y)) + geom_point() +theme_light()
+
+
+BDD2 = data.frame(x = rnorm(100,0,5), e = rnorm(100,0,20))
+BDD2$y = ((BDD2$x)^4)/40 + BDD2$e+50
+BDD2%>%ggplot(aes(x=x,y=y)) + geom_point() +theme_light()
+
+
+```
+
 
 # Exemple sur la régression lineaire
 
