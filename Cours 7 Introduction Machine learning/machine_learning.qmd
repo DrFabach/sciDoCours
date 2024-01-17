@@ -189,14 +189,6 @@ On cherche $\hat{\theta} = \binom{\hat{a}}{\hat{b}}$ où $\hat{y} = \hat{a}\cdot
 BDD%>%ggplot(aes(x=x,y=y)) + geom_point() +theme_light() + geom_abline(aes(intercept=0,slope=4), col="red")
 ```
 
-
-
-## Comment on fait pour entrainer :
-
-![](images/1%20i1mz7cVHTMd4w85QpNB9pQ.gif)
-
-On trace une ligne, on mesure la qualité de la ligne tracé, on modifie la ligne pour améliorer ça qualité et on répète
-
 ## Les données sont fausses ?
 
 ![](images/data_wrong.PNG)
@@ -204,6 +196,12 @@ On trace une ligne, on mesure la qualité de la ligne tracé, on modifie la lign
 ## Les données sont fausses ?
 
 ![](images/data_wrong2.PNG)
+
+## Comment on fait pour entrainer :
+
+![](images/1%20i1mz7cVHTMd4w85QpNB9pQ.gif)
+
+On trace une ligne, on mesure la qualité de la ligne tracé, on modifie la ligne pour améliorer ça qualité et on répète
 
 # Fonctions de coût
 
@@ -243,6 +241,8 @@ Fonction a minimiser pour trouver la meilleure solution
 
 ------------------------------------------------------------------------
 
+
+
 4.  Erreur de classification
 
 -   Utilisée pour les tâches de classification
@@ -251,21 +251,68 @@ Fonction a minimiser pour trouver la meilleure solution
 
 -   Simple à calculer, mais ne prend pas en compte la probabilité des prédictions
 
-# Exemple sur données fictive
+
+
+# Exemple sur données fictives
 
 ```{r echo = F}
-library(tidyverse)
 BDD = data.frame(x = rnorm(100,0,5), e = rnorm(100,0,5))
 BDD$y = ((BDD$x)^3)/40 + BDD$e+50
-BDD%>%ggplot(aes(x=x,y=y)) + geom_point() +theme_light()
+
 
 
 BDD2 = data.frame(x = rnorm(100,0,5), e = rnorm(100,0,20))
 BDD2$y = ((BDD2$x)^4)/40 + BDD2$e+50
-#BDD2%>%ggplot(aes(x=x,y=y)) + geom_point() +theme_light()
+
+BDD%>%ggplot(aes(x=x,y=y)) + geom_point() +theme_light()
 
 
 ```
+
+---------------------------------
+
+```{r}
+# Fit a linear regression model to the data with 'hospital_los_day' as the dependent variable and 'sapsi_first' as the independent variable
+fit1 <- lm(y ~ x, data = BDD)
+
+# Print a summary of the fitted model
+summary(fit1)
+```
+
+## Calcul de la MSE
+
+```{r}
+# Use the fitted model to make predictions on the data
+y_pred <- predict(fit1, BDD)
+
+# Calculate the mean squared error between the actual dependent variable values and the predicted values
+mse <- mean((BDD$y - y_pred)^2)
+
+print(mse)
+```
+
+---------------------------
+
+
+
+```{r}
+p2<-BDD %>% ggplot(aes(x=x,y=y))+geom_jitter()+theme_light()+
+  geom_smooth( method = lm, formula = y ~ x, se = FALSE)
+p2
+```
+
+
+----------------------
+
+
+
+
+```{r}
+p2<-BDD %>% ggplot(aes(x=x,y=y))+geom_jitter()+theme_light()+
+  geom_smooth( method = lm, formula = y ~poly(x,3), se = FALSE)
+p2
+```
+
 
 # Exemple sur la régression lineaire
 
