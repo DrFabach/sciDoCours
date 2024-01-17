@@ -374,7 +374,7 @@ grid.arrange(p1, p2, p3, p4, nrow = 2)
 
 ------------------------------------------------------------------------
 
-```{r}
+```{r echo=F}
 
 p1<-BDD2 %>% ggplot(aes(x=x,y=y))+geom_jitter()+theme_light()+
   geom_smooth( method = lm, formula = y ~poly(x,1), se = FALSE)+
@@ -473,8 +473,8 @@ ex : $\hat{y} \geq 0.5$ classe 1 et $\hat{y} < 0.5$ classe 0
 
 |              | y = 1 | y = 0 |
 |--------------|-------|-------|
-| *y_pred = 1* | TP    | FP    |
-| *y_pred = 0* | FN    | TN    |
+| *y_pred = 1* | **TP**    | FP    |
+| *y_pred = 0* | FN    | **TN**    |
 
 -   $$\text{Accuracy} = \frac{TP + TN}{TP + TN + FP + FN}$$
 
