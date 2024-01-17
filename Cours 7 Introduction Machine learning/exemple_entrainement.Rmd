@@ -1,0 +1,188 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+
+# Exemple d'entrainement d'algorithme de classification : 
+
+## Jeu de données utilisé BreastCancer : 
+
+```{r}
+library(mlbench)
+data(BreastCancer)
+BDD<- BreastCancer
+BDD<- BDD[!duplicated(BDD$Id),]
+BDD<- BDD[complete.cases(BDD),]
+```
+
+
+## Description rapide des données
+
+```{r}
+library(skimr)
+skim(BDD)
+```
+```{r}
+table(BDD$Class)
+
+```
+
+
+## Garder un jeu de données de test de côté
+
+```{r}
+set.seed(42)
+ran <- sample(1:nrow(BDD), 0.9 * nrow(BDD)) 
+BDD_train  <- BDD[ran,]
+BDD_test  <-  BDD[-ran,]
+
+
+
+
+```
+
+## Vérification de la randomisation
+
+```{r}
+prop.table(table(BDD_train$Class))
+prop.table(table(BDD_test$Class))
+
+```
+
+## Randomisation stratifiée
+
+```{r}
+library(dplyr)
+set.seed(42)
+id_Train <-BDD %>%
+    group_by(Class) %>%
+    slice_sample(prop=0.9)%>%pull(Id)
+BDD_train  <- BDD[BDD$Id %in% id_Train,]
+BDD_test  <-  BDD[!BDD$Id %in% id_Train,]
+
+```
+
+
+```{r}
+
+prop.table(table(BDD_train$Class))
+prop.table(table(BDD_test$Class))
+
+```
+
+
+
+
+
+## Regression logistique simple
+
+```{r}
+names(BDD_train)
+BDD_train<-BDD_train%>%select(-Id)
+```
+
+
+```{r}
+fit <- glm(Class~Cl.thickness+Cell.size, data=BDD_train,family = "binomial")
+summary(fit)
+
+#predict(fit,BDD_train)
+#predict(fit,BDD_train,type = "response")
+table(predict(fit,BDD_train)>0,BDD_train$Class)
+table(predict(fit,BDD_train,type = "response")>0.5,BDD_train$Class)
+
+```
+
+
+```{r}
+fit2 <- glm(Class~Cl.thickness+Cell.size, data=BDD_train%>%mutate(Cl.thickness = as.numeric(Cl.thickness), Cell.size = as.numeric(Cell.size)),family = "binomial")
+table(predict(fit2,BDD_train%>%mutate(Cl.thickness = as.numeric(Cl.thickness), Cell.size = as.numeric(Cell.size)))>0,BDD_train$Class)
+table(predict(fit2,BDD_train%>%mutate(Cl.thickness = as.numeric(Cl.thickness), Cell.size = as.numeric(Cell.size)),type = "response")>0.5,BDD_train$Class)
+```
+
+
+```{r}
+fit3 <-  glm(Class~., data=BDD_train,family = "binomial")
+summary(fit3)
+table(predict(fit3,BDD_train)>0,BDD_train$Class)
+
+
+
+```
+```{r}
+accuracy<- function(table_contingence){
+round(sum(diag(table_contingence))/
+sum(table_contingence)*100,1)
+}
+accuracy(table(predict(fit3,BDD_train)>0,BDD_train$Class))
+```
+
+
+## Cross validation
+
+
+```{r, warning=F}
+
+set.seed(42)
+samples<- sample(size = nrow(BDD_train), x = cut(1:nrow(BDD_train),10,labels=FALSE))
+
+
+res4<- res4_train<-c()
+for(sample_i in 1:10){
+  BDD_train_i= BDD_train[!samples ==sample_i,]
+  BDD_test_i= BDD_train[samples ==sample_i,]
+  
+  
+  fit4 <-  glm(Class~Cl.thickness+Cell.size, data=BDD_train_i,family = "binomial")
+  
+  acc_train <- accuracy(table(predict(fit4,BDD_train_i)>0,BDD_train_i$Class))
+  res4_train<- c(res4_train,acc_train)
+  acc<- accuracy(table(predict(fit4,BDD_test_i)>0,BDD_test_i$Class))
+  res4<- c(res4,acc)
+  
+  
+}
+
+```
+
+
+
+
+
+```{r, warning=F}
+
+set.seed(42)
+samples<- sample(size = nrow(BDD_train), x = as.numeric(cut(1:nrow(BDD_train),10)))
+
+
+res5<- res5_train<- c()
+for(sample_i in 1:10){
+  BDD_train_i= BDD_train[!samples ==sample_i,]
+  BDD_test_i= BDD_train[samples ==sample_i,]
+  
+  
+  fit5 <-  glm(Class~., data=BDD_train_i,family = "binomial")
+  
+    acc_train <- accuracy(table(predict(fit5,BDD_train_i)>0,BDD_train_i$Class))
+  res5_train<- c(res5_train,acc_train)
+  
+  acc<- accuracy(table(predict(fit5,BDD_test_i)>0,BDD_test_i$Class))
+  res5<- c(res5,acc)
+  
+}
+
+```
+
+
+```{r}
+mean(res4_train)
+mean(res4)
+mean(res5_train)
+mean(res5)
+```
+
+
+
+
+  

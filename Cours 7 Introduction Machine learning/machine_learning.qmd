@@ -189,6 +189,14 @@ On cherche $\hat{\theta} = \binom{\hat{a}}{\hat{b}}$ où $\hat{y} = \hat{a}\cdot
 BDD%>%ggplot(aes(x=x,y=y)) + geom_point() +theme_light() + geom_abline(aes(intercept=0,slope=4), col="red")
 ```
 
+
+
+## Comment on fait pour entrainer :
+
+![](images/1%20i1mz7cVHTMd4w85QpNB9pQ.gif)
+
+On trace une ligne, on mesure la qualité de la ligne tracé, on modifie la ligne pour améliorer ça qualité et on répète
+
 ## Les données sont fausses ?
 
 ![](images/data_wrong.PNG)
@@ -196,12 +204,6 @@ BDD%>%ggplot(aes(x=x,y=y)) + geom_point() +theme_light() + geom_abline(aes(inter
 ## Les données sont fausses ?
 
 ![](images/data_wrong2.PNG)
-
-## Comment on fait pour entrainer :
-
-![](images/1%20i1mz7cVHTMd4w85QpNB9pQ.gif)
-
-On trace une ligne, on mesure la qualité de la ligne tracé, on modifie la ligne pour améliorer ça qualité et on répète
 
 # Fonctions de coût
 
@@ -252,6 +254,7 @@ Fonction a minimiser pour trouver la meilleure solution
 # Exemple sur données fictive
 
 ```{r echo = F}
+library(tidyverse)
 BDD = data.frame(x = rnorm(100,0,5), e = rnorm(100,0,5))
 BDD$y = ((BDD$x)^3)/40 + BDD$e+50
 BDD%>%ggplot(aes(x=x,y=y)) + geom_point() +theme_light()
@@ -259,7 +262,7 @@ BDD%>%ggplot(aes(x=x,y=y)) + geom_point() +theme_light()
 
 BDD2 = data.frame(x = rnorm(100,0,5), e = rnorm(100,0,20))
 BDD2$y = ((BDD2$x)^4)/40 + BDD2$e+50
-BDD2%>%ggplot(aes(x=x,y=y)) + geom_point() +theme_light()
+#BDD2%>%ggplot(aes(x=x,y=y)) + geom_point() +theme_light()
 
 
 ```
