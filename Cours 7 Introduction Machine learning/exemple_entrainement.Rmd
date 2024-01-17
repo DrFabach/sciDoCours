@@ -121,10 +121,11 @@ accuracy(table(predict(fit3,BDD_train)>0,BDD_train$Class))
 
 ## Cross validation
 
+### Modèle 2 variables vs toutes : 
 
 ```{r, warning=F}
 
-set.seed(42)
+set.seed(10)
 samples<- sample(size = nrow(BDD_train), x = cut(1:nrow(BDD_train),10,labels=FALSE))
 
 
@@ -152,8 +153,6 @@ for(sample_i in 1:10){
 
 ```{r, warning=F}
 
-set.seed(42)
-samples<- sample(size = nrow(BDD_train), x = as.numeric(cut(1:nrow(BDD_train),10)))
 
 
 res5<- res5_train<- c()
@@ -183,6 +182,92 @@ mean(res5)
 ```
 
 
+### Autre modèle
+
+```{r, warning=F}
+
+
+res6<- res6_train<- c()
+for(sample_i in 1:10){
+  BDD_train_i= BDD_train[!samples ==sample_i,]
+  BDD_test_i= BDD_train[samples ==sample_i,]
+BDD_train_i =BDD_train_i%>%mutate_at(vars(Cl.thickness:Epith.c.size), function(x) as.numeric(as.character(x)))
+  BDD_test_i<-BDD_test_i%>%mutate_at(vars(Cl.thickness:Epith.c.size), function(x) as.numeric(as.character(x)))
+  
+  fit6 <-  glm(Class~., data=BDD_train_i,family = "binomial")
+  
+    acc_train <- accuracy(table(predict(fit6,BDD_train_i)>0,BDD_train_i$Class))
+  res6_train<- c(res6_train,acc_train)
+  
+  acc<- accuracy(table(predict(fit6,BDD_test_i)>0,BDD_test_i$Class))
+  res6<- c(res6,acc)
+  
+}
+
+```
+
+```{r}
+mean(res6_train)
+mean(res6)
+```
+
+## CV le seuil ? 
+
+  
+```{r}
+library(ggplot2)
+res6_data_frame<- data.frame()
+for(sample_i in 1:10){
+
+  BDD_train_i= BDD_train[!samples ==sample_i,]
+  BDD_test_i= BDD_train[samples ==sample_i,]
+BDD_train_i =BDD_train_i%>%mutate_at(vars(Cl.thickness:Epith.c.size), function(x) as.numeric(as.character(x)))
+  BDD_test_i<-BDD_test_i%>%mutate_at(vars(Cl.thickness:Epith.c.size), function(x) as.numeric(as.character(x)))
+  
+  fit6 <-  glm(Class~., data=BDD_train_i,family = "binomial")
+  
+     for( seuil in seq(0,1,0.1)){
+  acc<- accuracy(table(predict(fit6,BDD_test_i,type = "response")>seuil,BDD_test_i$Class))
+  res6_data_frame<- rbind(res6_data_frame,
+                          data.frame(seuil=as.character(seuil), acc=acc)
+  )
+  }
+}
+res6_data_frame%>%ggplot(aes(fill=seuil, y=acc))+geom_boxplot()
+```
+
+
 
 
   
+```{r}
+
+VPP = function(y_pred, y){ return((sum(y_pred & y)/sum(y_pred))*100)}
+VPN = function(y_pred, y){ return((sum(! y_pred&! y)/sum(!y_pred))*100)}
+
+
+res6_data_frame<- data.frame()
+for(sample_i in 1:10){
+
+  BDD_train_i= BDD_train[!samples ==sample_i,]
+  BDD_test_i= BDD_train[samples ==sample_i,]
+BDD_train_i =BDD_train_i%>%mutate_at(vars(Cl.thickness:Epith.c.size), function(x) as.numeric(as.character(x)))
+  BDD_test_i<-BDD_test_i%>%mutate_at(vars(Cl.thickness:Epith.c.size), function(x) as.numeric(as.character(x)))
+  
+  fit6 <-  glm(Class~., data=BDD_train_i,family = "binomial")
+  
+     for( seuil in seq(0,1,0.1)){
+       y_pred = predict(fit6,BDD_test_i,type = "response")>seuil
+       y_vrai = as.numeric(BDD_test_i$Class)==2
+  acc<- accuracy(table(y_pred, y_vrai))
+  res6_data_frame<- rbind(res6_data_frame,
+                          data.frame(seuil=as.character(seuil), acc=acc,
+                                     VPP = VPP(y_pred,y_vrai),
+                                     VPN = VPN(y_pred,y_vrai)
+  )
+  )
+  }
+}
+library(tidyr)
+res6_data_frame%>%pivot_longer(cols = -seuil, names_to = "type",values_to = "score")%>%ggplot(aes(fill=seuil,x=type, y=score))+geom_boxplot()
+```

@@ -66,11 +66,16 @@ help(tidyverse)
 # - Les fonctions utilises des arguments
 # 
 # 
-# read.csv2("infert.csv")
+read.csv2(" ")
+
+
 # 
 # 
 # 
 # - R est un langage de programmation avec différents types d'objets
+
+
+read.csv("Cours 3 Description des donnees/infert.csv")
 
 
 # Ceci est un objet 
