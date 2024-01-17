@@ -37,6 +37,14 @@ execute:
 
 # Machine Learning
 
+![](images/ML_avant.PNG){style="background-color : white;"}
+
+# Machine Learning
+
+![](images/ML_now.PNG){style="background-color : white;"}
+
+# Machine Learning
+
 -   Domaine de l'intelligence artificielle
 
 -   Consiste à entraîner des modèles informatiques à effectuer des tâches sans avoir été explicitement programmés pour les accomplir
@@ -103,6 +111,10 @@ Objectifs : Trouver les valeurs optimales de $\theta$ qui minimisent l'erreur en
 
 # Apprentissage non supervisé
 
+![](images/unsupervise_learning.PNG)
+
+# Apprentissage non supervisé
+
 -   Découvrir une structure au sein d'un ensemble d'individus caractérisés par des covariables X
 
 -   Label est inconnu
@@ -141,11 +153,63 @@ Les paramètres du modèle sont mis à jour en utilisant une fonction de coût e
 :::
 :::
 
+# Apprentissage Actif
+
+![](images/apprentissage_actif.PNG)
+
+# Apprentissage par renforcement
+
+![](images/renforcement.PNG)
+
+# Transfer learning
+
+![](images/trasnfer.PNG)
+
 # Entrainement d'un modèle
 
 ![](images/image-207753511.png){width="368"}
 
+# Exemple sur un regression linéaire :
+
+$$Y=X\cdot\theta + \epsilon$$
+
+```{r echo=FALSE}
+library(dplyr)
+library(ggplot2)
+BDD = data.frame(x = rnorm(100,10,1), e = rnorm(100))
+BDD$y = BDD$x*4 + BDD$e
+BDD%>%ggplot(aes(x=x,y=y)) + geom_point() +theme_light()
+```
+
+# Solution dans le cadre d'une régression linéaire
+
+On cherche $\hat{\theta} = \binom{\hat{a}}{\hat{b}}$ où $\hat{y} = \hat{a}\cdot x+\hat{b}$ pour que $\hat{y}$ soit le plus proche de $y$
+
+```{r echo = FALSE}
+BDD%>%ggplot(aes(x=x,y=y)) + geom_point() +theme_light() + geom_abline(aes(intercept=0,slope=4), col="red")
+```
+
+## Les données sont fausses ?
+
+![](images/data_wrong.PNG)
+
+## Les données sont fausses ?
+
+![](images/data_wrong2.PNG)
+
+## Comment on fait pour entrainer :
+
+![](images/1%20i1mz7cVHTMd4w85QpNB9pQ.gif)
+
+On trace une ligne, on mesure la qualité de la ligne tracé, on modifie la ligne pour améliorer ça qualité et on répète
+
 # Fonctions de coût
+
+Fonction a minimiser pour trouver la meilleure solution
+
+![](images/gradient_descent_parameter_a.gif)
+
+------------------------------------------------------------------------
 
 1.  Erreur quadratique moyenne (MSE)
 
@@ -177,10 +241,6 @@ Les paramètres du modèle sont mis à jour en utilisant une fonction de coût e
 
 ------------------------------------------------------------------------
 
-```         
-## échelle similaire aux vraies valeurs de sortie
-```
-
 4.  Erreur de classification
 
 -   Utilisée pour les tâches de classification
@@ -188,6 +248,21 @@ Les paramètres du modèle sont mis à jour en utilisant une fonction de coût e
 -   Formule: $$Err_{class} = \frac{n_{erreurs}}{n}$$
 
 -   Simple à calculer, mais ne prend pas en compte la probabilité des prédictions
+
+# Exemple sur données fictive
+
+```{r echo = F}
+BDD = data.frame(x = rnorm(100,0,5), e = rnorm(100,0,5))
+BDD$y = ((BDD$x)^3)/40 + BDD$e+50
+BDD%>%ggplot(aes(x=x,y=y)) + geom_point() +theme_light()
+
+
+BDD2 = data.frame(x = rnorm(100,0,5), e = rnorm(100,0,20))
+BDD2$y = ((BDD2$x)^4)/40 + BDD2$e+50
+BDD2%>%ggplot(aes(x=x,y=y)) + geom_point() +theme_light()
+
+
+```
 
 # Exemple sur la régression lineaire
 
