@@ -47,9 +47,11 @@ execute:
 
 -   Domaine de l'intelligence artificielle
 
--   Consiste à entraîner des modèles informatiques à effectuer des tâches sans avoir été explicitement programmés pour les accomplir
+-   Consiste à entraîner des modèles informatiques à effectuer des
+    tâches sans avoir été explicitement programmés pour les accomplir
 
--   Les modèles peuvent s'améliorer au fil du temps en apprenant à partir de données
+-   Les modèles peuvent s'améliorer au fil du temps en apprenant à
+    partir de données
 
 -   Exemple : Traduction automatique Reconnaissance vocale...
 
@@ -59,7 +61,8 @@ execute:
 ::: {.column width="50%"}
 -   décrire et comprendre les phénomènes à partir de données
 
--   hypothetico-déductive (part d'hypothèses et utilise des tests statistiques pour les vérifier)
+-   hypothetico-déductive (part d'hypothèses et utilise des tests
+    statistiques pour les vérifier)
 
 -   données souvent de taille limitée et structurées
 
@@ -69,11 +72,14 @@ execute:
 ::: {.column width="50%"}
 -   prédire les résultats futurs à partir de données passées
 
--   inductive (part de données et essaie de déduire les règles sous-jacentes)
+-   inductive (part de données et essaie de déduire les règles
+    sous-jacentes)
 
--   peut être utilisé avec des données de grande taille et non structurées
+-   peut être utilisé avec des données de grande taille et non
+    structurées
 
--   modèles complexes et difficiles à interpréter (réseaux de neurones, arbres de décision)
+-   modèles complexes et difficiles à interpréter (réseaux de neurones,
+    arbres de décision)
 :::
 :::
 
@@ -96,16 +102,20 @@ execute:
 # Apprentissage supervisé
 
 -   modèle est entraîné sur un jeu de données annotées
--   Le jeu de données contient des exemples d'entrée et de sortie souhaités
--   L'objectif: généraliser apprentissage à partir de ces exemples pour prédire la sortie correcte pour de nouvelles entrées
+-   Le jeu de données contient des exemples d'entrée et de sortie
+    souhaités
+-   L'objectif: généraliser apprentissage à partir de ces exemples pour
+    prédire la sortie correcte pour de nouvelles entrées
 
 # Apprentissage supervisé
 
 $$\hat{y} = f(x, \theta)$$
 
-où $x$ est l'entrée, $\theta$ sont les paramètres du modèle et $\hat{y}$ est la valeur prédite par le modèle pour l'entrée $x$.
+où $x$ est l'entrée, $\theta$ sont les paramètres du modèle et $\hat{y}$
+est la valeur prédite par le modèle pour l'entrée $x$.
 
-Objectifs : Trouver les valeurs optimales de $\theta$ qui minimisent l'erreur entre les valeurs prédites et valeurs réelles.
+Objectifs : Trouver les valeurs optimales de $\theta$ qui minimisent
+l'erreur entre les valeurs prédites et valeurs réelles.
 
 -   Fonction de coût avec optimisation
 
@@ -115,7 +125,8 @@ Objectifs : Trouver les valeurs optimales de $\theta$ qui minimisent l'erreur en
 
 # Apprentissage non supervisé
 
--   Découvrir une structure au sein d'un ensemble d'individus caractérisés par des covariables X
+-   Découvrir une structure au sein d'un ensemble d'individus
+    caractérisés par des covariables X
 
 -   Label est inconnu
 
@@ -123,11 +134,15 @@ Objectifs : Trouver les valeurs optimales de $\theta$ qui minimisent l'erreur en
 
 $$\hat{y} = f(x, \theta)$$
 
-où $x$ est l'entrée, $\theta$ sont les paramètres du modèle et $\hat{y}$ est la valeur prédite par le modèle pour l'entrée $x$.
+où $x$ est l'entrée, $\theta$ sont les paramètres du modèle et $\hat{y}$
+est la valeur prédite par le modèle pour l'entrée $x$.
 
-Objectifs : trouver des structures ou des patterns dans les données qui peuvent être utilisés pour effectuer des tâches utiles
+Objectifs : trouver des structures ou des patterns dans les données qui
+peuvent être utilisés pour effectuer des tâches utiles
 
-Les paramètres du modèle sont mis à jour en utilisant une fonction de coût et une méthode d'optimisation afin de trouver des structures ou des patterns dans les données
+Les paramètres du modèle sont mis à jour en utilisant une fonction de
+coût et une méthode d'optimisation afin de trouver des structures ou des
+patterns dans les données
 
 # Supervisé / Non supervisé
 
@@ -183,7 +198,9 @@ BDD%>%ggplot(aes(x=x,y=y)) + geom_point() +theme_light()
 
 # Solution dans le cadre d'une régression linéaire
 
-On cherche $\hat{\theta} = \binom{\hat{a}}{\hat{b}}$ où $\hat{y} = \hat{a}\cdot x+\hat{b}$ pour que $\hat{y}$ soit le plus proche de $y$
+On cherche $\hat{\theta} = \binom{\hat{a}}{\hat{b}}$ où
+$\hat{y} = \hat{a}\cdot x+\hat{b}$ pour que $\hat{y}$ soit le plus
+proche de $y$
 
 ```{r echo = FALSE}
 BDD%>%ggplot(aes(x=x,y=y)) + geom_point() +theme_light() + geom_abline(aes(intercept=0,slope=4), col="red")
@@ -201,7 +218,8 @@ BDD%>%ggplot(aes(x=x,y=y)) + geom_point() +theme_light() + geom_abline(aes(inter
 
 ![](images/1%20i1mz7cVHTMd4w85QpNB9pQ.gif)
 
-On trace une ligne, on mesure la qualité de la ligne tracé, on modifie la ligne pour améliorer ça qualité et on répète
+On trace une ligne, on mesure la qualité de la ligne tracé, on modifie
+la ligne pour améliorer ça qualité et on répète
 
 # Fonctions de coût
 
@@ -217,7 +235,8 @@ Fonction a minimiser pour trouver la meilleure solution
 
 -   Formule: $$MSE = \frac{1}{n} \sum_{i=1}^{n} (y_i - \hat{y}_i)^2$$
 
--   Simple à calculer et à interpréter, mais sensible aux outliers et peu robuste face à la skewness des données
+-   Simple à calculer et à interpréter, mais sensible aux outliers et
+    peu robuste face à la skewness des données
 
 ------------------------------------------------------------------------
 
@@ -227,7 +246,8 @@ Fonction a minimiser pour trouver la meilleure solution
 
 -   Formule: $$MAE = \frac{1}{n} \sum_{i=1}^{n} |y_i - \hat{y}_i|$$
 
--   Moins sensible aux outliers que le MSE, mais moins intuitive à interpréter
+-   Moins sensible aux outliers que le MSE, mais moins intuitive à
+    interpréter
 
 ------------------------------------------------------------------------
 
@@ -235,13 +255,12 @@ Fonction a minimiser pour trouver la meilleure solution
 
 -   Utilisée pour les tâches de régression
 
--   Formule: $$RMSE = \sqrt{\frac{1}{n} \sum_{i=1}^{n} (y_i - \hat{y}_i)^2}$$
+-   Formule:
+    $$RMSE = \sqrt{\frac{1}{n} \sum_{i=1}^{n} (y_i - \hat{y}_i)^2}$$
 
 -   racine carrée de l'erreur quadratique moyenne (MSE)
 
 ------------------------------------------------------------------------
-
-
 
 4.  Erreur de classification
 
@@ -249,9 +268,8 @@ Fonction a minimiser pour trouver la meilleure solution
 
 -   Formule: $$Err_{class} = \frac{n_{erreurs}}{n}$$
 
--   Simple à calculer, mais ne prend pas en compte la probabilité des prédictions
-
-
+-   Simple à calculer, mais ne prend pas en compte la probabilité des
+    prédictions
 
 # Exemple sur données fictives
 
@@ -269,31 +287,30 @@ BDD%>%ggplot(aes(x=x,y=y)) + geom_point() +theme_light()
 
 ```
 
----------------------------------
+
+## Entrainement d'un modèle de régression linéaire
 
 ```{r}
-# Fit a linear regression model to the data with 'hospital_los_day' as the dependent variable and 'sapsi_first' as the independent variable
 fit1 <- lm(y ~ x, data = BDD)
 
-# Print a summary of the fitted model
 summary(fit1)
 ```
 
 ## Calcul de la MSE
 
 ```{r}
-# Use the fitted model to make predictions on the data
 y_pred <- predict(fit1, BDD)
+head(y_pred)
+```
 
-# Calculate the mean squared error between the actual dependent variable values and the predicted values
+
+```{r}
 mse <- mean((BDD$y - y_pred)^2)
 
 print(mse)
 ```
 
----------------------------
-
-
+------------------------------------------------------------------------
 
 ```{r}
 p2<-BDD %>% ggplot(aes(x=x,y=y))+geom_jitter()+theme_light()+
@@ -301,11 +318,29 @@ p2<-BDD %>% ggplot(aes(x=x,y=y))+geom_jitter()+theme_light()+
 p2
 ```
 
+## Entrainement d'un modèle de régression linéaire avec effet quadratique
 
-----------------------
+```{r}
+fit2 <- lm(y ~ poly(x,3), data = BDD)
+
+summary(fit2)
+```
+
+## Calcul de la MSE
+
+```{r}
+y_pred <- predict(fit2, BDD)
+
+```
 
 
+```{r}
+mse <- mean((BDD$y - y_pred)^2)
 
+print(mse)
+```
+
+------------------------------------------------------------------------
 
 ```{r}
 p2<-BDD %>% ggplot(aes(x=x,y=y))+geom_jitter()+theme_light()+
@@ -314,137 +349,48 @@ p2
 ```
 
 
-# Exemple sur la régression lineaire
-
-``` r
-# Chargement des données d'entraînement
-train <- read.csv("train.csv")
-X_train <- train[,1] # variables explicatives
-y_train <- train[,2] # variable à prédire
-
-# Entraînement du modèle de régression linéaire
-model <- lm(y_train ~ X_train)
-
-# Prédiction sur les données d'entraînement
-y_pred <- predict(model, X_train)
-
-# Calcul de l'erreur quadratique moyenne
-mse <- mean((y_train - y_pred)^2)
-
-# Affichage de l'erreur
-print(mse)
-```
-
-# Exemple sur données
-
-```{r include = F}
-# Load the pander library
-library(pander)
-```
-
-```{r }
-# Load the serialized R object from the specified file
-data_tot <- readRDS("./TD_ML/data.rds")
-```
-
 ------------------------------------------------------------------------
 
-## Création d'un jeu d'entrainement
 
-```{r}
-# Set the seed for the random number generator to the value 45
-set.seed(45)
 
-# Generate a random sample of 100 elements from the rows of the 'data_tot' data frame, without replacement
-sample_train <- sample(1:dim(data_tot)[1], 100, replace = F)
 
-# Subset the 'data_tot' data frame to select only the rows in the random sample
-data <- data_tot[sample_train,]
-
-```
-
-------------------------------------------------------------------------
-
-## Entrainement d'un modèle avec une variable
-
-```{r}
-# Fit a linear regression model to the data with 'hospital_los_day' as the dependent variable and 'sapsi_first' as the independent variable
-fit1 <- lm(hospital_los_day ~ sapsi_first, data = data)
-
-# Print a summary of the fitted model
-summary(fit1)
-```
-
-------------------------------------------------------------------------
-
-## Calcul de la MSE
-
-```{r}
-# Use the fitted model to make predictions on the data
-y_pred <- predict(fit1, data)
-
-# Calculate the mean squared error between the actual dependent variable values and the predicted values
-mse <- mean((data$hospital_los_day - y_pred)^2)
-
-print(mse)
-```
-
-------------------------------------------------------------------------
-
-## Modèle avec deux variable
-
-```{r}
-## Add second variable
-fit2 <- lm(hospital_los_day ~ sapsi_first+age, data = data)
-#summary(fit2)
-y_pred2 <- predict(fit2, data)
-mse2 <- mean((data$hospital_los_day - y_pred2)^2)
-
-print(mse2)
-```
-
-## Autre type de choix d'hyperparamètres
-
-```{r include = F}
-library(ggplot2)
-library(tidyverse)
-```
-
-```{r}
-p1<-data %>% ggplot(aes(x=sapsi_first,y=hospital_los_day))+geom_jitter()+theme_light()
-p1
-```
-
-------------------------------------------------------------------------
-
-```{r}
-p2<-data %>% ggplot(aes(x=sapsi_first,y=hospital_los_day))+geom_jitter()+theme_light()+
-  geom_smooth( method = lm, formula = y ~ x, se = FALSE)
-p2
-```
-
-------------------------------------------------------------------------
-
-```{r}
-p3<-data %>% ggplot(aes(x=sapsi_first,y=hospital_los_day))+geom_jitter()+theme_light()+
-  geom_smooth( method = lm, formula = y ~ poly(x,2), se = FALSE)
-p3
-```
-
-------------------------------------------------------------------------
-
-```{r}
-p4<-data %>% ggplot(aes(x=sapsi_first,y=hospital_los_day))+geom_jitter()+theme_light()+
-  geom_smooth( method = lm, formula = y ~ poly(x,3), se = FALSE)
-p4
-```
-
-------------------------------------------------------------------------
-
-```{r}
+```{r echo=F}
 library(gridExtra)
+
+p1<-BDD %>% ggplot(aes(x=x,y=y))+geom_jitter()+theme_light()+
+  geom_smooth( method = lm, formula = y ~poly(x,1), se = FALSE)+
+  ggtitle("y ~ x")
+p2<-BDD %>% ggplot(aes(x=x,y=y))+geom_jitter()+theme_light()+
+  geom_smooth( method = lm, formula = y ~poly(x,2), se = FALSE)+
+  ggtitle("y ~ poly(x,2)")
+p3<-BDD %>% ggplot(aes(x=x,y=y))+geom_jitter()+theme_light()+
+  ggtitle("y ~ poly(x,3)")+
+  geom_smooth( method = lm, formula = y ~poly(x,3), se = FALSE)
+p4<-BDD %>% ggplot(aes(x=x,y=y))+geom_jitter()+theme_light()+
+  geom_smooth( method = lm, formula = y ~poly(x,4), se = FALSE)+
+  ggtitle("y ~ poly(x,4)")
 grid.arrange(p1, p2, p3, p4, nrow = 2)
 ```
+
+------------------------------------------------------------------------
+
+```{r}
+
+p1<-BDD2 %>% ggplot(aes(x=x,y=y))+geom_jitter()+theme_light()+
+  geom_smooth( method = lm, formula = y ~poly(x,1), se = FALSE)+
+  ggtitle("y ~ x")
+p2<-BDD2 %>% ggplot(aes(x=x,y=y))+geom_jitter()+theme_light()+
+  geom_smooth( method = lm, formula = y ~poly(x,2), se = FALSE)+
+  ggtitle("y ~ poly(x,2)")
+p3<-BDD2 %>% ggplot(aes(x=x,y=y))+geom_jitter()+theme_light()+
+  ggtitle("y ~ poly(x,3)")+
+  geom_smooth( method = lm, formula = y ~poly(x,3), se = FALSE)
+p4<-BDD2 %>% ggplot(aes(x=x,y=y))+geom_jitter()+theme_light()+
+  geom_smooth( method = lm, formula = y ~poly(x,4), se = FALSE)+
+  ggtitle("y ~ poly(x,4)")
+grid.arrange(p1, p2, p3, p4, nrow = 2)
+```
+
 
 ## Classification binaire
 
@@ -576,6 +522,8 @@ ex : $\hat{y} \geq 0.5$ classe 1 et $\hat{y} < 0.5$ classe 0
 
 $$\text{F1 Score} = 2\times\frac{\text{Précision}\times\text{Sensibilité}}{\text{Précision}+\text{Sensibilité}}$$
 
+
+
 # Le machine learning en pratique
 
 ![](images/paste-414CE25E.png)
@@ -585,6 +533,8 @@ $$\text{F1 Score} = 2\times\frac{\text{Précision}\times\text{Sensibilité}}{\te
 ![](images/Supervised-machine-learning-01.jpg)
 
 ------------------------------------------------------------------------
+
+# Exemple sur R
 
 # Problématiques du machine learning
 
