@@ -1,0 +1,434 @@
+---
+title: "5-Données spatiales"
+format:
+  revealjs: 
+    theme: [dark]
+    
+editor: visual
+page-layout: full
+author: "Thibaut FABACHER"
+institute: "GMRC"
+incremental: true
+slide-number: h/v
+progress: true
+footer: "Master Intelligence des données de santé / UE Technique"
+show-slide-number: all
+jupyter: false
+cap-location: bottom
+self-contained: true
+execute:
+  echo: true
+---
+
+## Objectifs
+
+• Comprendre et analyser
+
+• Rapport entre positionnement spatial et phénomènes
+
+## Particularités des données géographiques
+
+• Données repérées dans l'espace (plan, altitude, temps)
+
+• Données ponctuelles : distribution dans l'espace des observations
+
+• Données continues
+
+• Données surfaciques
+
+## Mesure de la localisation des données spatiales
+
+• Coordonnées géographiques (et projections)
+
+• Se munir d'une géométrie : euclidienne
+
+• Base orthonormée
+
+• Coordonnées (x; y)
+
+• Polygone : ensemble de points (vertex) reliés par des segments
+définissant une région fermée
+
+• Centroïde: barycentre de points
+
+## Données continues vs agrégées
+
+###Données continues
+
+• Donnée élémentaire : 1 évènement avec sa localisation
+
+• Difficile à obtenir
+
+## Données continues vs agrégées
+
+### Données agrégées
+
+• Donnée élémentaire : n évènements rattachés à une localisation
+
+• Biais écologique : la conclusion sur des groupes est différente de la
+conclusion sur les individus
+
+• Souvent, mélange de données continues (mesures d'exposition à points
+fixes) et de données agrégées par toujours au même niveau d'agrégation
+(populations communales, chômage cantonal)
+
+## Données régulières vs données irrégulières
+
+• Données régulières:
+
+  • Données localisées sur une grille régulière de points
+
+  • Rare en santé
+
+  • Plus fréquent dans les données environnementales
+
+• Données irrégulières
+
+  • Données peuvent a priori être localisées dans l'ensemble d'une région
+
+  • Fréquent en épidémiologie
+
+## Données ponctuelles
+
+• Quantifier l'écart entre la distribution spatiale des observations et
+une distribution complètement aléatoire dans l'espace.
+
+• Détections de cluster
+
+![](images/image1-01.jpg)
+
+## Données continues
+
+• Valeur en tout point du territoire concerné
+
+• Géostatistique : prédiction de la valeur en un point non échantillonné
+
+![](images/image2.jpg)
+
+## Données surfaciques
+
+• Observations liées à des localisations fixes
+
+• PIB par région, nombre de cancers par départements. ..
+
+![](images/image3.png)
+
+## Représentation des données géographiques
+
+• Les cartes :
+
+• Super outil de communication
+
+• Idéal pour les données spatiales
+
+• Superposition de différents fonds et variables
+
+• Attention aux interprétations
+
+## Exemple
+
+-   Données *ozone* de R
+
+-   Mesure de concentration d'ozone en différents point à New York
+
+```{r echo = F}
+knitr::opts_chunk$set("echo"=F)
+library(pander)
+library(maps)
+
+pander(head(ozone))
+```
+
+## Exemple
+
+-   point de mesure
+
+```{r}
+options(tidyverse.quiet = TRUE)
+library(tidyverse)
+ggplot(ozone, aes(x=x, y=y))+geom_point()+
+  coord_cartesian(xlim = c(-75,-70), ylim = c(40,44))+theme_void()
+```
+
+## Exemple
+
+-   point de mesure et valeur
+
+```{r}
+options(tidyverse.quiet = TRUE)
+library(tidyverse)
+ggplot(ozone, aes(x=x, y=y))+geom_text(aes(label= median))+
+  coord_cartesian(xlim = c(-75,-70), ylim = c(40,44))+
+  theme_void()
+```
+
+## Exemple
+
+-   ajout des limites des régions
+
+```{r}
+MainStates <- map_data("state")
+ggplot()+ geom_polygon( data=MainStates, aes(x=long, y=lat, group=group),
+                       color="black", fill="lightblue" )+
+  geom_text(data=ozone, mapping=aes(x=x, y=y,label= median))+
+  coord_cartesian(xlim = c(-75,-70), ylim = c(40,44))+theme_void()
+
+```
+
+## Exemple
+
+• Points de mesure et valeurs et états
+
+```{r}
+ggplot()+ geom_polygon( data=MainStates, aes(x=long, y=lat, group=group),
+                       color="black", fill="lightblue" )+
+  geom_text(data=ozone, mapping=aes(x=x, y=y,label= median))+
+  coord_cartesian(xlim = c(-75,-70), ylim = c(40,44))+theme_void()
+
+```
+
+## Exemple
+
+• Plus lisible, mais perte d'information
+
+```{r}
+ggplot()+ geom_polygon( data=MainStates, aes(x=long, y=lat, group=group),
+                        color="black", fill="white" )+
+  geom_point(data=ozone, mapping=aes(x=x, y=y,color= median))+
+  coord_cartesian(xlim = c(-75,-70), ylim = c(40,44))+theme_void()
+
+```
+
+## Exemple
+
+• Des données ponctuelles aux données agréées, mais perte d'information
+
+```{r}
+
+library(sf)
+sf_use_s2(FALSE)
+median_points_sf <- st_as_sf(ozone, coords = c("x", "y"), crs = 4326) ## Assuming WGS 84 coordinate reference system
+states <- maps::map("state", plot = FALSE, fill = TRUE)
+state_polygons <- states %>%
+  st_as_sf(coords = c("x", "y"), crs = 4326) %>%
+ 
+  summarise(geometry = st_combine(geom)) %>%
+  st_cast("POLYGON")
+
+
+state_polygons <- st_set_crs(state_polygons, 4326)
+
+result <- st_join(state_polygons,median_points_sf, join = st_contains)
+
+
+summary_stats <- result %>% 
+  group_by(geometry) %>% 
+  summarize(median = mean(median))
+
+ggplot()+ geom_sf( data=summary_stats%>%filter(!is.na(median)),
+                   aes(fill = median), 
+                        color="black"  )+
+  geom_point(data=ozone, mapping = aes(x = x,y=y))+theme_void()+coord_sf(xlim =c(-75,-70),ylim = c(40,44))
+```
+
+## Exemple
+
+• autre possibilité : heatmap
+
+```{r}
+library(sf)
+library(interp)
+
+pts.grid <- interp(ozone$x,ozone$y, ozone$median)
+pts.grid2 <- expand.grid(x=pts.grid$x, y=pts.grid$y)
+pts.grid2$z <- as.vector(pts.grid$z)
+
+ggplot()+ geom_polygon( data=MainStates, aes(x=long, y=lat, group=group),
+                        color="gray", fill="white" )+
+  geom_contour_filled(data=pts.grid2,mapping=aes(x=x, y=y, z=z) ,inherit.aes = F,color="black")+
+  geom_point(data=ozone, mapping=aes(x=x, y=y,color= median))+
+  coord_cartesian(xlim = c(-75,-70), ylim = c(40,44))+theme_void()+
+  theme(legend.position = "none")
+         
+```
+
+## Sémiologie cartographique
+
+• Ensemble de règles classique permettant de transmettre le plus
+clairement possible l'information correcte grâce à une image
+cartographique
+
+![](images/image10.png)
+
+## choroplèthe
+
+-   Représentation de données relatives
+
+-   Discrétisation des données
+
+-   3 -- 5 classes
+
+-   Méthodes : quantiles, mêmes amplitudes...
+
+![](images/image11.png)
+
+## Systèmes de projection
+
+![](images/image12.jpg)
+
+## Systèmes de projection
+
+![](images/image13.png)
+
+## Systèmes de projection
+
+![](images/image14.png)
+
+## En pratique (1)
+
+• Utiliser les packages sf, cartography, ggplot, leaflet
+
+• Avoir des objets spatiaux (shapesfiles)
+
+• Granularité particulière
+
+• Attribuées des données à ces objets spatiaux
+
+[Ressource R](https://rcarto.github.io/cartographie_avec_r/)
+
+## En pratique (2)
+
+• Vérifier la projection des données (« st_crs ») en France :
+
+**Lambert 93**
+
+• Définir la représentation graphique
+
+## Cheatsheet
+
+![](images/image15.png)
+
+## Différence avec analyse classique
+
+-   Données agrégées à une échelle géographique adaptée
+
+-   Absence d'indépendance entre les observations
+
+![](images/image19-01.png)
+
+## Analyse spatiale
+
+• Dépendance spatiale :
+
+```         
+- lorsque la valeur de l’observation i influence la valeur de l’observation j voisine
+```
+
+• Hétérogénéité spatiale:
+
+```         
+- l’influence des variables explicatives sur la variable dépendante dépend de la localisation dans l’espace
+```
+
+## Mesurer l'importance des effets spatiaux
+
+• Indices d'autocorrélation spatiale
+
+• Lissage spatial
+
+• Régression géographiquement pondérée
+
+## Indices d'autocorrélation spatiale
+
+• Indices mesurant la dépendance spatiale d'une variable
+
+• Les indices d'autocorrélation spatiale permettent de mesurer la
+dépendance spatiale entre les valeurs d'une même variable en différents
+endroits de l'espace.
+
+• L'autocorrélation mesure la corrélation d'une variable avec elle-même
+
+## Indices d'autocorrélation spatiale
+
+• Analyse statistique suppose indépendance des variables
+
+• Autocorrélation spatiale doit être prise en compte pour l'analyse
+
+![](images/image17.png)
+
+## Diagramme de Moran
+
+• Permets une lecture rapide de la structure spatiale
+
+• Y centrée en abscisse
+
+• Valeur moyenne de la variable y pour les observations voisines
+
+![](images/image18.png)
+
+## Dépendance spatiale globale
+
+• Si une structure spatiale est mise en évidence:
+
+• Quelle est la force de cette structure ?
+
+![](images/image19-02.png)
+
+## Dépendance spatiale globale
+
+• Si une structure spatiale est mise en évidence:
+
+• Quelle est la force de cette structure ?
+
+• Peut-elle être du au hasard?
+
+• Test d'hypothèse nulle : hypothèse de randomisation / hypothèse de
+normalité
+
+## Dépendance spatiale globale
+
+• hypothèse de randomisation
+
+• Comparaison de la distribution observée à celle obtenue en réordonnant
+au hasard les données
+
+## Lissage spatial
+
+• Le lissage spatial est une méthode d'estimation non paramétrique de la
+fonction d'intensité d'un processus ponctuel à valeurs dans R2 à partir
+uniquement d'une de ses réalisations.
+
+• En pratique :
+
+• Noyau : comment prendre en compte le voisinage
+
+• Bande passante : taille du voisinage
+
+• Traitement des effets de bord : comment sont prises en compte les
+frontières
+
+## Plusieurs méthodes de lissage
+
+![](images/image21.png)
+
+## Lissage par splines
+
+![](images/image22.png)
+
+## Utilisation des ces lissages dans des modèles
+
+• Y\~a+b1x1+s(space)
+
+![](images/image23.png)
+
+## Régression géographiquement pondérées
+
+![](images/image24.png)
+
+## Problématique des études géographiques
+
+• Données agrégées : biais écologique
+
+• Anonymisation des données
+
+• Recueil des données

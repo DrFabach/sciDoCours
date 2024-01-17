@@ -1,0 +1,87 @@
+---
+title: "5-Td analyse reproductible"
+format:
+  revealjs: 
+    theme: [dark]
+    
+editor: visual
+page-layout: full
+author: "Thibaut FABACHER"
+institute: "GMRC"
+incremental: true
+slide-number: h/v
+progress: true
+footer: "Master Intelligence des données de santé / UE Technique"
+show-slide-number: all
+jupyter: false
+cap-location: bottom
+self-contained: true
+execute:
+  echo: true
+---
+
+# Problèmes
+
+``` r
+install.packages("ggplot2") 
+library(ggplot2) 
+install.packages("gridExtra") 
+library(gridExtra)
+```
+. . . 
+
+_Warning: impossible de supprimer l'installation précédente du package 'dplyr'_
+
+------------
+
+``` r
+data<-read.csv(file='C:/Users/pierre/Documents/TP_Reproductibilité/dm.csv',sep=',',header=TRUE)
+```
+-----------
+
+``` r
+data.frame(as.data.frame ....
+```
+---------
+![](images/Capture.PNG)
+
+----------
+
+![](images/Capture-01.PNG)
+
+
+------------
+
+```R
+# importet le Dataset "gapminder" 
+gapminder <- read.table("gapminder.csv" ,header = TRUE, sep = ",")
+head(gapminder, n = 6)
+
+```
+
+------------
+
+```
+<table class="dataframe">
+<caption>A data.frame: 6 × 6</caption>
+<thead>
+	<tr><th></th><th scope=col>country</th><th scope=col>continent</th><th scope=col>year</th><th scope=col>lifeExp</th><th scope=col>pop</th><th scope=col>gdpPercap</th></tr>
+	<tr><th></th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;int&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;int&gt;</th><th scope=col>&lt;dbl&gt;</th></tr>
+</thead>
+<tbody>
+	<tr><th scope=row>1</th><td>Afghanistan</td><td>Asia</td><td>1952</td><td>28.801</td><td> 8425333</td><td>779.4453</td></tr>
+	<tr><th scope=row>2</th><td>Afghanistan</td><td>Asia</td><td>1957</td><td>30.332</td><td> 9240934</td><td>820.8530</td></tr>
+	<tr><th scope=row>3</th><td>Afghanistan</td><td>Asia</td><td>1962</td><td>31.997</td><td>10267083</td><td>853.1007</td></tr>
+	<tr><th scope=row>4</th><td>Afghanistan</td><td>Asia</td><td>1967</td><td>34.020</td><td>11537966</td><td>836.1971</td></tr>
+	<tr><th scope=row>5</th><td>Afghanistan</td><td>Asia</td><td>1972</td><td>36.088</td><td>13079460</td><td>739.9811</td></tr>
+	<tr><th scope=row>6</th><td>Afghanistan</td><td>Asia</td><td>1977</td><td>38.438</td><td>14880372</td><td>786.1134</td></tr>
+</tbody>
+</table>
+
+```
+----------
+
+```
+setwd("C:/Users/.../Downloads/")
+```
+

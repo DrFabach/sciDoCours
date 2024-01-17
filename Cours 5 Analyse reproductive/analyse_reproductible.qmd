@@ -20,6 +20,12 @@ execute:
   echo: true
 ---
 
+```{r include = F}
+# Améliorer la présentationd de md, 
+# Revvoir l'ordre des diapos.
+```
+
+
 # Analyses reproductibles
 
 ![](images/paste-BA474BD1.png)
