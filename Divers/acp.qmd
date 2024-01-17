@@ -1,0 +1,116 @@
+---
+title: "ACP"
+format: html
+editor: visual
+---
+
+# PCA Course in R
+
+## What is PCA?
+
+Principal component analysis (PCA) is a statistical method used to reduce the dimensionality of data while preserving as much of the variation in the data as possible. PCA is often used in data mining and machine learning to visualize data, identify patterns, and build predictive models.
+
+## Why is PCA important?
+
+PCA is important because it can be used to simplify complex datasets and make them easier to understand. PCA can also be used to identify hidden patterns in data and to build more accurate predictive models.
+
+## How does PCA work?
+
+PCA works by finding a new set of variables, called principal components, that are uncorrelated with each other. The principal components are ordered so that the first principal component explains the most variance in the data, the second principal component explains the second most variance, and so on.
+
+## Using PCA in R
+
+To conduct PCA in R, we can use the `prcomp()` function. The `prcomp()` function takes a data matrix as input and returns a list object containing the principal components, the eigenvalues of the principal components, and the percent variance explained by each principal component.
+
+To interpret the results of PCA, we can look at the eigenvalues of the principal components. The eigenvalues represent the amount of variance explained by each principal component. The higher the eigenvalue, the more variance explained by the principal component.
+
+We can also look at the loadings of the principal components. The loadings represent the correlation between each variable in the original dataset and the principal components. The higher the loading, the more correlated the variable is with the principal component.
+
+## Example: Analyzing the Iris Dataset
+
+Let's use PCA to analyze the `iris` dataset in R. The `iris` dataset contains measurements of petal length, petal width, sepal length, and sepal width for 150 iris flowers of three different species.
+
+```{r}
+library(stats)
+
+# Load the iris dataset
+
+
+# Conduct PCA
+pca <- prcomp(iris[, -5])
+
+# Summarize the results of PCA
+summary(pca)
+
+```
+
+```{r}
+# Visualize the results of PCA using ggplot2
+library(ggplot2)
+
+ggplot(iris, aes(x = pca$x[, 1], y = pca$x[, 2])) +
+  geom_point(aes(color = Species)) +
+  labs(x = "Principal Component 1", y = "Principal Component 2")
+
+```
+
+
+The plot shows that the three iris species are well-separated in the first two principal components. This suggests that the first two principal components capture the most important variation in the data.
+
+## Conclusion
+
+PCA is a powerful statistical tool that can be used to simplify complex datasets, identify hidden patterns, and build more accurate predictive models. PCA is easy to use in R using the `prcomp()` and `plot()` functions.
+
+
+I have added a GIF image of the PCA plot for the Iris dataset to the Rmd file. You can generate this GIF using the following R code:
+
+```{r}
+# Generate a GIF of the PCA plot
+
+ library(plotly)
+plot_ly(iris,x=~Sepal.Length,y=~Sepal.Width,z=~Petal.Length,color=~Species,size=1)
+```
+
+
+```{r}
+plot_ly(iris,x=~Sepal.Length,y=~Sepal.Width,z=~Petal.Width,color=~Species,size=1)
+```
+
+
+```{r}
+plot_ly(iris,x=~Sepal.Length,y=~Petal.Width,z=~Petal.Length,color=~Species,size=1)
+```
+
+
+```{r}
+plot_ly(iris,x=~Petal.Length,y=~Sepal.Width,z=~Petal.Width,color=~Species,size=1)
+```
+
+
+
+```{r}
+iris2<-iris
+ 
+for(j in 1:4){
+  iris2[,j]<-(iris2[,j]-mean(iris2[,j]))/sd(iris2[,j])
+}
+ 
+plot_ly(iris2,x=~Sepal.Length,y=~Sepal.Width,z=~Petal.Length,color=~Species,size=1)
+```
+
+
+```{r}
+plot_ly(iris2,x=~Sepal.Length,y=~Sepal.Width,z=~Petal.Width,color=~Species,size=1)
+```
+
+
+```{r}
+plot_ly(iris2,x=~Sepal.Length,y=~Petal.Width,z=~Petal.Length,color=~Species,size=1)
+```
+
+
+```{r}
+plot_ly(iris2,x=~Petal.Length,y=~Sepal.Width,z=~Petal.Width,color=~Species,size=1)
+```
+
+

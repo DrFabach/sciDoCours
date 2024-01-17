@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.433">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>ACP</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="acp_files/libs/clipboard/clipboard.min.js"></script>
+<script src="acp_files/libs/quarto-html/quarto.js"></script>
+<script src="acp_files/libs/quarto-html/popper.min.js"></script>
+<script src="acp_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="acp_files/libs/quarto-html/anchor.min.js"></script>
+<link href="acp_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="acp_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="acp_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="acp_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="acp_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script src="acp_files/libs/htmlwidgets-1.6.1/htmlwidgets.js"></script>
+<script src="acp_files/libs/plotly-binding-4.10.1/plotly.js"></script>
+<script src="acp_files/libs/typedarray-0.1/typedarray.min.js"></script>
+<script src="acp_files/libs/jquery-3.5.1/jquery.min.js"></script>
+<link href="acp_files/libs/crosstalk-1.2.0/css/crosstalk.min.css" rel="stylesheet">
+<script src="acp_files/libs/crosstalk-1.2.0/js/crosstalk.min.js"></script>
+<link href="acp_files/libs/plotly-htmlwidgets-css-2.11.1/plotly-htmlwidgets.css" rel="stylesheet">
+<script src="acp_files/libs/plotly-main-2.11.1/plotly-latest.min.js"></script>
+
+
+</head>
+
+<body class="fullcontent">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">ACP</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<section id="pca-course-in-r" class="level1">
+<h1>PCA Course in R</h1>
+<section id="what-is-pca" class="level2">
+<h2 class="anchored" data-anchor-id="what-is-pca">What is PCA?</h2>
+<p>Principal component analysis (PCA) is a statistical method used to reduce the dimensionality of data while preserving as much of the variation in the data as possible. PCA is often used in data mining and machine learning to visualize data, identify patterns, and build predictive models.</p>
+</section>
+<section id="why-is-pca-important" class="level2">
+<h2 class="anchored" data-anchor-id="why-is-pca-important">Why is PCA important?</h2>
+<p>PCA is important because it can be used to simplify complex datasets and make them easier to understand. PCA can also be used to identify hidden patterns in data and to build more accurate predictive models.</p>
+</section>
+<section id="how-does-pca-work" class="level2">
+<h2 class="anchored" data-anchor-id="how-does-pca-work">How does PCA work?</h2>
+<p>PCA works by finding a new set of variables, called principal components, that are uncorrelated with each other. The principal components are ordered so that the first principal component explains the most variance in the data, the second principal component explains the second most variance, and so on.</p>
+</section>
+<section id="using-pca-in-r" class="level2">
+<h2 class="anchored" data-anchor-id="using-pca-in-r">Using PCA in R</h2>
+<p>To conduct PCA in R, we can use the <code>prcomp()</code> function. The <code>prcomp()</code> function takes a data matrix as input and returns a list object containing the principal components, the eigenvalues of the principal components, and the percent variance explained by each principal component.</p>
+<p>To interpret the results of PCA, we can look at the eigenvalues of the principal components. The eigenvalues represent the amount of variance explained by each principal component. The higher the eigenvalue, the more variance explained by the principal component.</p>
+<p>We can also look at the loadings of the principal components. The loadings represent the correlation between each variable in the original dataset and the principal components. The higher the loading, the more correlated the variable is with the principal component.</p>
+</section>
+<section id="example-analyzing-the-iris-dataset" class="level2">
+<h2 class="anchored" data-anchor-id="example-analyzing-the-iris-dataset">Example: Analyzing the Iris Dataset</h2>
+<p>Let’s use PCA to analyze the <code>iris</code> dataset in R. The <code>iris</code> dataset contains measurements of petal length, petal width, sepal length, and sepal width for 150 iris flowers of three different species.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(stats)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Load the iris dataset</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Conduct PCA</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>pca <span class="ot">&lt;-</span> <span class="fu">prcomp</span>(iris[, <span class="sc">-</span><span class="dv">5</span>])</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Summarize the results of PCA</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(pca)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Importance of components:
+                          PC1     PC2    PC3     PC4
+Standard deviation     2.0563 0.49262 0.2797 0.15439
+Proportion of Variance 0.9246 0.05307 0.0171 0.00521
+Cumulative Proportion  0.9246 0.97769 0.9948 1.00000</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Visualize the results of PCA using ggplot2</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: le package 'ggplot2' a été compilé avec la version R 4.1.3</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(iris, <span class="fu">aes</span>(<span class="at">x =</span> pca<span class="sc">$</span>x[, <span class="dv">1</span>], <span class="at">y =</span> pca<span class="sc">$</span>x[, <span class="dv">2</span>])) <span class="sc">+</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">color =</span> Species)) <span class="sc">+</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Principal Component 1"</span>, <span class="at">y =</span> <span class="st">"Principal Component 2"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="acp_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>The plot shows that the three iris species are well-separated in the first two principal components. This suggests that the first two principal components capture the most important variation in the data.</p>
+</section>
+<section id="conclusion" class="level2">
+<h2 class="anchored" data-anchor-id="conclusion">Conclusion</h2>
+<p>PCA is a powerful statistical tool that can be used to simplify complex datasets, identify hidden patterns, and build more accurate predictive models. PCA is easy to use in R using the <code>prcomp()</code> and <code>plot()</code> functions.</p>
+<p>I have added a GIF image of the PCA plot for the Iris dataset to the Rmd file. You can generate this GIF using the following R code:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Generate a GIF of the PCA plot</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a> <span class="fu">library</span>(plotly)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: le package 'plotly' a été compilé avec la version R 4.1.3</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attachement du package : 'plotly'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>L'objet suivant est masqué depuis 'package:ggplot2':
+
+    last_plot</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>L'objet suivant est masqué depuis 'package:stats':
+
+    filter</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>L'objet suivant est masqué depuis 'package:graphics':
+
+    layout</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_ly</span>(iris,<span class="at">x=</span><span class="sc">~</span>Sepal.Length,<span class="at">y=</span><span class="sc">~</span>Sepal.Width,<span class="at">z=</span><span class="sc">~</span>Petal.Length,<span class="at">color=</span><span class="sc">~</span>Species,<span class="at">size=</span><span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>No trace type specified:
+  Based on info supplied, a 'scatter3d' trace seems appropriate.
+  Read more about this trace type -&gt; https://plotly.com/r/reference/#scatter3d</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>No scatter3d mode specifed:
+  Setting the mode to markers
+  Read more about this attribute -&gt; https://plotly.com/r/reference/#scatter-mode</code></pre>
+</div>
+<div class="cell-output-display">
+<div class="plotly html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-f2e7c4b99c009c745663" style="width:100%;height:464px;"></div>
+<script type="application/json" data-for="htmlwidget-f2e7c4b99c009c745663">{"x":{"visdat":{"84a060e27c51":["function () ","plotlyVisDat"]},"cur_data":"84a060e27c51","attrs":{"84a060e27c51":{"x":{},"y":{},"z":{},"color":{},"size":1,"alpha_stroke":1,"sizes":[10,100],"spans":[1,20]}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"scene":{"xaxis":{"title":"Sepal.Length"},"yaxis":{"title":"Sepal.Width"},"zaxis":{"title":"Petal.Length"}},"hovermode":"closest","showlegend":true},"source":"A","config":{"modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"data":[{"x":[5.1,4.9,4.7,4.6,5,5.4,4.6,5,4.4,4.9,5.4,4.8,4.8,4.3,5.8,5.7,5.4,5.1,5.7,5.1,5.4,5.1,4.6,5.1,4.8,5,5,5.2,5.2,4.7,4.8,5.4,5.2,5.5,4.9,5,5.5,4.9,4.4,5.1,5,4.5,4.4,5,5.1,4.8,5.1,4.6,5.3,5],"y":[3.5,3,3.2,3.1,3.6,3.9,3.4,3.4,2.9,3.1,3.7,3.4,3,3,4,4.4,3.9,3.5,3.8,3.8,3.4,3.7,3.6,3.3,3.4,3,3.4,3.5,3.4,3.2,3.1,3.4,4.1,4.2,3.1,3.2,3.5,3.6,3,3.4,3.5,2.3,3.2,3.5,3.8,3,3.8,3.2,3.7,3.3],"z":[1.4,1.4,1.3,1.5,1.4,1.7,1.4,1.5,1.4,1.5,1.5,1.6,1.4,1.1,1.2,1.5,1.3,1.4,1.7,1.5,1.7,1.5,1,1.7,1.9,1.6,1.6,1.5,1.4,1.6,1.6,1.5,1.5,1.4,1.5,1.2,1.3,1.4,1.3,1.5,1.3,1.3,1.3,1.6,1.9,1.4,1.6,1.4,1.5,1.4],"type":"scatter3d","mode":"markers","name":"setosa","marker":{"color":"rgba(102,194,165,1)","size":[55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55],"sizemode":"area","line":{"color":"rgba(102,194,165,1)"}},"textfont":{"color":"rgba(102,194,165,1)","size":55},"error_y":{"color":"rgba(102,194,165,1)","width":55},"error_x":{"color":"rgba(102,194,165,1)","width":55},"line":{"color":"rgba(102,194,165,1)","width":55},"frame":null},{"x":[7,6.4,6.9,5.5,6.5,5.7,6.3,4.9,6.6,5.2,5,5.9,6,6.1,5.6,6.7,5.6,5.8,6.2,5.6,5.9,6.1,6.3,6.1,6.4,6.6,6.8,6.7,6,5.7,5.5,5.5,5.8,6,5.4,6,6.7,6.3,5.6,5.5,5.5,6.1,5.8,5,5.6,5.7,5.7,6.2,5.1,5.7],"y":[3.2,3.2,3.1,2.3,2.8,2.8,3.3,2.4,2.9,2.7,2,3,2.2,2.9,2.9,3.1,3,2.7,2.2,2.5,3.2,2.8,2.5,2.8,2.9,3,2.8,3,2.9,2.6,2.4,2.4,2.7,2.7,3,3.4,3.1,2.3,3,2.5,2.6,3,2.6,2.3,2.7,3,2.9,2.9,2.5,2.8],"z":[4.7,4.5,4.9,4,4.6,4.5,4.7,3.3,4.6,3.9,3.5,4.2,4,4.7,3.6,4.4,4.5,4.1,4.5,3.9,4.8,4,4.9,4.7,4.3,4.4,4.8,5,4.5,3.5,3.8,3.7,3.9,5.1,4.5,4.5,4.7,4.4,4.1,4,4.4,4.6,4,3.3,4.2,4.2,4.2,4.3,3,4.1],"type":"scatter3d","mode":"markers","name":"versicolor","marker":{"color":"rgba(252,141,98,1)","size":[55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55],"sizemode":"area","line":{"color":"rgba(252,141,98,1)"}},"textfont":{"color":"rgba(252,141,98,1)","size":55},"error_y":{"color":"rgba(252,141,98,1)","width":55},"error_x":{"color":"rgba(252,141,98,1)","width":55},"line":{"color":"rgba(252,141,98,1)","width":55},"frame":null},{"x":[6.3,5.8,7.1,6.3,6.5,7.6,4.9,7.3,6.7,7.2,6.5,6.4,6.8,5.7,5.8,6.4,6.5,7.7,7.7,6,6.9,5.6,7.7,6.3,6.7,7.2,6.2,6.1,6.4,7.2,7.4,7.9,6.4,6.3,6.1,7.7,6.3,6.4,6,6.9,6.7,6.9,5.8,6.8,6.7,6.7,6.3,6.5,6.2,5.9],"y":[3.3,2.7,3,2.9,3,3,2.5,2.9,2.5,3.6,3.2,2.7,3,2.5,2.8,3.2,3,3.8,2.6,2.2,3.2,2.8,2.8,2.7,3.3,3.2,2.8,3,2.8,3,2.8,3.8,2.8,2.8,2.6,3,3.4,3.1,3,3.1,3.1,3.1,2.7,3.2,3.3,3,2.5,3,3.4,3],"z":[6,5.1,5.9,5.6,5.8,6.6,4.5,6.3,5.8,6.1,5.1,5.3,5.5,5,5.1,5.3,5.5,6.7,6.9,5,5.7,4.9,6.7,4.9,5.7,6,4.8,4.9,5.6,5.8,6.1,6.4,5.6,5.1,5.6,6.1,5.6,5.5,4.8,5.4,5.6,5.1,5.1,5.9,5.7,5.2,5,5.2,5.4,5.1],"type":"scatter3d","mode":"markers","name":"virginica","marker":{"color":"rgba(141,160,203,1)","size":[55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55],"sizemode":"area","line":{"color":"rgba(141,160,203,1)"}},"textfont":{"color":"rgba(141,160,203,1)","size":55},"error_y":{"color":"rgba(141,160,203,1)","width":55},"error_x":{"color":"rgba(141,160,203,1)","width":55},"line":{"color":"rgba(141,160,203,1)","width":55},"frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_ly</span>(iris,<span class="at">x=</span><span class="sc">~</span>Sepal.Length,<span class="at">y=</span><span class="sc">~</span>Sepal.Width,<span class="at">z=</span><span class="sc">~</span>Petal.Width,<span class="at">color=</span><span class="sc">~</span>Species,<span class="at">size=</span><span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>No trace type specified:
+  Based on info supplied, a 'scatter3d' trace seems appropriate.
+  Read more about this trace type -&gt; https://plotly.com/r/reference/#scatter3d</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>No scatter3d mode specifed:
+  Setting the mode to markers
+  Read more about this attribute -&gt; https://plotly.com/r/reference/#scatter-mode</code></pre>
+</div>
+<div class="cell-output-display">
+<div class="plotly html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-02c898a031c06f698eeb" style="width:100%;height:464px;"></div>
+<script type="application/json" data-for="htmlwidget-02c898a031c06f698eeb">{"x":{"visdat":{"84a0552a182f":["function () ","plotlyVisDat"]},"cur_data":"84a0552a182f","attrs":{"84a0552a182f":{"x":{},"y":{},"z":{},"color":{},"size":1,"alpha_stroke":1,"sizes":[10,100],"spans":[1,20]}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"scene":{"xaxis":{"title":"Sepal.Length"},"yaxis":{"title":"Sepal.Width"},"zaxis":{"title":"Petal.Width"}},"hovermode":"closest","showlegend":true},"source":"A","config":{"modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"data":[{"x":[5.1,4.9,4.7,4.6,5,5.4,4.6,5,4.4,4.9,5.4,4.8,4.8,4.3,5.8,5.7,5.4,5.1,5.7,5.1,5.4,5.1,4.6,5.1,4.8,5,5,5.2,5.2,4.7,4.8,5.4,5.2,5.5,4.9,5,5.5,4.9,4.4,5.1,5,4.5,4.4,5,5.1,4.8,5.1,4.6,5.3,5],"y":[3.5,3,3.2,3.1,3.6,3.9,3.4,3.4,2.9,3.1,3.7,3.4,3,3,4,4.4,3.9,3.5,3.8,3.8,3.4,3.7,3.6,3.3,3.4,3,3.4,3.5,3.4,3.2,3.1,3.4,4.1,4.2,3.1,3.2,3.5,3.6,3,3.4,3.5,2.3,3.2,3.5,3.8,3,3.8,3.2,3.7,3.3],"z":[0.2,0.2,0.2,0.2,0.2,0.4,0.3,0.2,0.2,0.1,0.2,0.2,0.1,0.1,0.2,0.4,0.4,0.3,0.3,0.3,0.2,0.4,0.2,0.5,0.2,0.2,0.4,0.2,0.2,0.2,0.2,0.4,0.1,0.2,0.2,0.2,0.2,0.1,0.2,0.2,0.3,0.3,0.2,0.6,0.4,0.3,0.2,0.2,0.2,0.2],"type":"scatter3d","mode":"markers","name":"setosa","marker":{"color":"rgba(102,194,165,1)","size":[55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55],"sizemode":"area","line":{"color":"rgba(102,194,165,1)"}},"textfont":{"color":"rgba(102,194,165,1)","size":55},"error_y":{"color":"rgba(102,194,165,1)","width":55},"error_x":{"color":"rgba(102,194,165,1)","width":55},"line":{"color":"rgba(102,194,165,1)","width":55},"frame":null},{"x":[7,6.4,6.9,5.5,6.5,5.7,6.3,4.9,6.6,5.2,5,5.9,6,6.1,5.6,6.7,5.6,5.8,6.2,5.6,5.9,6.1,6.3,6.1,6.4,6.6,6.8,6.7,6,5.7,5.5,5.5,5.8,6,5.4,6,6.7,6.3,5.6,5.5,5.5,6.1,5.8,5,5.6,5.7,5.7,6.2,5.1,5.7],"y":[3.2,3.2,3.1,2.3,2.8,2.8,3.3,2.4,2.9,2.7,2,3,2.2,2.9,2.9,3.1,3,2.7,2.2,2.5,3.2,2.8,2.5,2.8,2.9,3,2.8,3,2.9,2.6,2.4,2.4,2.7,2.7,3,3.4,3.1,2.3,3,2.5,2.6,3,2.6,2.3,2.7,3,2.9,2.9,2.5,2.8],"z":[1.4,1.5,1.5,1.3,1.5,1.3,1.6,1,1.3,1.4,1,1.5,1,1.4,1.3,1.4,1.5,1,1.5,1.1,1.8,1.3,1.5,1.2,1.3,1.4,1.4,1.7,1.5,1,1.1,1,1.2,1.6,1.5,1.6,1.5,1.3,1.3,1.3,1.2,1.4,1.2,1,1.3,1.2,1.3,1.3,1.1,1.3],"type":"scatter3d","mode":"markers","name":"versicolor","marker":{"color":"rgba(252,141,98,1)","size":[55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55],"sizemode":"area","line":{"color":"rgba(252,141,98,1)"}},"textfont":{"color":"rgba(252,141,98,1)","size":55},"error_y":{"color":"rgba(252,141,98,1)","width":55},"error_x":{"color":"rgba(252,141,98,1)","width":55},"line":{"color":"rgba(252,141,98,1)","width":55},"frame":null},{"x":[6.3,5.8,7.1,6.3,6.5,7.6,4.9,7.3,6.7,7.2,6.5,6.4,6.8,5.7,5.8,6.4,6.5,7.7,7.7,6,6.9,5.6,7.7,6.3,6.7,7.2,6.2,6.1,6.4,7.2,7.4,7.9,6.4,6.3,6.1,7.7,6.3,6.4,6,6.9,6.7,6.9,5.8,6.8,6.7,6.7,6.3,6.5,6.2,5.9],"y":[3.3,2.7,3,2.9,3,3,2.5,2.9,2.5,3.6,3.2,2.7,3,2.5,2.8,3.2,3,3.8,2.6,2.2,3.2,2.8,2.8,2.7,3.3,3.2,2.8,3,2.8,3,2.8,3.8,2.8,2.8,2.6,3,3.4,3.1,3,3.1,3.1,3.1,2.7,3.2,3.3,3,2.5,3,3.4,3],"z":[2.5,1.9,2.1,1.8,2.2,2.1,1.7,1.8,1.8,2.5,2,1.9,2.1,2,2.4,2.3,1.8,2.2,2.3,1.5,2.3,2,2,1.8,2.1,1.8,1.8,1.8,2.1,1.6,1.9,2,2.2,1.5,1.4,2.3,2.4,1.8,1.8,2.1,2.4,2.3,1.9,2.3,2.5,2.3,1.9,2,2.3,1.8],"type":"scatter3d","mode":"markers","name":"virginica","marker":{"color":"rgba(141,160,203,1)","size":[55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55],"sizemode":"area","line":{"color":"rgba(141,160,203,1)"}},"textfont":{"color":"rgba(141,160,203,1)","size":55},"error_y":{"color":"rgba(141,160,203,1)","width":55},"error_x":{"color":"rgba(141,160,203,1)","width":55},"line":{"color":"rgba(141,160,203,1)","width":55},"frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_ly</span>(iris,<span class="at">x=</span><span class="sc">~</span>Sepal.Length,<span class="at">y=</span><span class="sc">~</span>Petal.Width,<span class="at">z=</span><span class="sc">~</span>Petal.Length,<span class="at">color=</span><span class="sc">~</span>Species,<span class="at">size=</span><span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>No trace type specified:
+  Based on info supplied, a 'scatter3d' trace seems appropriate.
+  Read more about this trace type -&gt; https://plotly.com/r/reference/#scatter3d</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>No scatter3d mode specifed:
+  Setting the mode to markers
+  Read more about this attribute -&gt; https://plotly.com/r/reference/#scatter-mode</code></pre>
+</div>
+<div class="cell-output-display">
+<div class="plotly html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-394948a0ace62bfd5cd6" style="width:100%;height:464px;"></div>
+<script type="application/json" data-for="htmlwidget-394948a0ace62bfd5cd6">{"x":{"visdat":{"84a0ea14b89":["function () ","plotlyVisDat"]},"cur_data":"84a0ea14b89","attrs":{"84a0ea14b89":{"x":{},"y":{},"z":{},"color":{},"size":1,"alpha_stroke":1,"sizes":[10,100],"spans":[1,20]}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"scene":{"xaxis":{"title":"Sepal.Length"},"yaxis":{"title":"Petal.Width"},"zaxis":{"title":"Petal.Length"}},"hovermode":"closest","showlegend":true},"source":"A","config":{"modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"data":[{"x":[5.1,4.9,4.7,4.6,5,5.4,4.6,5,4.4,4.9,5.4,4.8,4.8,4.3,5.8,5.7,5.4,5.1,5.7,5.1,5.4,5.1,4.6,5.1,4.8,5,5,5.2,5.2,4.7,4.8,5.4,5.2,5.5,4.9,5,5.5,4.9,4.4,5.1,5,4.5,4.4,5,5.1,4.8,5.1,4.6,5.3,5],"y":[0.2,0.2,0.2,0.2,0.2,0.4,0.3,0.2,0.2,0.1,0.2,0.2,0.1,0.1,0.2,0.4,0.4,0.3,0.3,0.3,0.2,0.4,0.2,0.5,0.2,0.2,0.4,0.2,0.2,0.2,0.2,0.4,0.1,0.2,0.2,0.2,0.2,0.1,0.2,0.2,0.3,0.3,0.2,0.6,0.4,0.3,0.2,0.2,0.2,0.2],"z":[1.4,1.4,1.3,1.5,1.4,1.7,1.4,1.5,1.4,1.5,1.5,1.6,1.4,1.1,1.2,1.5,1.3,1.4,1.7,1.5,1.7,1.5,1,1.7,1.9,1.6,1.6,1.5,1.4,1.6,1.6,1.5,1.5,1.4,1.5,1.2,1.3,1.4,1.3,1.5,1.3,1.3,1.3,1.6,1.9,1.4,1.6,1.4,1.5,1.4],"type":"scatter3d","mode":"markers","name":"setosa","marker":{"color":"rgba(102,194,165,1)","size":[55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55],"sizemode":"area","line":{"color":"rgba(102,194,165,1)"}},"textfont":{"color":"rgba(102,194,165,1)","size":55},"error_y":{"color":"rgba(102,194,165,1)","width":55},"error_x":{"color":"rgba(102,194,165,1)","width":55},"line":{"color":"rgba(102,194,165,1)","width":55},"frame":null},{"x":[7,6.4,6.9,5.5,6.5,5.7,6.3,4.9,6.6,5.2,5,5.9,6,6.1,5.6,6.7,5.6,5.8,6.2,5.6,5.9,6.1,6.3,6.1,6.4,6.6,6.8,6.7,6,5.7,5.5,5.5,5.8,6,5.4,6,6.7,6.3,5.6,5.5,5.5,6.1,5.8,5,5.6,5.7,5.7,6.2,5.1,5.7],"y":[1.4,1.5,1.5,1.3,1.5,1.3,1.6,1,1.3,1.4,1,1.5,1,1.4,1.3,1.4,1.5,1,1.5,1.1,1.8,1.3,1.5,1.2,1.3,1.4,1.4,1.7,1.5,1,1.1,1,1.2,1.6,1.5,1.6,1.5,1.3,1.3,1.3,1.2,1.4,1.2,1,1.3,1.2,1.3,1.3,1.1,1.3],"z":[4.7,4.5,4.9,4,4.6,4.5,4.7,3.3,4.6,3.9,3.5,4.2,4,4.7,3.6,4.4,4.5,4.1,4.5,3.9,4.8,4,4.9,4.7,4.3,4.4,4.8,5,4.5,3.5,3.8,3.7,3.9,5.1,4.5,4.5,4.7,4.4,4.1,4,4.4,4.6,4,3.3,4.2,4.2,4.2,4.3,3,4.1],"type":"scatter3d","mode":"markers","name":"versicolor","marker":{"color":"rgba(252,141,98,1)","size":[55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55],"sizemode":"area","line":{"color":"rgba(252,141,98,1)"}},"textfont":{"color":"rgba(252,141,98,1)","size":55},"error_y":{"color":"rgba(252,141,98,1)","width":55},"error_x":{"color":"rgba(252,141,98,1)","width":55},"line":{"color":"rgba(252,141,98,1)","width":55},"frame":null},{"x":[6.3,5.8,7.1,6.3,6.5,7.6,4.9,7.3,6.7,7.2,6.5,6.4,6.8,5.7,5.8,6.4,6.5,7.7,7.7,6,6.9,5.6,7.7,6.3,6.7,7.2,6.2,6.1,6.4,7.2,7.4,7.9,6.4,6.3,6.1,7.7,6.3,6.4,6,6.9,6.7,6.9,5.8,6.8,6.7,6.7,6.3,6.5,6.2,5.9],"y":[2.5,1.9,2.1,1.8,2.2,2.1,1.7,1.8,1.8,2.5,2,1.9,2.1,2,2.4,2.3,1.8,2.2,2.3,1.5,2.3,2,2,1.8,2.1,1.8,1.8,1.8,2.1,1.6,1.9,2,2.2,1.5,1.4,2.3,2.4,1.8,1.8,2.1,2.4,2.3,1.9,2.3,2.5,2.3,1.9,2,2.3,1.8],"z":[6,5.1,5.9,5.6,5.8,6.6,4.5,6.3,5.8,6.1,5.1,5.3,5.5,5,5.1,5.3,5.5,6.7,6.9,5,5.7,4.9,6.7,4.9,5.7,6,4.8,4.9,5.6,5.8,6.1,6.4,5.6,5.1,5.6,6.1,5.6,5.5,4.8,5.4,5.6,5.1,5.1,5.9,5.7,5.2,5,5.2,5.4,5.1],"type":"scatter3d","mode":"markers","name":"virginica","marker":{"color":"rgba(141,160,203,1)","size":[55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55],"sizemode":"area","line":{"color":"rgba(141,160,203,1)"}},"textfont":{"color":"rgba(141,160,203,1)","size":55},"error_y":{"color":"rgba(141,160,203,1)","width":55},"error_x":{"color":"rgba(141,160,203,1)","width":55},"line":{"color":"rgba(141,160,203,1)","width":55},"frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_ly</span>(iris,<span class="at">x=</span><span class="sc">~</span>Petal.Length,<span class="at">y=</span><span class="sc">~</span>Sepal.Width,<span class="at">z=</span><span class="sc">~</span>Petal.Width,<span class="at">color=</span><span class="sc">~</span>Species,<span class="at">size=</span><span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>No trace type specified:
+  Based on info supplied, a 'scatter3d' trace seems appropriate.
+  Read more about this trace type -&gt; https://plotly.com/r/reference/#scatter3d</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>No scatter3d mode specifed:
+  Setting the mode to markers
+  Read more about this attribute -&gt; https://plotly.com/r/reference/#scatter-mode</code></pre>
+</div>
+<div class="cell-output-display">
+<div class="plotly html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-04515e9853a1c6db2652" style="width:100%;height:464px;"></div>
+<script type="application/json" data-for="htmlwidget-04515e9853a1c6db2652">{"x":{"visdat":{"84a050d13bb8":["function () ","plotlyVisDat"]},"cur_data":"84a050d13bb8","attrs":{"84a050d13bb8":{"x":{},"y":{},"z":{},"color":{},"size":1,"alpha_stroke":1,"sizes":[10,100],"spans":[1,20]}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"scene":{"xaxis":{"title":"Petal.Length"},"yaxis":{"title":"Sepal.Width"},"zaxis":{"title":"Petal.Width"}},"hovermode":"closest","showlegend":true},"source":"A","config":{"modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"data":[{"x":[1.4,1.4,1.3,1.5,1.4,1.7,1.4,1.5,1.4,1.5,1.5,1.6,1.4,1.1,1.2,1.5,1.3,1.4,1.7,1.5,1.7,1.5,1,1.7,1.9,1.6,1.6,1.5,1.4,1.6,1.6,1.5,1.5,1.4,1.5,1.2,1.3,1.4,1.3,1.5,1.3,1.3,1.3,1.6,1.9,1.4,1.6,1.4,1.5,1.4],"y":[3.5,3,3.2,3.1,3.6,3.9,3.4,3.4,2.9,3.1,3.7,3.4,3,3,4,4.4,3.9,3.5,3.8,3.8,3.4,3.7,3.6,3.3,3.4,3,3.4,3.5,3.4,3.2,3.1,3.4,4.1,4.2,3.1,3.2,3.5,3.6,3,3.4,3.5,2.3,3.2,3.5,3.8,3,3.8,3.2,3.7,3.3],"z":[0.2,0.2,0.2,0.2,0.2,0.4,0.3,0.2,0.2,0.1,0.2,0.2,0.1,0.1,0.2,0.4,0.4,0.3,0.3,0.3,0.2,0.4,0.2,0.5,0.2,0.2,0.4,0.2,0.2,0.2,0.2,0.4,0.1,0.2,0.2,0.2,0.2,0.1,0.2,0.2,0.3,0.3,0.2,0.6,0.4,0.3,0.2,0.2,0.2,0.2],"type":"scatter3d","mode":"markers","name":"setosa","marker":{"color":"rgba(102,194,165,1)","size":[55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55],"sizemode":"area","line":{"color":"rgba(102,194,165,1)"}},"textfont":{"color":"rgba(102,194,165,1)","size":55},"error_y":{"color":"rgba(102,194,165,1)","width":55},"error_x":{"color":"rgba(102,194,165,1)","width":55},"line":{"color":"rgba(102,194,165,1)","width":55},"frame":null},{"x":[4.7,4.5,4.9,4,4.6,4.5,4.7,3.3,4.6,3.9,3.5,4.2,4,4.7,3.6,4.4,4.5,4.1,4.5,3.9,4.8,4,4.9,4.7,4.3,4.4,4.8,5,4.5,3.5,3.8,3.7,3.9,5.1,4.5,4.5,4.7,4.4,4.1,4,4.4,4.6,4,3.3,4.2,4.2,4.2,4.3,3,4.1],"y":[3.2,3.2,3.1,2.3,2.8,2.8,3.3,2.4,2.9,2.7,2,3,2.2,2.9,2.9,3.1,3,2.7,2.2,2.5,3.2,2.8,2.5,2.8,2.9,3,2.8,3,2.9,2.6,2.4,2.4,2.7,2.7,3,3.4,3.1,2.3,3,2.5,2.6,3,2.6,2.3,2.7,3,2.9,2.9,2.5,2.8],"z":[1.4,1.5,1.5,1.3,1.5,1.3,1.6,1,1.3,1.4,1,1.5,1,1.4,1.3,1.4,1.5,1,1.5,1.1,1.8,1.3,1.5,1.2,1.3,1.4,1.4,1.7,1.5,1,1.1,1,1.2,1.6,1.5,1.6,1.5,1.3,1.3,1.3,1.2,1.4,1.2,1,1.3,1.2,1.3,1.3,1.1,1.3],"type":"scatter3d","mode":"markers","name":"versicolor","marker":{"color":"rgba(252,141,98,1)","size":[55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55],"sizemode":"area","line":{"color":"rgba(252,141,98,1)"}},"textfont":{"color":"rgba(252,141,98,1)","size":55},"error_y":{"color":"rgba(252,141,98,1)","width":55},"error_x":{"color":"rgba(252,141,98,1)","width":55},"line":{"color":"rgba(252,141,98,1)","width":55},"frame":null},{"x":[6,5.1,5.9,5.6,5.8,6.6,4.5,6.3,5.8,6.1,5.1,5.3,5.5,5,5.1,5.3,5.5,6.7,6.9,5,5.7,4.9,6.7,4.9,5.7,6,4.8,4.9,5.6,5.8,6.1,6.4,5.6,5.1,5.6,6.1,5.6,5.5,4.8,5.4,5.6,5.1,5.1,5.9,5.7,5.2,5,5.2,5.4,5.1],"y":[3.3,2.7,3,2.9,3,3,2.5,2.9,2.5,3.6,3.2,2.7,3,2.5,2.8,3.2,3,3.8,2.6,2.2,3.2,2.8,2.8,2.7,3.3,3.2,2.8,3,2.8,3,2.8,3.8,2.8,2.8,2.6,3,3.4,3.1,3,3.1,3.1,3.1,2.7,3.2,3.3,3,2.5,3,3.4,3],"z":[2.5,1.9,2.1,1.8,2.2,2.1,1.7,1.8,1.8,2.5,2,1.9,2.1,2,2.4,2.3,1.8,2.2,2.3,1.5,2.3,2,2,1.8,2.1,1.8,1.8,1.8,2.1,1.6,1.9,2,2.2,1.5,1.4,2.3,2.4,1.8,1.8,2.1,2.4,2.3,1.9,2.3,2.5,2.3,1.9,2,2.3,1.8],"type":"scatter3d","mode":"markers","name":"virginica","marker":{"color":"rgba(141,160,203,1)","size":[55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55],"sizemode":"area","line":{"color":"rgba(141,160,203,1)"}},"textfont":{"color":"rgba(141,160,203,1)","size":55},"error_y":{"color":"rgba(141,160,203,1)","width":55},"error_x":{"color":"rgba(141,160,203,1)","width":55},"line":{"color":"rgba(141,160,203,1)","width":55},"frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>iris2<span class="ot">&lt;-</span>iris</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a> </span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(j <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>){</span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>  iris2[,j]<span class="ot">&lt;-</span>(iris2[,j]<span class="sc">-</span><span class="fu">mean</span>(iris2[,j]))<span class="sc">/</span><span class="fu">sd</span>(iris2[,j])</span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a> </span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_ly</span>(iris2,<span class="at">x=</span><span class="sc">~</span>Sepal.Length,<span class="at">y=</span><span class="sc">~</span>Sepal.Width,<span class="at">z=</span><span class="sc">~</span>Petal.Length,<span class="at">color=</span><span class="sc">~</span>Species,<span class="at">size=</span><span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>No trace type specified:
+  Based on info supplied, a 'scatter3d' trace seems appropriate.
+  Read more about this trace type -&gt; https://plotly.com/r/reference/#scatter3d</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>No scatter3d mode specifed:
+  Setting the mode to markers
+  Read more about this attribute -&gt; https://plotly.com/r/reference/#scatter-mode</code></pre>
+</div>
+<div class="cell-output-display">
+<div class="plotly html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-b260c8f605826e6e8f37" style="width:100%;height:464px;"></div>
+<script type="application/json" data-for="htmlwidget-b260c8f605826e6e8f37">{"x":{"visdat":{"84a03c5778b6":["function () ","plotlyVisDat"]},"cur_data":"84a03c5778b6","attrs":{"84a03c5778b6":{"x":{},"y":{},"z":{},"color":{},"size":1,"alpha_stroke":1,"sizes":[10,100],"spans":[1,20]}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"scene":{"xaxis":{"title":"Sepal.Length"},"yaxis":{"title":"Sepal.Width"},"zaxis":{"title":"Petal.Length"}},"hovermode":"closest","showlegend":true},"source":"A","config":{"modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"data":[{"x":[-0.897673879196766,-1.13920048346495,-1.38072708773314,-1.50149038986724,-1.01843718133086,-0.535383972794483,-1.50149038986724,-1.01843718133086,-1.74301699413542,-1.13920048346495,-0.535383972794483,-1.25996378559905,-1.25996378559905,-1.86378029626952,-0.0523307642581081,-0.173094066392202,-0.535383972794483,-0.897673879196766,-0.173094066392202,-0.897673879196766,-0.535383972794483,-0.897673879196766,-1.50149038986724,-0.897673879196766,-1.25996378559905,-1.01843718133086,-1.01843718133086,-0.776910577062672,-0.776910577062672,-1.38072708773314,-1.25996378559905,-0.535383972794483,-0.776910577062672,-0.41462067066039,-1.13920048346495,-1.01843718133086,-0.41462067066039,-1.13920048346495,-1.74301699413542,-0.897673879196766,-1.01843718133086,-1.62225369200133,-1.74301699413542,-1.01843718133086,-0.897673879196766,-1.25996378559905,-0.897673879196766,-1.50149038986724,-0.656147274928578,-1.01843718133086],"y":[1.01560199071363,-0.13153881205026,0.327317509055298,0.0978893485025193,1.24503015126641,1.93331463292475,0.786173830160855,0.786173830160855,-0.360966972603039,0.0978893485025193,1.47445831181919,0.786173830160855,-0.13153881205026,-0.13153881205026,2.16274279347753,3.08045543568864,1.93331463292475,1.01560199071363,1.70388647237197,1.70388647237197,0.786173830160855,1.47445831181919,1.24503015126641,0.556745669608076,0.786173830160855,-0.13153881205026,0.786173830160855,1.01560199071363,0.786173830160855,0.327317509055298,0.0978893485025193,0.786173830160855,2.39217095403031,2.62159911458309,0.0978893485025193,0.327317509055298,1.01560199071363,1.24503015126641,-0.13153881205026,0.786173830160855,1.01560199071363,-1.73753593591971,0.327317509055298,1.01560199071363,1.70388647237197,-0.13153881205026,1.70388647237197,0.327317509055298,1.47445831181919,0.556745669608076],"z":[-1.33575163424152,-1.33575163424152,-1.39239928624498,-1.27910398223806,-1.33575163424152,-1.16580867823115,-1.33575163424152,-1.27910398223806,-1.33575163424152,-1.27910398223806,-1.27910398223806,-1.22245633023461,-1.33575163424152,-1.50569459025189,-1.44904693824843,-1.27910398223806,-1.39239928624498,-1.33575163424152,-1.16580867823115,-1.27910398223806,-1.16580867823115,-1.27910398223806,-1.56234224225535,-1.16580867823115,-1.05251337422423,-1.22245633023461,-1.22245633023461,-1.27910398223806,-1.33575163424152,-1.22245633023461,-1.22245633023461,-1.27910398223806,-1.27910398223806,-1.33575163424152,-1.27910398223806,-1.44904693824843,-1.39239928624498,-1.33575163424152,-1.39239928624498,-1.27910398223806,-1.39239928624498,-1.39239928624498,-1.39239928624498,-1.22245633023461,-1.05251337422423,-1.33575163424152,-1.22245633023461,-1.33575163424152,-1.27910398223806,-1.33575163424152],"type":"scatter3d","mode":"markers","name":"setosa","marker":{"color":"rgba(102,194,165,1)","size":[55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55],"sizemode":"area","line":{"color":"rgba(102,194,165,1)"}},"textfont":{"color":"rgba(102,194,165,1)","size":55},"error_y":{"color":"rgba(102,194,165,1)","width":55},"error_x":{"color":"rgba(102,194,165,1)","width":55},"line":{"color":"rgba(102,194,165,1)","width":55},"frame":null},{"x":[1.39682886135102,0.672249048546457,1.27606555921693,-0.41462067066039,0.79301235068055,-0.173094066392202,0.551485746412362,-1.13920048346495,0.913775652814644,-0.776910577062672,-1.01843718133086,0.0684325378759866,0.18919584001008,0.309959142144174,-0.293857368526296,1.03453895494874,-0.293857368526296,-0.0523307642581081,0.430722444278268,-0.293857368526296,0.0684325378759866,0.309959142144174,0.551485746412362,0.309959142144174,0.672249048546457,0.913775652814644,1.15530225708283,1.03453895494874,0.18919584001008,-0.173094066392202,-0.41462067066039,-0.41462067066039,-0.0523307642581081,0.18919584001008,-0.535383972794483,0.18919584001008,1.03453895494874,0.551485746412362,-0.293857368526296,-0.41462067066039,-0.41462067066039,0.309959142144174,-0.0523307642581081,-1.01843718133086,-0.293857368526296,-0.173094066392202,-0.173094066392202,0.430722444278268,-0.897673879196766,-0.173094066392202],"y":[0.327317509055298,0.327317509055298,0.0978893485025193,-1.73753593591971,-0.590395133155817,-0.590395133155817,0.556745669608076,-1.50810777536693,-0.360966972603039,-0.819823293708595,-2.42582041757805,-0.13153881205026,-1.96696409647249,-0.360966972603039,-0.360966972603039,0.0978893485025193,-0.13153881205026,-0.819823293708595,-1.96696409647249,-1.27867961481415,0.327317509055298,-0.590395133155817,-1.27867961481415,-0.590395133155817,-0.360966972603039,-0.13153881205026,-0.590395133155817,-0.13153881205026,-0.360966972603039,-1.04925145426137,-1.50810777536693,-1.50810777536693,-0.819823293708595,-0.819823293708595,-0.13153881205026,0.786173830160855,0.0978893485025193,-1.73753593591971,-0.13153881205026,-1.27867961481415,-1.04925145426137,-0.13153881205026,-1.04925145426137,-1.73753593591971,-0.819823293708595,-0.13153881205026,-0.360966972603039,-0.360966972603039,-1.27867961481415,-0.590395133155817],"z":[0.533620881872567,0.420325577865652,0.646916185879481,0.137087317848366,0.476973229869109,0.420325577865652,0.533620881872567,-0.259446246175834,0.476973229869109,0.0804396658449091,-0.146150942168919,0.250382621855281,0.137087317848366,0.533620881872567,-0.0895032901654623,0.363677925862195,0.420325577865652,0.193734969851823,0.420325577865652,0.0804396658449091,0.590268533876024,0.137087317848366,0.646916185879481,0.533620881872567,0.307030273858738,0.363677925862195,0.590268533876024,0.703563837882938,0.420325577865652,-0.146150942168919,0.0237920138414519,-0.0328556381620051,0.0804396658449091,0.760211489886395,0.420325577865652,0.420325577865652,0.533620881872567,0.363677925862195,0.193734969851823,0.137087317848366,0.363677925862195,0.476973229869109,0.137087317848366,-0.259446246175834,0.250382621855281,0.250382621855281,0.250382621855281,0.307030273858738,-0.429389202186205,0.193734969851823],"type":"scatter3d","mode":"markers","name":"versicolor","marker":{"color":"rgba(252,141,98,1)","size":[55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55],"sizemode":"area","line":{"color":"rgba(252,141,98,1)"}},"textfont":{"color":"rgba(252,141,98,1)","size":55},"error_y":{"color":"rgba(252,141,98,1)","width":55},"error_x":{"color":"rgba(252,141,98,1)","width":55},"line":{"color":"rgba(252,141,98,1)","width":55},"frame":null},{"x":[0.551485746412362,-0.0523307642581081,1.51759216348511,0.551485746412362,0.79301235068055,2.12140867415558,-1.13920048346495,1.7591187677533,1.03453895494874,1.63835546561921,0.79301235068055,0.672249048546457,1.15530225708283,-0.173094066392202,-0.0523307642581081,0.672249048546457,0.79301235068055,2.24217197628968,2.24217197628968,0.18919584001008,1.27606555921693,-0.293857368526296,2.24217197628968,0.551485746412362,1.03453895494874,1.63835546561921,0.430722444278268,0.309959142144174,0.672249048546457,1.63835546561921,1.8798820698874,2.48369858055787,0.672249048546457,0.551485746412362,0.309959142144174,2.24217197628968,0.551485746412362,0.672249048546457,0.18919584001008,1.27606555921693,1.03453895494874,1.27606555921693,-0.0523307642581081,1.15530225708283,1.03453895494874,1.03453895494874,0.551485746412362,0.79301235068055,0.430722444278268,0.0684325378759866],"y":[0.556745669608076,-0.819823293708595,-0.13153881205026,-0.360966972603039,-0.13153881205026,-0.13153881205026,-1.27867961481415,-0.360966972603039,-1.27867961481415,1.24503015126641,0.327317509055298,-0.819823293708595,-0.13153881205026,-1.27867961481415,-0.590395133155817,0.327317509055298,-0.13153881205026,1.70388647237197,-1.04925145426137,-1.96696409647249,0.327317509055298,-0.590395133155817,-0.590395133155817,-0.819823293708595,0.556745669608076,0.327317509055298,-0.590395133155817,-0.13153881205026,-0.590395133155817,-0.13153881205026,-0.590395133155817,1.70388647237197,-0.590395133155817,-0.590395133155817,-1.04925145426137,-0.13153881205026,0.786173830160855,0.0978893485025193,-0.13153881205026,0.0978893485025193,0.0978893485025193,0.0978893485025193,-0.819823293708595,0.327317509055298,0.556745669608076,-0.13153881205026,-1.27867961481415,-0.13153881205026,0.786173830160855,-0.13153881205026],"z":[1.27004035791751,0.760211489886395,1.21339270591405,1.04344974990368,1.1567450539106,1.60992626993825,0.420325577865652,1.43998331392788,1.1567450539106,1.32668800992097,0.760211489886395,0.873506793893309,0.986802097900224,0.703563837882938,0.760211489886395,0.873506793893309,0.986802097900224,1.66657392194171,1.77986922594862,0.703563837882938,1.10009740190714,0.646916185879481,1.66657392194171,0.646916185879481,1.10009740190714,1.27004035791751,0.590268533876024,0.646916185879481,1.04344974990368,1.1567450539106,1.32668800992097,1.49663096593134,1.04344974990368,0.760211489886395,1.04344974990368,1.32668800992097,1.04344974990368,0.986802097900224,0.590268533876024,0.930154445896767,1.04344974990368,0.760211489886395,0.760211489886395,1.21339270591405,1.10009740190714,0.816859141889852,0.703563837882938,0.816859141889852,0.930154445896767,0.760211489886395],"type":"scatter3d","mode":"markers","name":"virginica","marker":{"color":"rgba(141,160,203,1)","size":[55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55],"sizemode":"area","line":{"color":"rgba(141,160,203,1)"}},"textfont":{"color":"rgba(141,160,203,1)","size":55},"error_y":{"color":"rgba(141,160,203,1)","width":55},"error_x":{"color":"rgba(141,160,203,1)","width":55},"line":{"color":"rgba(141,160,203,1)","width":55},"frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_ly</span>(iris2,<span class="at">x=</span><span class="sc">~</span>Sepal.Length,<span class="at">y=</span><span class="sc">~</span>Sepal.Width,<span class="at">z=</span><span class="sc">~</span>Petal.Width,<span class="at">color=</span><span class="sc">~</span>Species,<span class="at">size=</span><span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>No trace type specified:
+  Based on info supplied, a 'scatter3d' trace seems appropriate.
+  Read more about this trace type -&gt; https://plotly.com/r/reference/#scatter3d</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>No scatter3d mode specifed:
+  Setting the mode to markers
+  Read more about this attribute -&gt; https://plotly.com/r/reference/#scatter-mode</code></pre>
+</div>
+<div class="cell-output-display">
+<div class="plotly html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-9ac34518b51316009059" style="width:100%;height:464px;"></div>
+<script type="application/json" data-for="htmlwidget-9ac34518b51316009059">{"x":{"visdat":{"84a019df1426":["function () ","plotlyVisDat"]},"cur_data":"84a019df1426","attrs":{"84a019df1426":{"x":{},"y":{},"z":{},"color":{},"size":1,"alpha_stroke":1,"sizes":[10,100],"spans":[1,20]}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"scene":{"xaxis":{"title":"Sepal.Length"},"yaxis":{"title":"Sepal.Width"},"zaxis":{"title":"Petal.Width"}},"hovermode":"closest","showlegend":true},"source":"A","config":{"modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"data":[{"x":[-0.897673879196766,-1.13920048346495,-1.38072708773314,-1.50149038986724,-1.01843718133086,-0.535383972794483,-1.50149038986724,-1.01843718133086,-1.74301699413542,-1.13920048346495,-0.535383972794483,-1.25996378559905,-1.25996378559905,-1.86378029626952,-0.0523307642581081,-0.173094066392202,-0.535383972794483,-0.897673879196766,-0.173094066392202,-0.897673879196766,-0.535383972794483,-0.897673879196766,-1.50149038986724,-0.897673879196766,-1.25996378559905,-1.01843718133086,-1.01843718133086,-0.776910577062672,-0.776910577062672,-1.38072708773314,-1.25996378559905,-0.535383972794483,-0.776910577062672,-0.41462067066039,-1.13920048346495,-1.01843718133086,-0.41462067066039,-1.13920048346495,-1.74301699413542,-0.897673879196766,-1.01843718133086,-1.62225369200133,-1.74301699413542,-1.01843718133086,-0.897673879196766,-1.25996378559905,-0.897673879196766,-1.50149038986724,-0.656147274928578,-1.01843718133086],"y":[1.01560199071363,-0.13153881205026,0.327317509055298,0.0978893485025193,1.24503015126641,1.93331463292475,0.786173830160855,0.786173830160855,-0.360966972603039,0.0978893485025193,1.47445831181919,0.786173830160855,-0.13153881205026,-0.13153881205026,2.16274279347753,3.08045543568864,1.93331463292475,1.01560199071363,1.70388647237197,1.70388647237197,0.786173830160855,1.47445831181919,1.24503015126641,0.556745669608076,0.786173830160855,-0.13153881205026,0.786173830160855,1.01560199071363,0.786173830160855,0.327317509055298,0.0978893485025193,0.786173830160855,2.39217095403031,2.62159911458309,0.0978893485025193,0.327317509055298,1.01560199071363,1.24503015126641,-0.13153881205026,0.786173830160855,1.01560199071363,-1.73753593591971,0.327317509055298,1.01560199071363,1.70388647237197,-0.13153881205026,1.70388647237197,0.327317509055298,1.47445831181919,0.556745669608076],"z":[-1.31105214820513,-1.31105214820513,-1.31105214820513,-1.31105214820513,-1.31105214820513,-1.0486667949953,-1.17985947160021,-1.31105214820513,-1.31105214820513,-1.44224482481005,-1.31105214820513,-1.31105214820513,-1.44224482481005,-1.44224482481005,-1.31105214820513,-1.0486667949953,-1.0486667949953,-1.17985947160021,-1.17985947160021,-1.17985947160021,-1.31105214820513,-1.0486667949953,-1.31105214820513,-0.917474118390382,-1.31105214820513,-1.31105214820513,-1.0486667949953,-1.31105214820513,-1.31105214820513,-1.31105214820513,-1.31105214820513,-1.0486667949953,-1.44224482481005,-1.31105214820513,-1.31105214820513,-1.31105214820513,-1.31105214820513,-1.44224482481005,-1.31105214820513,-1.31105214820513,-1.17985947160021,-1.17985947160021,-1.31105214820513,-0.786281441785465,-1.0486667949953,-1.17985947160021,-1.31105214820513,-1.31105214820513,-1.31105214820513,-1.31105214820513],"type":"scatter3d","mode":"markers","name":"setosa","marker":{"color":"rgba(102,194,165,1)","size":[55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55],"sizemode":"area","line":{"color":"rgba(102,194,165,1)"}},"textfont":{"color":"rgba(102,194,165,1)","size":55},"error_y":{"color":"rgba(102,194,165,1)","width":55},"error_x":{"color":"rgba(102,194,165,1)","width":55},"line":{"color":"rgba(102,194,165,1)","width":55},"frame":null},{"x":[1.39682886135102,0.672249048546457,1.27606555921693,-0.41462067066039,0.79301235068055,-0.173094066392202,0.551485746412362,-1.13920048346495,0.913775652814644,-0.776910577062672,-1.01843718133086,0.0684325378759866,0.18919584001008,0.309959142144174,-0.293857368526296,1.03453895494874,-0.293857368526296,-0.0523307642581081,0.430722444278268,-0.293857368526296,0.0684325378759866,0.309959142144174,0.551485746412362,0.309959142144174,0.672249048546457,0.913775652814644,1.15530225708283,1.03453895494874,0.18919584001008,-0.173094066392202,-0.41462067066039,-0.41462067066039,-0.0523307642581081,0.18919584001008,-0.535383972794483,0.18919584001008,1.03453895494874,0.551485746412362,-0.293857368526296,-0.41462067066039,-0.41462067066039,0.309959142144174,-0.0523307642581081,-1.01843718133086,-0.293857368526296,-0.173094066392202,-0.173094066392202,0.430722444278268,-0.897673879196766,-0.173094066392202],"y":[0.327317509055298,0.327317509055298,0.0978893485025193,-1.73753593591971,-0.590395133155817,-0.590395133155817,0.556745669608076,-1.50810777536693,-0.360966972603039,-0.819823293708595,-2.42582041757805,-0.13153881205026,-1.96696409647249,-0.360966972603039,-0.360966972603039,0.0978893485025193,-0.13153881205026,-0.819823293708595,-1.96696409647249,-1.27867961481415,0.327317509055298,-0.590395133155817,-1.27867961481415,-0.590395133155817,-0.360966972603039,-0.13153881205026,-0.590395133155817,-0.13153881205026,-0.360966972603039,-1.04925145426137,-1.50810777536693,-1.50810777536693,-0.819823293708595,-0.819823293708595,-0.13153881205026,0.786173830160855,0.0978893485025193,-1.73753593591971,-0.13153881205026,-1.27867961481415,-1.04925145426137,-0.13153881205026,-1.04925145426137,-1.73753593591971,-0.819823293708595,-0.13153881205026,-0.360966972603039,-0.360966972603039,-1.27867961481415,-0.590395133155817],"z":[0.263259971053865,0.394452647658782,0.394452647658782,0.132067294448949,0.394452647658782,0.132067294448949,0.525645324263698,-0.2615107353658,0.132067294448949,0.263259971053865,-0.2615107353658,0.394452647658782,-0.2615107353658,0.263259971053865,0.132067294448949,0.263259971053865,0.394452647658782,-0.2615107353658,0.394452647658782,-0.130318058760883,0.788030677473531,0.132067294448949,0.394452647658782,0.000874617844032679,0.132067294448949,0.263259971053865,0.263259971053865,0.656838000868614,0.394452647658782,-0.2615107353658,-0.130318058760883,-0.2615107353658,0.000874617844032679,0.525645324263698,0.394452647658782,0.525645324263698,0.394452647658782,0.132067294448949,0.132067294448949,0.132067294448949,0.000874617844032679,0.263259971053865,0.000874617844032679,-0.2615107353658,0.132067294448949,0.000874617844032679,0.132067294448949,0.132067294448949,-0.130318058760883,0.132067294448949],"type":"scatter3d","mode":"markers","name":"versicolor","marker":{"color":"rgba(252,141,98,1)","size":[55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55],"sizemode":"area","line":{"color":"rgba(252,141,98,1)"}},"textfont":{"color":"rgba(252,141,98,1)","size":55},"error_y":{"color":"rgba(252,141,98,1)","width":55},"error_x":{"color":"rgba(252,141,98,1)","width":55},"line":{"color":"rgba(252,141,98,1)","width":55},"frame":null},{"x":[0.551485746412362,-0.0523307642581081,1.51759216348511,0.551485746412362,0.79301235068055,2.12140867415558,-1.13920048346495,1.7591187677533,1.03453895494874,1.63835546561921,0.79301235068055,0.672249048546457,1.15530225708283,-0.173094066392202,-0.0523307642581081,0.672249048546457,0.79301235068055,2.24217197628968,2.24217197628968,0.18919584001008,1.27606555921693,-0.293857368526296,2.24217197628968,0.551485746412362,1.03453895494874,1.63835546561921,0.430722444278268,0.309959142144174,0.672249048546457,1.63835546561921,1.8798820698874,2.48369858055787,0.672249048546457,0.551485746412362,0.309959142144174,2.24217197628968,0.551485746412362,0.672249048546457,0.18919584001008,1.27606555921693,1.03453895494874,1.27606555921693,-0.0523307642581081,1.15530225708283,1.03453895494874,1.03453895494874,0.551485746412362,0.79301235068055,0.430722444278268,0.0684325378759866],"y":[0.556745669608076,-0.819823293708595,-0.13153881205026,-0.360966972603039,-0.13153881205026,-0.13153881205026,-1.27867961481415,-0.360966972603039,-1.27867961481415,1.24503015126641,0.327317509055298,-0.819823293708595,-0.13153881205026,-1.27867961481415,-0.590395133155817,0.327317509055298,-0.13153881205026,1.70388647237197,-1.04925145426137,-1.96696409647249,0.327317509055298,-0.590395133155817,-0.590395133155817,-0.819823293708595,0.556745669608076,0.327317509055298,-0.590395133155817,-0.13153881205026,-0.590395133155817,-0.13153881205026,-0.590395133155817,1.70388647237197,-0.590395133155817,-0.590395133155817,-1.04925145426137,-0.13153881205026,0.786173830160855,0.0978893485025193,-0.13153881205026,0.0978893485025193,0.0978893485025193,0.0978893485025193,-0.819823293708595,0.327317509055298,0.556745669608076,-0.13153881205026,-1.27867961481415,-0.13153881205026,0.786173830160855,-0.13153881205026],"z":[1.70637941370794,0.919223354078447,1.18160870728828,0.788030677473531,1.3128013838932,1.18160870728828,0.656838000868614,0.788030677473531,0.788030677473531,1.70637941370794,1.05041603068336,0.919223354078447,1.18160870728828,1.05041603068336,1.57518673710303,1.44399406049811,0.788030677473531,1.3128013838932,1.44399406049811,0.394452647658782,1.44399406049811,1.05041603068336,1.05041603068336,0.788030677473531,1.18160870728828,0.788030677473531,0.788030677473531,0.788030677473531,1.18160870728828,0.525645324263698,0.919223354078447,1.05041603068336,1.3128013838932,0.394452647658782,0.263259971053865,1.44399406049811,1.57518673710303,0.788030677473531,0.788030677473531,1.18160870728828,1.57518673710303,1.44399406049811,0.919223354078447,1.44399406049811,1.70637941370794,1.44399406049811,0.919223354078447,1.05041603068336,1.44399406049811,0.788030677473531],"type":"scatter3d","mode":"markers","name":"virginica","marker":{"color":"rgba(141,160,203,1)","size":[55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55],"sizemode":"area","line":{"color":"rgba(141,160,203,1)"}},"textfont":{"color":"rgba(141,160,203,1)","size":55},"error_y":{"color":"rgba(141,160,203,1)","width":55},"error_x":{"color":"rgba(141,160,203,1)","width":55},"line":{"color":"rgba(141,160,203,1)","width":55},"frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_ly</span>(iris2,<span class="at">x=</span><span class="sc">~</span>Sepal.Length,<span class="at">y=</span><span class="sc">~</span>Petal.Width,<span class="at">z=</span><span class="sc">~</span>Petal.Length,<span class="at">color=</span><span class="sc">~</span>Species,<span class="at">size=</span><span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>No trace type specified:
+  Based on info supplied, a 'scatter3d' trace seems appropriate.
+  Read more about this trace type -&gt; https://plotly.com/r/reference/#scatter3d</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>No scatter3d mode specifed:
+  Setting the mode to markers
+  Read more about this attribute -&gt; https://plotly.com/r/reference/#scatter-mode</code></pre>
+</div>
+<div class="cell-output-display">
+<div class="plotly html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-53ac49c6629734f0ca08" style="width:100%;height:464px;"></div>
+<script type="application/json" data-for="htmlwidget-53ac49c6629734f0ca08">{"x":{"visdat":{"84a051502994":["function () ","plotlyVisDat"]},"cur_data":"84a051502994","attrs":{"84a051502994":{"x":{},"y":{},"z":{},"color":{},"size":1,"alpha_stroke":1,"sizes":[10,100],"spans":[1,20]}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"scene":{"xaxis":{"title":"Sepal.Length"},"yaxis":{"title":"Petal.Width"},"zaxis":{"title":"Petal.Length"}},"hovermode":"closest","showlegend":true},"source":"A","config":{"modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"data":[{"x":[-0.897673879196766,-1.13920048346495,-1.38072708773314,-1.50149038986724,-1.01843718133086,-0.535383972794483,-1.50149038986724,-1.01843718133086,-1.74301699413542,-1.13920048346495,-0.535383972794483,-1.25996378559905,-1.25996378559905,-1.86378029626952,-0.0523307642581081,-0.173094066392202,-0.535383972794483,-0.897673879196766,-0.173094066392202,-0.897673879196766,-0.535383972794483,-0.897673879196766,-1.50149038986724,-0.897673879196766,-1.25996378559905,-1.01843718133086,-1.01843718133086,-0.776910577062672,-0.776910577062672,-1.38072708773314,-1.25996378559905,-0.535383972794483,-0.776910577062672,-0.41462067066039,-1.13920048346495,-1.01843718133086,-0.41462067066039,-1.13920048346495,-1.74301699413542,-0.897673879196766,-1.01843718133086,-1.62225369200133,-1.74301699413542,-1.01843718133086,-0.897673879196766,-1.25996378559905,-0.897673879196766,-1.50149038986724,-0.656147274928578,-1.01843718133086],"y":[-1.31105214820513,-1.31105214820513,-1.31105214820513,-1.31105214820513,-1.31105214820513,-1.0486667949953,-1.17985947160021,-1.31105214820513,-1.31105214820513,-1.44224482481005,-1.31105214820513,-1.31105214820513,-1.44224482481005,-1.44224482481005,-1.31105214820513,-1.0486667949953,-1.0486667949953,-1.17985947160021,-1.17985947160021,-1.17985947160021,-1.31105214820513,-1.0486667949953,-1.31105214820513,-0.917474118390382,-1.31105214820513,-1.31105214820513,-1.0486667949953,-1.31105214820513,-1.31105214820513,-1.31105214820513,-1.31105214820513,-1.0486667949953,-1.44224482481005,-1.31105214820513,-1.31105214820513,-1.31105214820513,-1.31105214820513,-1.44224482481005,-1.31105214820513,-1.31105214820513,-1.17985947160021,-1.17985947160021,-1.31105214820513,-0.786281441785465,-1.0486667949953,-1.17985947160021,-1.31105214820513,-1.31105214820513,-1.31105214820513,-1.31105214820513],"z":[-1.33575163424152,-1.33575163424152,-1.39239928624498,-1.27910398223806,-1.33575163424152,-1.16580867823115,-1.33575163424152,-1.27910398223806,-1.33575163424152,-1.27910398223806,-1.27910398223806,-1.22245633023461,-1.33575163424152,-1.50569459025189,-1.44904693824843,-1.27910398223806,-1.39239928624498,-1.33575163424152,-1.16580867823115,-1.27910398223806,-1.16580867823115,-1.27910398223806,-1.56234224225535,-1.16580867823115,-1.05251337422423,-1.22245633023461,-1.22245633023461,-1.27910398223806,-1.33575163424152,-1.22245633023461,-1.22245633023461,-1.27910398223806,-1.27910398223806,-1.33575163424152,-1.27910398223806,-1.44904693824843,-1.39239928624498,-1.33575163424152,-1.39239928624498,-1.27910398223806,-1.39239928624498,-1.39239928624498,-1.39239928624498,-1.22245633023461,-1.05251337422423,-1.33575163424152,-1.22245633023461,-1.33575163424152,-1.27910398223806,-1.33575163424152],"type":"scatter3d","mode":"markers","name":"setosa","marker":{"color":"rgba(102,194,165,1)","size":[55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55],"sizemode":"area","line":{"color":"rgba(102,194,165,1)"}},"textfont":{"color":"rgba(102,194,165,1)","size":55},"error_y":{"color":"rgba(102,194,165,1)","width":55},"error_x":{"color":"rgba(102,194,165,1)","width":55},"line":{"color":"rgba(102,194,165,1)","width":55},"frame":null},{"x":[1.39682886135102,0.672249048546457,1.27606555921693,-0.41462067066039,0.79301235068055,-0.173094066392202,0.551485746412362,-1.13920048346495,0.913775652814644,-0.776910577062672,-1.01843718133086,0.0684325378759866,0.18919584001008,0.309959142144174,-0.293857368526296,1.03453895494874,-0.293857368526296,-0.0523307642581081,0.430722444278268,-0.293857368526296,0.0684325378759866,0.309959142144174,0.551485746412362,0.309959142144174,0.672249048546457,0.913775652814644,1.15530225708283,1.03453895494874,0.18919584001008,-0.173094066392202,-0.41462067066039,-0.41462067066039,-0.0523307642581081,0.18919584001008,-0.535383972794483,0.18919584001008,1.03453895494874,0.551485746412362,-0.293857368526296,-0.41462067066039,-0.41462067066039,0.309959142144174,-0.0523307642581081,-1.01843718133086,-0.293857368526296,-0.173094066392202,-0.173094066392202,0.430722444278268,-0.897673879196766,-0.173094066392202],"y":[0.263259971053865,0.394452647658782,0.394452647658782,0.132067294448949,0.394452647658782,0.132067294448949,0.525645324263698,-0.2615107353658,0.132067294448949,0.263259971053865,-0.2615107353658,0.394452647658782,-0.2615107353658,0.263259971053865,0.132067294448949,0.263259971053865,0.394452647658782,-0.2615107353658,0.394452647658782,-0.130318058760883,0.788030677473531,0.132067294448949,0.394452647658782,0.000874617844032679,0.132067294448949,0.263259971053865,0.263259971053865,0.656838000868614,0.394452647658782,-0.2615107353658,-0.130318058760883,-0.2615107353658,0.000874617844032679,0.525645324263698,0.394452647658782,0.525645324263698,0.394452647658782,0.132067294448949,0.132067294448949,0.132067294448949,0.000874617844032679,0.263259971053865,0.000874617844032679,-0.2615107353658,0.132067294448949,0.000874617844032679,0.132067294448949,0.132067294448949,-0.130318058760883,0.132067294448949],"z":[0.533620881872567,0.420325577865652,0.646916185879481,0.137087317848366,0.476973229869109,0.420325577865652,0.533620881872567,-0.259446246175834,0.476973229869109,0.0804396658449091,-0.146150942168919,0.250382621855281,0.137087317848366,0.533620881872567,-0.0895032901654623,0.363677925862195,0.420325577865652,0.193734969851823,0.420325577865652,0.0804396658449091,0.590268533876024,0.137087317848366,0.646916185879481,0.533620881872567,0.307030273858738,0.363677925862195,0.590268533876024,0.703563837882938,0.420325577865652,-0.146150942168919,0.0237920138414519,-0.0328556381620051,0.0804396658449091,0.760211489886395,0.420325577865652,0.420325577865652,0.533620881872567,0.363677925862195,0.193734969851823,0.137087317848366,0.363677925862195,0.476973229869109,0.137087317848366,-0.259446246175834,0.250382621855281,0.250382621855281,0.250382621855281,0.307030273858738,-0.429389202186205,0.193734969851823],"type":"scatter3d","mode":"markers","name":"versicolor","marker":{"color":"rgba(252,141,98,1)","size":[55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55],"sizemode":"area","line":{"color":"rgba(252,141,98,1)"}},"textfont":{"color":"rgba(252,141,98,1)","size":55},"error_y":{"color":"rgba(252,141,98,1)","width":55},"error_x":{"color":"rgba(252,141,98,1)","width":55},"line":{"color":"rgba(252,141,98,1)","width":55},"frame":null},{"x":[0.551485746412362,-0.0523307642581081,1.51759216348511,0.551485746412362,0.79301235068055,2.12140867415558,-1.13920048346495,1.7591187677533,1.03453895494874,1.63835546561921,0.79301235068055,0.672249048546457,1.15530225708283,-0.173094066392202,-0.0523307642581081,0.672249048546457,0.79301235068055,2.24217197628968,2.24217197628968,0.18919584001008,1.27606555921693,-0.293857368526296,2.24217197628968,0.551485746412362,1.03453895494874,1.63835546561921,0.430722444278268,0.309959142144174,0.672249048546457,1.63835546561921,1.8798820698874,2.48369858055787,0.672249048546457,0.551485746412362,0.309959142144174,2.24217197628968,0.551485746412362,0.672249048546457,0.18919584001008,1.27606555921693,1.03453895494874,1.27606555921693,-0.0523307642581081,1.15530225708283,1.03453895494874,1.03453895494874,0.551485746412362,0.79301235068055,0.430722444278268,0.0684325378759866],"y":[1.70637941370794,0.919223354078447,1.18160870728828,0.788030677473531,1.3128013838932,1.18160870728828,0.656838000868614,0.788030677473531,0.788030677473531,1.70637941370794,1.05041603068336,0.919223354078447,1.18160870728828,1.05041603068336,1.57518673710303,1.44399406049811,0.788030677473531,1.3128013838932,1.44399406049811,0.394452647658782,1.44399406049811,1.05041603068336,1.05041603068336,0.788030677473531,1.18160870728828,0.788030677473531,0.788030677473531,0.788030677473531,1.18160870728828,0.525645324263698,0.919223354078447,1.05041603068336,1.3128013838932,0.394452647658782,0.263259971053865,1.44399406049811,1.57518673710303,0.788030677473531,0.788030677473531,1.18160870728828,1.57518673710303,1.44399406049811,0.919223354078447,1.44399406049811,1.70637941370794,1.44399406049811,0.919223354078447,1.05041603068336,1.44399406049811,0.788030677473531],"z":[1.27004035791751,0.760211489886395,1.21339270591405,1.04344974990368,1.1567450539106,1.60992626993825,0.420325577865652,1.43998331392788,1.1567450539106,1.32668800992097,0.760211489886395,0.873506793893309,0.986802097900224,0.703563837882938,0.760211489886395,0.873506793893309,0.986802097900224,1.66657392194171,1.77986922594862,0.703563837882938,1.10009740190714,0.646916185879481,1.66657392194171,0.646916185879481,1.10009740190714,1.27004035791751,0.590268533876024,0.646916185879481,1.04344974990368,1.1567450539106,1.32668800992097,1.49663096593134,1.04344974990368,0.760211489886395,1.04344974990368,1.32668800992097,1.04344974990368,0.986802097900224,0.590268533876024,0.930154445896767,1.04344974990368,0.760211489886395,0.760211489886395,1.21339270591405,1.10009740190714,0.816859141889852,0.703563837882938,0.816859141889852,0.930154445896767,0.760211489886395],"type":"scatter3d","mode":"markers","name":"virginica","marker":{"color":"rgba(141,160,203,1)","size":[55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55],"sizemode":"area","line":{"color":"rgba(141,160,203,1)"}},"textfont":{"color":"rgba(141,160,203,1)","size":55},"error_y":{"color":"rgba(141,160,203,1)","width":55},"error_x":{"color":"rgba(141,160,203,1)","width":55},"line":{"color":"rgba(141,160,203,1)","width":55},"frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_ly</span>(iris2,<span class="at">x=</span><span class="sc">~</span>Petal.Length,<span class="at">y=</span><span class="sc">~</span>Sepal.Width,<span class="at">z=</span><span class="sc">~</span>Petal.Width,<span class="at">color=</span><span class="sc">~</span>Species,<span class="at">size=</span><span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>No trace type specified:
+  Based on info supplied, a 'scatter3d' trace seems appropriate.
+  Read more about this trace type -&gt; https://plotly.com/r/reference/#scatter3d</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>No scatter3d mode specifed:
+  Setting the mode to markers
+  Read more about this attribute -&gt; https://plotly.com/r/reference/#scatter-mode</code></pre>
+</div>
+<div class="cell-output-display">
+<div class="plotly html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-01e0a27714314e4e8502" style="width:100%;height:464px;"></div>
+<script type="application/json" data-for="htmlwidget-01e0a27714314e4e8502">{"x":{"visdat":{"84a061443bfd":["function () ","plotlyVisDat"]},"cur_data":"84a061443bfd","attrs":{"84a061443bfd":{"x":{},"y":{},"z":{},"color":{},"size":1,"alpha_stroke":1,"sizes":[10,100],"spans":[1,20]}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"scene":{"xaxis":{"title":"Petal.Length"},"yaxis":{"title":"Sepal.Width"},"zaxis":{"title":"Petal.Width"}},"hovermode":"closest","showlegend":true},"source":"A","config":{"modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"data":[{"x":[-1.33575163424152,-1.33575163424152,-1.39239928624498,-1.27910398223806,-1.33575163424152,-1.16580867823115,-1.33575163424152,-1.27910398223806,-1.33575163424152,-1.27910398223806,-1.27910398223806,-1.22245633023461,-1.33575163424152,-1.50569459025189,-1.44904693824843,-1.27910398223806,-1.39239928624498,-1.33575163424152,-1.16580867823115,-1.27910398223806,-1.16580867823115,-1.27910398223806,-1.56234224225535,-1.16580867823115,-1.05251337422423,-1.22245633023461,-1.22245633023461,-1.27910398223806,-1.33575163424152,-1.22245633023461,-1.22245633023461,-1.27910398223806,-1.27910398223806,-1.33575163424152,-1.27910398223806,-1.44904693824843,-1.39239928624498,-1.33575163424152,-1.39239928624498,-1.27910398223806,-1.39239928624498,-1.39239928624498,-1.39239928624498,-1.22245633023461,-1.05251337422423,-1.33575163424152,-1.22245633023461,-1.33575163424152,-1.27910398223806,-1.33575163424152],"y":[1.01560199071363,-0.13153881205026,0.327317509055298,0.0978893485025193,1.24503015126641,1.93331463292475,0.786173830160855,0.786173830160855,-0.360966972603039,0.0978893485025193,1.47445831181919,0.786173830160855,-0.13153881205026,-0.13153881205026,2.16274279347753,3.08045543568864,1.93331463292475,1.01560199071363,1.70388647237197,1.70388647237197,0.786173830160855,1.47445831181919,1.24503015126641,0.556745669608076,0.786173830160855,-0.13153881205026,0.786173830160855,1.01560199071363,0.786173830160855,0.327317509055298,0.0978893485025193,0.786173830160855,2.39217095403031,2.62159911458309,0.0978893485025193,0.327317509055298,1.01560199071363,1.24503015126641,-0.13153881205026,0.786173830160855,1.01560199071363,-1.73753593591971,0.327317509055298,1.01560199071363,1.70388647237197,-0.13153881205026,1.70388647237197,0.327317509055298,1.47445831181919,0.556745669608076],"z":[-1.31105214820513,-1.31105214820513,-1.31105214820513,-1.31105214820513,-1.31105214820513,-1.0486667949953,-1.17985947160021,-1.31105214820513,-1.31105214820513,-1.44224482481005,-1.31105214820513,-1.31105214820513,-1.44224482481005,-1.44224482481005,-1.31105214820513,-1.0486667949953,-1.0486667949953,-1.17985947160021,-1.17985947160021,-1.17985947160021,-1.31105214820513,-1.0486667949953,-1.31105214820513,-0.917474118390382,-1.31105214820513,-1.31105214820513,-1.0486667949953,-1.31105214820513,-1.31105214820513,-1.31105214820513,-1.31105214820513,-1.0486667949953,-1.44224482481005,-1.31105214820513,-1.31105214820513,-1.31105214820513,-1.31105214820513,-1.44224482481005,-1.31105214820513,-1.31105214820513,-1.17985947160021,-1.17985947160021,-1.31105214820513,-0.786281441785465,-1.0486667949953,-1.17985947160021,-1.31105214820513,-1.31105214820513,-1.31105214820513,-1.31105214820513],"type":"scatter3d","mode":"markers","name":"setosa","marker":{"color":"rgba(102,194,165,1)","size":[55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55],"sizemode":"area","line":{"color":"rgba(102,194,165,1)"}},"textfont":{"color":"rgba(102,194,165,1)","size":55},"error_y":{"color":"rgba(102,194,165,1)","width":55},"error_x":{"color":"rgba(102,194,165,1)","width":55},"line":{"color":"rgba(102,194,165,1)","width":55},"frame":null},{"x":[0.533620881872567,0.420325577865652,0.646916185879481,0.137087317848366,0.476973229869109,0.420325577865652,0.533620881872567,-0.259446246175834,0.476973229869109,0.0804396658449091,-0.146150942168919,0.250382621855281,0.137087317848366,0.533620881872567,-0.0895032901654623,0.363677925862195,0.420325577865652,0.193734969851823,0.420325577865652,0.0804396658449091,0.590268533876024,0.137087317848366,0.646916185879481,0.533620881872567,0.307030273858738,0.363677925862195,0.590268533876024,0.703563837882938,0.420325577865652,-0.146150942168919,0.0237920138414519,-0.0328556381620051,0.0804396658449091,0.760211489886395,0.420325577865652,0.420325577865652,0.533620881872567,0.363677925862195,0.193734969851823,0.137087317848366,0.363677925862195,0.476973229869109,0.137087317848366,-0.259446246175834,0.250382621855281,0.250382621855281,0.250382621855281,0.307030273858738,-0.429389202186205,0.193734969851823],"y":[0.327317509055298,0.327317509055298,0.0978893485025193,-1.73753593591971,-0.590395133155817,-0.590395133155817,0.556745669608076,-1.50810777536693,-0.360966972603039,-0.819823293708595,-2.42582041757805,-0.13153881205026,-1.96696409647249,-0.360966972603039,-0.360966972603039,0.0978893485025193,-0.13153881205026,-0.819823293708595,-1.96696409647249,-1.27867961481415,0.327317509055298,-0.590395133155817,-1.27867961481415,-0.590395133155817,-0.360966972603039,-0.13153881205026,-0.590395133155817,-0.13153881205026,-0.360966972603039,-1.04925145426137,-1.50810777536693,-1.50810777536693,-0.819823293708595,-0.819823293708595,-0.13153881205026,0.786173830160855,0.0978893485025193,-1.73753593591971,-0.13153881205026,-1.27867961481415,-1.04925145426137,-0.13153881205026,-1.04925145426137,-1.73753593591971,-0.819823293708595,-0.13153881205026,-0.360966972603039,-0.360966972603039,-1.27867961481415,-0.590395133155817],"z":[0.263259971053865,0.394452647658782,0.394452647658782,0.132067294448949,0.394452647658782,0.132067294448949,0.525645324263698,-0.2615107353658,0.132067294448949,0.263259971053865,-0.2615107353658,0.394452647658782,-0.2615107353658,0.263259971053865,0.132067294448949,0.263259971053865,0.394452647658782,-0.2615107353658,0.394452647658782,-0.130318058760883,0.788030677473531,0.132067294448949,0.394452647658782,0.000874617844032679,0.132067294448949,0.263259971053865,0.263259971053865,0.656838000868614,0.394452647658782,-0.2615107353658,-0.130318058760883,-0.2615107353658,0.000874617844032679,0.525645324263698,0.394452647658782,0.525645324263698,0.394452647658782,0.132067294448949,0.132067294448949,0.132067294448949,0.000874617844032679,0.263259971053865,0.000874617844032679,-0.2615107353658,0.132067294448949,0.000874617844032679,0.132067294448949,0.132067294448949,-0.130318058760883,0.132067294448949],"type":"scatter3d","mode":"markers","name":"versicolor","marker":{"color":"rgba(252,141,98,1)","size":[55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55],"sizemode":"area","line":{"color":"rgba(252,141,98,1)"}},"textfont":{"color":"rgba(252,141,98,1)","size":55},"error_y":{"color":"rgba(252,141,98,1)","width":55},"error_x":{"color":"rgba(252,141,98,1)","width":55},"line":{"color":"rgba(252,141,98,1)","width":55},"frame":null},{"x":[1.27004035791751,0.760211489886395,1.21339270591405,1.04344974990368,1.1567450539106,1.60992626993825,0.420325577865652,1.43998331392788,1.1567450539106,1.32668800992097,0.760211489886395,0.873506793893309,0.986802097900224,0.703563837882938,0.760211489886395,0.873506793893309,0.986802097900224,1.66657392194171,1.77986922594862,0.703563837882938,1.10009740190714,0.646916185879481,1.66657392194171,0.646916185879481,1.10009740190714,1.27004035791751,0.590268533876024,0.646916185879481,1.04344974990368,1.1567450539106,1.32668800992097,1.49663096593134,1.04344974990368,0.760211489886395,1.04344974990368,1.32668800992097,1.04344974990368,0.986802097900224,0.590268533876024,0.930154445896767,1.04344974990368,0.760211489886395,0.760211489886395,1.21339270591405,1.10009740190714,0.816859141889852,0.703563837882938,0.816859141889852,0.930154445896767,0.760211489886395],"y":[0.556745669608076,-0.819823293708595,-0.13153881205026,-0.360966972603039,-0.13153881205026,-0.13153881205026,-1.27867961481415,-0.360966972603039,-1.27867961481415,1.24503015126641,0.327317509055298,-0.819823293708595,-0.13153881205026,-1.27867961481415,-0.590395133155817,0.327317509055298,-0.13153881205026,1.70388647237197,-1.04925145426137,-1.96696409647249,0.327317509055298,-0.590395133155817,-0.590395133155817,-0.819823293708595,0.556745669608076,0.327317509055298,-0.590395133155817,-0.13153881205026,-0.590395133155817,-0.13153881205026,-0.590395133155817,1.70388647237197,-0.590395133155817,-0.590395133155817,-1.04925145426137,-0.13153881205026,0.786173830160855,0.0978893485025193,-0.13153881205026,0.0978893485025193,0.0978893485025193,0.0978893485025193,-0.819823293708595,0.327317509055298,0.556745669608076,-0.13153881205026,-1.27867961481415,-0.13153881205026,0.786173830160855,-0.13153881205026],"z":[1.70637941370794,0.919223354078447,1.18160870728828,0.788030677473531,1.3128013838932,1.18160870728828,0.656838000868614,0.788030677473531,0.788030677473531,1.70637941370794,1.05041603068336,0.919223354078447,1.18160870728828,1.05041603068336,1.57518673710303,1.44399406049811,0.788030677473531,1.3128013838932,1.44399406049811,0.394452647658782,1.44399406049811,1.05041603068336,1.05041603068336,0.788030677473531,1.18160870728828,0.788030677473531,0.788030677473531,0.788030677473531,1.18160870728828,0.525645324263698,0.919223354078447,1.05041603068336,1.3128013838932,0.394452647658782,0.263259971053865,1.44399406049811,1.57518673710303,0.788030677473531,0.788030677473531,1.18160870728828,1.57518673710303,1.44399406049811,0.919223354078447,1.44399406049811,1.70637941370794,1.44399406049811,0.919223354078447,1.05041603068336,1.44399406049811,0.788030677473531],"type":"scatter3d","mode":"markers","name":"virginica","marker":{"color":"rgba(141,160,203,1)","size":[55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55],"sizemode":"area","line":{"color":"rgba(141,160,203,1)"}},"textfont":{"color":"rgba(141,160,203,1)","size":55},"error_y":{"color":"rgba(141,160,203,1)","width":55},"error_x":{"color":"rgba(141,160,203,1)","width":55},"line":{"color":"rgba(141,160,203,1)","width":55},"frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+</section>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>
