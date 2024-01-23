@@ -32,12 +32,13 @@ table(BDD$Class)
 ## Garder un jeu de données de test de côté
 
 ```{r}
-set.seed(42)
+set.seed(10)
 ran <- sample(1:nrow(BDD), 0.9 * nrow(BDD)) 
 BDD_train  <- BDD[ran,]
 BDD_test  <-  BDD[-ran,]
 
-
+dim(BDD_test)
+dim(BDD_train)
 
 
 ```
@@ -54,7 +55,7 @@ prop.table(table(BDD_test$Class))
 
 ```{r}
 library(dplyr)
-set.seed(42)
+set.seed(10)
 id_Train <-BDD %>%
     group_by(Class) %>%
     slice_sample(prop=0.9)%>%pull(Id)
@@ -86,36 +87,72 @@ BDD_train<-BDD_train%>%select(-Id)
 ```{r}
 fit <- glm(Class~Cl.thickness+Cell.size, data=BDD_train,family = "binomial")
 summary(fit)
+```
 
-#predict(fit,BDD_train)
-#predict(fit,BDD_train,type = "response")
+
+```{r}
+predict(fit,BDD_train)%>%head
+```
+
+
+```{r}
+predict(fit,BDD_train,type = "response")%>%head
+table(predict(fit,BDD_train,type = "response")>0.5)
+table(predict(fit,BDD_train)>0)
+
+y_pred=predict(fit,BDD_train,type = "response")
+
+plot(y_pred[order(y_pred)])
+```
+
+
+```{r}
 table(predict(fit,BDD_train)>0,BDD_train$Class)
 table(predict(fit,BDD_train,type = "response")>0.5,BDD_train$Class)
 
 ```
-
-
-```{r}
-fit2 <- glm(Class~Cl.thickness+Cell.size, data=BDD_train%>%mutate(Cl.thickness = as.numeric(Cl.thickness), Cell.size = as.numeric(Cell.size)),family = "binomial")
-table(predict(fit2,BDD_train%>%mutate(Cl.thickness = as.numeric(Cl.thickness), Cell.size = as.numeric(Cell.size)))>0,BDD_train$Class)
-table(predict(fit2,BDD_train%>%mutate(Cl.thickness = as.numeric(Cl.thickness), Cell.size = as.numeric(Cell.size)),type = "response")>0.5,BDD_train$Class)
-```
-
-
 ```{r}
 fit3 <-  glm(Class~., data=BDD_train,family = "binomial")
-summary(fit3)
+#summary(fit3)
 table(predict(fit3,BDD_train)>0,BDD_train$Class)
+```
+```{r}
+table(predict(fit3,BDD_test)>0,BDD_test$Class)
+table(predict(fit,BDD_test)>0,BDD_test$Class)
+```
 
 
+
+```{r}
+fit2 <- glm(Class~., data=
+              BDD_train%>%mutate_at(vars(Cl.thickness:Epith.c.size), function(x) as.numeric(as.character(x)))
+            ,family = "binomial")
+fit2
+```
+
+
+```{r}
+table(predict(fit2,
+              BDD_train%>%mutate_at(vars(Cl.thickness:Epith.c.size), function(x) as.numeric(as.character(x))))>0
+      ,BDD_train$Class)
 
 ```
+```{r}
+table(predict(fit2,BDD_test%>%mutate_at(vars(Cl.thickness:Epith.c.size), function(x) as.numeric(as.character(x))))>0,BDD_test$Class)
+```
+
+
+
 ```{r}
 accuracy<- function(table_contingence){
 round(sum(diag(table_contingence))/
 sum(table_contingence)*100,1)
 }
 accuracy(table(predict(fit3,BDD_train)>0,BDD_train$Class))
+```
+```{r}
+table(c(T,T),c(F,F))
+accuracy(table(c(T,T),c(F,F)))
 ```
 
 
@@ -125,61 +162,40 @@ accuracy(table(predict(fit3,BDD_train)>0,BDD_train$Class))
 
 ```{r, warning=F}
 
-set.seed(10)
-samples<- sample(size = nrow(BDD_train), x = cut(1:nrow(BDD_train),10,labels=FALSE))
 
+```
 
-res4<- res4_train<-c()
-for(sample_i in 1:10){
-  BDD_train_i= BDD_train[!samples ==sample_i,]
-  BDD_test_i= BDD_train[samples ==sample_i,]
-  
-  
-  fit4 <-  glm(Class~Cl.thickness+Cell.size, data=BDD_train_i,family = "binomial")
-  
-  acc_train <- accuracy(table(predict(fit4,BDD_train_i)>0,BDD_train_i$Class))
-  res4_train<- c(res4_train,acc_train)
-  acc<- accuracy(table(predict(fit4,BDD_test_i)>0,BDD_test_i$Class))
-  res4<- c(res4,acc)
+```{r warning=F}
+set.seed(12)
+n_folds=5
+samples<- sample(size = nrow(BDD_train),
+                 x = cut(1:nrow(BDD_train),
+                                                 n_folds,labels=FALSE))
+# samples
+acc_res_1<- acc_res_2 <- c()
+
+for(i in 1:n_folds){
+  BDD_train_i <- BDD_train[!samples==i,]
+  BDD_test_i <- BDD_train[samples==i,]
+
+  fit_cv <- glm(Class~Cl.thickness+Cell.size, data=BDD_train_i,family = "binomial")
+y_pred <- predict(fit_cv,BDD_test_i)>0
+  acc_res_1 <- c(acc_res_1,accuracy(table(y_pred ,BDD_test_i$Class=="malignant" )))
+
+  fit_cv2 <- glm(Class~., data=BDD_train_i%>%select(-Epith.c.size),family = "binomial")
+y_pred2  <- predict(fit_cv2,BDD_test_i)>0
+acc_res_2 <- c(acc_res_2,accuracy(table(y_pred2 ,BDD_test_i$Class=="malignant" )))
+
   
   
 }
 
+mean(acc_res_1)
+acc_res_1
+mean(acc_res_2)
+acc_res_2
 ```
 
-
-
-
-
-```{r, warning=F}
-
-
-
-res5<- res5_train<- c()
-for(sample_i in 1:10){
-  BDD_train_i= BDD_train[!samples ==sample_i,]
-  BDD_test_i= BDD_train[samples ==sample_i,]
-  
-  
-  fit5 <-  glm(Class~., data=BDD_train_i,family = "binomial")
-  
-    acc_train <- accuracy(table(predict(fit5,BDD_train_i)>0,BDD_train_i$Class))
-  res5_train<- c(res5_train,acc_train)
-  
-  acc<- accuracy(table(predict(fit5,BDD_test_i)>0,BDD_test_i$Class))
-  res5<- c(res5,acc)
-  
-}
-
-```
-
-
-```{r}
-mean(res4_train)
-mean(res4)
-mean(res5_train)
-mean(res5)
-```
 
 
 ### Autre modèle
@@ -188,10 +204,13 @@ mean(res5)
 
 
 res6<- res6_train<- c()
-for(sample_i in 1:10){
+for(sample_i in 1:n_folds){
+  
   BDD_train_i= BDD_train[!samples ==sample_i,]
   BDD_test_i= BDD_train[samples ==sample_i,]
+  
 BDD_train_i =BDD_train_i%>%mutate_at(vars(Cl.thickness:Epith.c.size), function(x) as.numeric(as.character(x)))
+
   BDD_test_i<-BDD_test_i%>%mutate_at(vars(Cl.thickness:Epith.c.size), function(x) as.numeric(as.character(x)))
   
   fit6 <-  glm(Class~., data=BDD_train_i,family = "binomial")
@@ -203,6 +222,7 @@ BDD_train_i =BDD_train_i%>%mutate_at(vars(Cl.thickness:Epith.c.size), function(x
   res6<- c(res6,acc)
   
 }
+
 
 ```
 
@@ -217,7 +237,7 @@ mean(res6)
 ```{r}
 library(ggplot2)
 res6_data_frame<- data.frame()
-for(sample_i in 1:10){
+for(sample_i in n_folds){
 
   BDD_train_i= BDD_train[!samples ==sample_i,]
   BDD_test_i= BDD_train[samples ==sample_i,]
@@ -227,15 +247,22 @@ BDD_train_i =BDD_train_i%>%mutate_at(vars(Cl.thickness:Epith.c.size), function(x
   fit6 <-  glm(Class~., data=BDD_train_i,family = "binomial")
   
      for( seuil in seq(0,1,0.1)){
-  acc<- accuracy(table(predict(fit6,BDD_test_i,type = "response")>seuil,BDD_test_i$Class))
+  acc<- accuracy(table(
+    predict(fit6,BDD_test_i,type = "response")>seuil,
+    BDD_test_i$Class))
   res6_data_frame<- rbind(res6_data_frame,
                           data.frame(seuil=as.character(seuil), acc=acc)
   )
   }
 }
+res6_data_frame
 res6_data_frame%>%ggplot(aes(fill=seuil, y=acc))+geom_boxplot()
 ```
 
+```{r}
+399/629
+table(BDD$Class, rep("benign",629))
+```
 
 
 
@@ -244,10 +271,11 @@ res6_data_frame%>%ggplot(aes(fill=seuil, y=acc))+geom_boxplot()
 
 VPP = function(y_pred, y){ return((sum(y_pred & y)/sum(y_pred))*100)}
 VPN = function(y_pred, y){ return((sum(! y_pred&! y)/sum(!y_pred))*100)}
+rappel = function(y_pred, y){ return((sum( y_pred& y)/sum(y))*100)}
 
 
 res6_data_frame<- data.frame()
-for(sample_i in 1:10){
+for(sample_i in 1:n_folds){
 
   BDD_train_i= BDD_train[!samples ==sample_i,]
   BDD_test_i= BDD_train[samples ==sample_i,]
@@ -263,11 +291,28 @@ BDD_train_i =BDD_train_i%>%mutate_at(vars(Cl.thickness:Epith.c.size), function(x
   res6_data_frame<- rbind(res6_data_frame,
                           data.frame(seuil=as.character(seuil), acc=acc,
                                      VPP = VPP(y_pred,y_vrai),
-                                     VPN = VPN(y_pred,y_vrai)
+                                     VPN = VPN(y_pred,y_vrai),
+                                     rappel = rappel(y_pred,y_vrai)
   )
   )
   }
 }
 library(tidyr)
+res6_data_frame <- res6_data_frame%>%mutate(F1 = 2*VPP*rappel/(rappel+VPP))
 res6_data_frame%>%pivot_longer(cols = -seuil, names_to = "type",values_to = "score")%>%ggplot(aes(fill=seuil,x=type, y=score))+geom_boxplot()
 ```
+
+
+
+```{r}
+res6_data_frame%>%ggplot(aes(y=F1, x = seuil
+                         )) +geom_violin()
+```
+
+
+
+```{r}
+readRDS("data_test.rds")
+```
+
+
