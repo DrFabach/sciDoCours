@@ -3,11 +3,181 @@ title: "Td algos ml"
 output: html_notebook
 ---
 
-# Librariy dans R
+# Library dans R
 
 - Historiquement caret
 -  Plus récemment tidymodel
 Lien : https://www.tidymodels.org/
+
+
+# Avec Caret : 
+
+
+https://physionet.org/content/mimic2-iaccd/1.0/
+# Algorithme de machine learning
+
+```{r}
+library(pander)
+# saveRDS(objet, "chemin/objet.rds")
+data_tot<- readRDS("data.rds")
+# str(data_tot)
+
+```
+
+```{r}
+library(ggplot2)
+library(tidyverse)
+library(class)
+```
+
+
+```{r}
+# forcer aléatoire
+set.seed(45)
+sample_train<-sample(1:dim(data_tot)[1],600,replace = F)
+#Selection d'une partie des variables
+data_tot<-data_tot%>%select( "age", "gender_num", 
+ "bmi", "sapsi_first", "sofa_first", "chf_flg", "afib_flg", "renal_flg", 
+"liver_flg", "copd_flg", "cad_flg", "stroke_flg", "mal_flg", 
+"resp_flg", "map_1st", "hr_1st", "temp_1st", "spo2_1st", "abg_count", 
+"wbc_first", "hgb_first", "platelet_first", "sodium_first", "potassium_first", 
+"tco2_first", "chloride_first", "bun_first", "creatinine_first", 
+"po2_first", "pco2_first", "iv_day_1","hosp_exp_flg")
+
+data_tot$hosp_exp_flg<- as.factor(data_tot$hosp_exp_flg)
+
+#Separation du jeu de données en entrainement et test
+data_train <- data_tot[sample_train,]
+data_test <- data_tot[-sample_train,]
+
+```
+
+```{r}
+# Library de machine learning
+library(caret)
+
+# Création d'un modèle de normalisation des données à partir des données d'entrainement
+normParam <- preProcess(data_train)
+
+# Application de ce modèle aux données train et test
+norm.train<- predict(normParam, data_train)
+norm.testData <- predict(normParam, data_test)
+```
+
+## Classifieur bayésien
+
+```{r}
+require(e1071) 
+
+#Entrainement d'un modèle
+model <- naiveBayes(hosp_exp_flg~., data = norm.train)
+class(model) 
+# Application du modèle aux données d'entraînement
+pred <- predict(model,norm.train)
+table(pred,norm.train$hosp_exp_flg)
+
+# Application du modèle aux données de test
+pred <- predict(model,norm.testData)
+
+table(pred, norm.testData$hosp_exp_flg)
+
+
+```
+## knn 
+```{r}
+
+#Entrainement d'un modèle sur de données non normalisées
+  mod_knn = knn(data_train%>%select(-hosp_exp_flg), data_test%>%select(-hosp_exp_flg), data_train$hosp_exp_flg, k = 3, prob=TRUE)
+table(mod_knn,data_test$hosp_exp_flg)
+
+
+#Entrainement d'un modèle sur de données normalisées
+  mod_knn2 = knn( norm.train%>%select(-hosp_exp_flg),  norm.testData%>%select(-hosp_exp_flg),  norm.train$hosp_exp_flg, k = 3, prob=TRUE)
+  # KNN -> les prÃ©dictions sont faites directement par la fonction knn
+table(mod_knn2,data_test$hosp_exp_flg)
+
+  
+```
+```{r}
+library(tree)
+#Entrainement d'un arbre
+mod_arbre = tree(hosp_exp_flg~., data = data_train)
+#Affichage de l'arbe
+plot(mod_arbre)
+text(mod_arbre)
+
+# voir ? prune.tree() pour réduire la complexité des arbres
+
+```
+
+
+```{r}
+library(randomForest)
+# entrainement d'un random forest  
+mod_rf = randomForest(hosp_exp_flg~., data = data_train,ntree=1000,classwt =c(4,1))
+ table(data_test$hosp_exp_flg, predict(mod_rf,data_test))
+```
+```{r}
+  # entrainement d'un svm
+mod_svm = svm(hosp_exp_flg~., data = norm.train)
+table(predict(mod_svm,norm.testData), norm.testData$hosp_exp_flg)
+
+```
+```{r}
+#cross validation
+
+#définition de la stratégie de crossvalidation
+fit_control<-trainControl(method = "repeatedcv",
+             number = 5,
+             repeats = 5)
+
+#définition de la grille d'hyperparamètre à tester
+gridsearch <-  expand.grid( 
+                        scale  = c(1/10000,1/1000,1/100,1/10), 
+                        C = c(1,2,3),
+                        degree = c(1,2,3,4))
+
+#Entrainement d'un svm par crossvalidation
+fit1<-train(hosp_exp_flg~., data = norm.train,
+      method="svmPoly",
+      tuneGrid= gridsearch,
+      trControl = fit_control
+      )
+
+```
+
+
+
+```{r}
+
+# Modification de la mesure à maximiser
+f1 <- function (data, lev = NULL, model = NULL) {
+  precision <- posPredValue(data$pred, data$obs, positive = "oui")
+  recall  <- sensitivity(data$pred, data$obs, postive = "oui")
+  f1_val <- (2 * precision * recall) / (precision + recall)
+  names(f1_val) <- c("F1")
+  f1_val
+} 
+
+fit_control<-trainControl(method = "repeatedcv",
+             number = 5,
+              classProbs = TRUE,
+             summaryFunction = f1,
+             repeats = 5)
+norm.train$hosp_exp_flg<-ifelse(norm.train$hosp_exp_flg=="1","oui","non")
+
+fit1<-train(hosp_exp_flg~., data = norm.train,
+      method="svmPoly",
+      tuneGrid= gridsearch,
+      trControl = fit_control,
+      
+                 metric = "F1"
+                  )
+
+
+```
+
+# Avec tidymodels
 
 ## Import de la base
 
