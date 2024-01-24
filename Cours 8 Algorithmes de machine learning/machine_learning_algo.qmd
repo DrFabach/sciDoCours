@@ -26,7 +26,24 @@ execute:
 -   Aujourd'hui : Algorithmes + tuto R
 -   15 février tuto python
 
+## Rappel
+
+Stratégie d'apprentissage pour le choix du modèle et des
+hyperparamètres.
+
+![](images/validation.PNG)
+
 # Algorithmes de machine learning
+
+------------------------------------------------------------------------
+
+## **KNN**
+
+-   Used for Classification
+
+-   Need standardized variable
+
+-   One of the easiest algorithm
 
 ------------------------------------------------------------------------
 
@@ -53,17 +70,11 @@ execute:
 -   sigmoid function: \$ \frac{1}{1 + e^{-z}}\$ (where $z$ is the input
     to the function)
 
--   Cross-Entropy loss function:
-    $-\sum_{i=1}^n y_i log(\hat{y_i}) + (1-y_i)log(1-\hat{y_i})$
-
 ## **Regression with regulation**
 
 -   reduces complexity of regression
 
--   allow the use of correlated varibles
-
--   cost function :
-    $\beta = argmin_{\beta} \frac{1}{n}||Y - X\beta||_2^2 + \lambda_1||\beta||_1 + \frac{\lambda_2}{2}||\beta||_2^2$
+-   allow the use of correlated variables
 
 ------------------------------------------------------------------------
 
@@ -73,12 +84,7 @@ execute:
 
 -   good for interaction
 
--   Formulas:
-
--   Information Gain:
-    $IG(D_{p},f) = I(D_{p})-\sum_{j=1}^{m} \frac{N_j}{N_p}I(D_j)$
-
--   Gini Index : $Gini(D)= 1-\sum_{i=1}^{c}p_i^2$
+-   Understable
 
 ------------------------------------------------------------------------
 
@@ -149,7 +155,19 @@ execute:
 
 ------------------------------------------------------------------------
 
-# Arbre de decision
+# KNN
+
+-   Algorithme des K plus proches voisins
+
+![](images/image.png){style="background-color : white;"}
+
+## Hyperparamètres des KNN : 
+
+- Type de distance 
+
+- Nombre de voisins
+
+# Arbre de décision
 
 ![](images/c573e3d2-d2a4-4183-a2b1-0630d2c1ecdd_720x405-2.gif)
 
@@ -171,7 +189,7 @@ execute:
 
 ------------------------------------------------------------------------
 
-# Arbre de decision
+# Arbre de décision
 
 <https://mlu-explain.github.io/decision-tree/>
 
@@ -185,9 +203,9 @@ execute:
 -   chaque nœud feuille représente une étiquette de classe ou une valeur
 
 -   construction en divisant récursivement en fonction de la
-    caractéristique qui donne les sous-ensembles les plus purs
+    caractéristique qui donne les sous-ensembles les plus pures
 
-# Construction Arbre de decision
+# Constructions Arbre de décision
 
 -   en partant de la racine, qui représente l'ensemble des données
     d'entraînement
@@ -196,11 +214,11 @@ execute:
     sous-ensembles purs selon le critère choisi
 
 -   jusqu'à ce qu'un certain critère d'arrêt soit atteint : profondeur
-    max, nobre minnimum de données par noeud
+    max, nombre minimum de données par noeud
 
 -   feuilles représentent les classes cibles
 
--   Arbre utiliser pour classifier des nouvelles données
+-   Arbre utiliser pour classifier de nouvelles données
 
 ## Critère de séparation des données:
 
@@ -209,8 +227,8 @@ execute:
 -   $P(i|t)$ : la probabilité d'appartenance à la classe $i$ pour les
     données dans le nœud $t$.
 
-L'impureté de Gini : probabilité qu'un élément choisi au hasard dans le
-nœud soit mal classé.
+L'impureté de Gini : probabilité qu'un élément choisit au hasard dans le
+nœud soit mal classée.
 
 ## Critère de séparation des données:
 
@@ -323,10 +341,10 @@ $$ Impurete\_moyenne = 2/5*Gini(rouge)+1/5*Gini(ver)\\+2/5*Gini(jaune) = 0.6 $$
     la construction de l'arbre -\> méthode de haut en bas
 
 -   Post-élagage : Construction de l'arbre dans son intégralité puis
-    calcul de l'intérêt de chaque nœud en partant des nœud terminaux -\>
-    méthode de bas en haut
+    calcul de l'intérêt de chaque nœud en partant des nœuds terminaux
+    -\> méthode de bas en haut
 
-## Avantages inconvenients :
+## Avantages inconvénients :
 
 ::: columns
 ::: {.column width="50%"}
@@ -338,7 +356,7 @@ $$ Impurete\_moyenne = 2/5*Gini(rouge)+1/5*Gini(ver)\\+2/5*Gini(jaune) = 0.6 $$
 :::
 
 ::: {.column width="50%"}
--   Pb de surrapprentissage
+-   Pb de surapprentissage
 
 -   Pb avec les classifications non équilibrés
 :::
@@ -387,7 +405,7 @@ Science](https://miro.medium.com/max/1200/1*RI9_LbQ5A9D1izBaU1ypzQ.gif)
 
 ## Regression pénalisée
 
--   Contraindre la valeur des estimateurs des moindre carrés pour
+-   Contraindre la valeur des estimateurs des moindres carrés pour
     réduire la variance
 
 -   $\beta = argmin_{\beta} { \sum_{i=1}^{n} (y_i - \beta_0 - \sum_{j=1}^{p}x_{ij}\beta_j)^2 + contrainte}$
@@ -457,7 +475,7 @@ $\beta = argmin_{\beta} { \sum_{i=1}^{n} (y_i - \beta_0 - \sum_{j=1}^{p}x_{ij}\b
 -   r : glmnet
 
 -   python : sklearn.linear_model
-    <https://scikit-learn.org/stable/modules/linear_model.html>
+    \<https://scikit-learn.org/stable/modules/linear_model.html
 
 # SVM (Machine à vecteur de support)
 
@@ -569,19 +587,19 @@ $$ K(\textbf{x}_i, \textbf{x}_j) = \phi(\textbf{x}_i)^T \phi(\textbf{x}_j) $$
 
 -   Bagging : vient de la contraction de Bootstrap Aggregating
 
--   Idée : plutôt que de constuire un seul estimateur, en construire un
+-   Idée : plutôt que de construire un seul estimateur, en construire un
     grand nombre (sur des échantillons bootstrap) et les agréger.
 
--   Ajuster le même algo sur les mêmes données : sans interêt
+-   Ajuster le même algo sur les mêmes données : sans intérêt
 
 -   Ajuster le même algorithme sur des échantillons disjoints : peu
     généralisable
 
--   Ajuster bcp d'algorithme différents : compliqué
+-   Ajuster bcp d'algorithmes différents : compliqué
 
 ## Bootstrap
 
--   Echantillon initial : `r (c(1:10))`
+-   Échantillon initial : `r (c(1:10))`
 
 -   Bootstrap : tirages de n avec remise :
 
@@ -616,20 +634,20 @@ Rappel sur la profondeur des arbres :
 
     ### Ensemble d'arbres
 
--   aggragétions d'arbres constitués sur des échantillons bootstrapés
+-   agrégations d'arbres constitués sur des échantillons bootstrapés
 
 https://www.stat.berkeley.edu/\~breiman/RandomForests/
 
 ## Coupure aléatoire
 
--   Choix aléatoire des variables de chaques arbres
+-   Choix aléatoire des variables de chaque arbre
 
 -   Idée : choisir la "meilleure" variable dans un ensemble réduit de
-    variable
+    variables
 
--   $mtry$ nombre de variable choisies alétoirement
+-   $mtry$ nombre de variables choisies aléatoirement
 
--   but : diminuer la correlation entre les arbres
+-   but : diminuer la corrélation entre les arbres
 
 ## Prévision:
 
@@ -657,7 +675,7 @@ $\hat{y}(x) = \text{argmax}_{c\in C} \sum_{i=1}^{N}[tree_i(x) = c]$
 
 -   **mtry**, si trop grand -\> surapprentissage
 
--   **min.node.size** : nombre minimum de noeud par arbre / profondeur
+-   **min.node.size** : nombre minimum de noeuds par arbre / profondeur
     des arbres
 
 ![](images/image-1156601053.png)
@@ -702,6 +720,4 @@ Suite de petits algorithmes
 
 -   Compute the new centroids as the mean of all points in the cluster
 
-## ACP
-
-## ![](https://delladata.fr/wp-content/uploads/2020/08/Q7HIP.gif){alt=""}
+  
