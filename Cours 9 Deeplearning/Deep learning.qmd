@@ -21,9 +21,64 @@ execute:
 
 # Deep learning
 
+![](images/Image1.png)
+
+------------------------------------------------------------------------
+
+![](images/Image3.png)
+
+## Deep learning vs machine learning
+
+::: columns
+::: {.column width="50%"}
+**Classical Machine learning**
+
+-   Interpretability and explainability
+-   Smaller amounts of relatively simple data
+-   Straightforward feature engineering
+-   Smaller computational power needed
+-   Different algorithms 
+:::
+
+::: {.column width="50%"}
+**Deep learning**
+
+-   Can achieve very high accuracy
+-    Need large amounts of precisely labeled data
+-   need powerful compute resources (GPU acceleration)
+-   Augmentation and other transformations of the initial dataset will
+    be necessary
+:::
+:::
+
+------------------------------------------------------------------------
+
+![Source : softwaretestinghelp.com](images/DeepLearning.png)
+
+------------------------------------------------------------------------
+
+![](images/Image4.png)
+
+------------------------------------------------------------------------
+
+![](images/Image5.png)
+
+------------------------------------------------------------------------
+
+![](images/Image6.png){style="background-color "}
+
+## Naissance du perceptron
+
+![](images/Capture-06.PNG)
+
+## Du perceptron au deep learning
+
+![](images/Capture-07.PNG)
+
 ## Plan
 
--   comment le réseau transforme couche après couche des données en probabilités
+-   comment le réseau transforme couche après couche des données en
+    probabilités
 
 -   Qu'est ce qu'une descente de gradient
 
@@ -32,3 +87,94 @@ execute:
 ## Transformation des données : les couches denses
 
 Comment mettre en avant des caractéristiques dans les données ?
+
+![](images/Capture.PNG)
+
+## Couches denses
+
+![](images/Capture-01.PNG)
+
+Somme pondérée des notes $x_i^j$ pour chaque étudiant $i$ : Création
+d'information
+
+## Couches denses
+
+Somme pondérée des notes $x_i^j$ pour chaque étudiant $i$ :
+$y_i = \sum_{j=1}^{7}{w_jx_i^j}$
+
+Moyenne de note en langue : $w=(0,0,0,0.5,0.5,0,0)$
+
+![](images/Capture-02.PNG)
+
+## Couches denses
+
+Différence entre math et info: $w=(-1,0,-1,0,0,0,0)$
+
+![](images/Capture-03.PNG)
+
+## Couches denses
+
+Somme pondérée des notes $x_i^j$ avec biais suivi de ReLU :
+
+$$
+s_i = b + \sum_{j=1}^7w_jx_i^j\\
+y_i = max(0,s_i)
+$$
+
+**Sélection** des moyennes supérieures à 10 en sciences :
+$w=(0.2,0.2,0.2,0,0,0.2,0.2);b=-10$
+
+![](images/Capture-04.PNG)
+
+## Couches denses
+
+![](images/Capture-05.PNG)
+
+## Descente de gradient
+
+![](images/Capture-08.PNG)
+
+## Descente de gradient
+
+![](images/Capture1-02.PNG)
+
+## Descente de gradient
+
+![](images/Capture2.PNG)
+
+## Descente de gradient
+
+![](images/Capture3-01.PNG)
+
+## Descente de gradient
+
+
+![](images/Capture4-02.PNG)
+
+## Descente de gradient
+
+![](images/Capture5-02.PNG)
+
+## Descente de gradient
+
+![](images/Capture6-02.PNG)
+
+## Descente de gradient
+
+![](images/Capture7-02.PNG)
+
+## Descente de gradient
+
+![](images/Capture8-01.PNG)
+
+## Descente de gradient
+
+![](images/Capture9-01.PNG)
+
+## Descente de gradient
+
+![](images/Capture10-01.PNG)
+
+## Descente de gradient
+
+![](images/Capture11-01.PNG)
