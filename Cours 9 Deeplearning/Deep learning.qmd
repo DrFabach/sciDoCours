@@ -1,0 +1,34 @@
+---
+title: "7-Machine learning"
+format:
+  revealjs: 
+    theme: [dark, custom.scss] 
+editor: visual
+page-layout: full
+author: "Thibaut FABACHER"
+institute: "GMRC"
+incremental: true
+slide-number: h/v
+progress: true
+footer: "Master Intelligence des données de santé / UE Technique"
+show-slide-number: all
+jupyter: false
+cap-location: bottom
+self-contained: true
+execute:
+  echo: true
+---
+
+# Deep learning
+
+## Plan
+
+-   comment le réseau transforme couche après couche des données en probabilités
+
+-   Qu'est ce qu'une descente de gradient
+
+-   Comment calculer le gradient ?
+
+## Transformation des données : les couches denses
+
+Comment mettre en avant des caractéristiques dans les données ?
