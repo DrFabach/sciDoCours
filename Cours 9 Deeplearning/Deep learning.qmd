@@ -1,5 +1,5 @@
 ---
-title: "7-Machine learning"
+title: "8 Deep Learning"
 format:
   revealjs: 
     theme: [dark, custom.scss] 
@@ -44,10 +44,9 @@ execute:
 **Deep learning**
 
 -   Can achieve very high accuracy
--    Need large amounts of precisely labeled data
+-   Need large amounts of precisely labeled data
 -   need powerful compute resources (GPU acceleration)
--   Augmentation and other transformations of the initial dataset will
-    be necessary
+-   Augmentation and other transformations of the initial dataset will be necessary
 :::
 :::
 
@@ -65,7 +64,9 @@ execute:
 
 ------------------------------------------------------------------------
 
-![](images/Image6.png){style="background-color "}
+## Origine
+
+![](images/Image6.png){style="background-color : white;"}
 
 ## Naissance du perceptron
 
@@ -77,12 +78,13 @@ execute:
 
 ## Plan
 
--   comment le réseau transforme couche après couche des données en
-    probabilités
+-   comment le réseau transforme couche après couche des données en probabilités
 
 -   Qu'est ce qu'une descente de gradient
 
 -   Comment calculer le gradient ?
+
+# Couches Denses
 
 ## Transformation des données : les couches denses
 
@@ -94,13 +96,11 @@ Comment mettre en avant des caractéristiques dans les données ?
 
 ![](images/Capture-01.PNG)
 
-Somme pondérée des notes $x_i^j$ pour chaque étudiant $i$ : Création
-d'information
+Somme pondérée des notes $x_i^j$ pour chaque étudiant $i$ : Création d'information
 
 ## Couches denses
 
-Somme pondérée des notes $x_i^j$ pour chaque étudiant $i$ :
-$y_i = \sum_{j=1}^{7}{w_jx_i^j}$
+Somme pondérée des notes $x_i^j$ pour chaque étudiant $i$ : $y_i = \sum_{j=1}^{7}{w_jx_i^j}$
 
 Moyenne de note en langue : $w=(0,0,0,0.5,0.5,0,0)$
 
@@ -121,14 +121,23 @@ s_i = b + \sum_{j=1}^7w_jx_i^j\\
 y_i = max(0,s_i)
 $$
 
-**Sélection** des moyennes supérieures à 10 en sciences :
-$w=(0.2,0.2,0.2,0,0,0.2,0.2);b=-10$
+**Sélection** des moyennes supérieures à 10 en sciences : $w=(0.2,0.2,0.2,0,0,0.2,0.2);b=-10$
 
 ![](images/Capture-04.PNG)
 
 ## Couches denses
 
 ![](images/Capture-05.PNG)
+
+## Couche dense : perceptron 
+
+![](images/Image1-01.png)
+
+## Couches dense : multiple perceptron 
+
+![](images/Image2.png){style="background-color : white ;"}
+
+# Descente de gradient
 
 ## Descente de gradient
 
@@ -147,7 +156,6 @@ $w=(0.2,0.2,0.2,0,0,0.2,0.2);b=-10$
 ![](images/Capture3-01.PNG)
 
 ## Descente de gradient
-
 
 ![](images/Capture4-02.PNG)
 
