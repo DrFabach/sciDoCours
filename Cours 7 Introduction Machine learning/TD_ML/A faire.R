@@ -1,40 +1,36 @@
 # A faire
 
-# Trouver la meilleure régression  pour predire hospital_los_day: length of stay in hospital (days, numeric)
+# Trouver les meilleures régressions  pour prédire hospital_los_day: length of stay in hospital (days, numeric)
 et  day_28_flg: death within 28 days (binary: 1 = yes, 0 = no)
 
 
 
 data_tot<- readRDS("data.rds")
-# informations sur la base : 
-# https://physionet.org/content/mimic2-iaccd/1.0/
 
-### Chargement des données
+# informations sur la base : 
+
+### https://physionet.org/content/mimic2-iaccd/1.0/
+
+## Chargement des données
 library(ggplot2)
 library(tidyverse)
 library(class)
 
-set.seed(45)
 
 
 
 
-data_tot<-data_tot%>%select( "age", "gender_num", 
-                             "bmi", "sapsi_first", "sofa_first", "chf_flg", "afib_flg", "renal_flg", 
-                             "liver_flg", "copd_flg", "cad_flg", "stroke_flg", "mal_flg", 
-                             "resp_flg", "map_1st", "hr_1st", "temp_1st", "spo2_1st", "abg_count", 
-                             "wbc_first", "hgb_first", "platelet_first", "sodium_first", "potassium_first", 
-                             "tco2_first", "chloride_first", "bun_first", "creatinine_first", 
-                             "po2_first", "pco2_first", "iv_day_1","hosp_exp_flg")
+data_tot<-data_tot%>%select( ____)
 
 data_tot$hosp_exp_flg<- as.factor(data_tot$hosp_exp_flg)
+set.seed(45)
 
 sample_train<-sample(1:dim(data_tot)[1],600,replace = F)
 data_train <- data_tot[sample_train,]
 data_test <- data_tot[-sample_train,]
 
 
-### Test de l'entrainement des modèles sur un fold
+# Test de l'entraînement des modèles sur un fold
 
 folds <- cut(seq(1,nrow( ___ )),breaks=10,labels=FALSE)
 
@@ -59,7 +55,8 @@ vpn = ___
 
 
 
-## Cross validation du meilleur seuil glm  : 
+# Cross validation du meilleur seuil glm  : 
+
 seuils<- ____
 res_data<- data.frame()
 for(i in ___){
@@ -77,8 +74,12 @@ for(i in ___){
   }
 }
 
+## Choix des variables à mettre dans me modèle de prédiction 
 
 
-## Bonus Essayer de standardiser les variables quantitatives pour voir si ça améliore les résultats
+# Même chose pour prédire la durée de séjour
+
+
+# Bonus essayer de standardiser les variables quantitatives pour voir si ça améliore les résultats
 https://www.statsoft.fr/concepts-statistiques/glossaire/c/centrer.html
 
