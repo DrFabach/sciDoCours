@@ -19,6 +19,113 @@ execute:
   echo: true
 ---
 
+## TD
+
+![](images/Capture8-02.PNG)
+
+------------------------------------------------------------------------
+
+![](images/Capture9-02.PNG)
+
+------------------------------------------------------------------------
+
+![](images/Capture3-02.PNG)
+
+------------------------------------------------------------------------
+
+![](images/Capture4-03.PNG)
+
+![](images/Capture5-03.PNG)
+
+------------------------------------------------------------------------
+
+![](images/Capture-09.PNG)
+
+------------------------------------------------------------------------
+
+![](images/Capture2-01.PNG)
+
+------------------------------------------------------------------------
+
+![](images/Capture10-02.PNG)
+
+------------------------------------------------------------------------
+
+```{r}
+
+   metrics <-function(prediction,vrai){
+    conf_matrix<- table(prediction ,vrai)
+    # Calculating performance metrics
+    TP <- conf_matrix[2, 2]
+    TN <- conf_matrix[1, 1]
+    FP <- conf_matrix[2, 1]
+    FN <- conf_matrix[1, 2]
+        precision <- TP / (TP + FP)
+    recall <- TP / (TP + FN)
+    accuracy <- (TP + TN) / sum(conf_matrix)
+    F1 <- 2 * (precision * recall) / (precision + recall)
+    sensitivity <- recall
+    specificity <- TN / (TN + FP)
+    negative_predictive_value <- TN / (TN + FN)
+    return(     data.frame(
+                                          Precision = precision,
+                                          Recall = recall,
+                                          Accuracy = accuracy,
+                                          F1 = F1,
+                                          Sensitivity = sensitivity,
+                                          Specificity = specificity,
+                                          NPV = negative_predictive_value))
+   }
+    
+```
+
+------------------------------------------------------------------------
+
+```{r}
+library(pander)
+pander(metrics(c(0,0,0,1,1),c(0,1,0,0,1)))
+
+#pander(metrics(c(0,0,0,0,0),c(0,1,0,0,1)))
+```
+
+------------------------------------------------------------------------
+
+![](images/Capture7-03.PNG)
+
+## Groupes déséquilibrés
+
+-   **Ne pas utiliser l'accuracy**
+
+-   utiliser des metrics combinées (F1 score, AUC, AUPRC)
+
+-   au minimum regarder le rappel
+
+-   utiliser des poids ou de l'over/undersampling
+
+## Groupes déséquilibrés
+
+![](images/Capture-10.PNG)
+
+------------------------------------------------------------------------
+
+![](images/Capture2-02.PNG)
+
+------------------------------------------------------------------------
+
+![](images/2808331754.png)
+
+------------------------------------------------------------------------
+
+![](images/deeplearning_page-0005.jpg)
+
+------------------------------------------------------------------------
+
+![](images/deeplearning_page-0002.jpg)
+
+------------------------------------------------------------------------
+
+![](images/deeplearning_page-0003.jpg)
+
 # Deep learning
 
 ![](images/Image1.png)
