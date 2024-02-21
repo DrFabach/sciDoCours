@@ -125,15 +125,19 @@ $$
 
 ![](images/Capture-04.PNG)
 
+## Couches d'activation
+
+![](images/image12.png)
+
 ## Couches denses
 
 ![](images/Capture-05.PNG)
 
-## Couche dense : perceptron 
+## Couche dense : perceptron
 
 ![](images/Image1-01.png)
 
-## Couches dense : multiple perceptron 
+## Couches dense : multiple perceptron
 
 ![](images/Image2.png){style="background-color : white ;"}
 
@@ -186,3 +190,103 @@ $$
 ## Descente de gradient
 
 ![](images/Capture11-01.PNG)
+
+## Backpropagation
+
+![](images/05-Maths-Opening_the_black_box_page-0067-01.jpg)
+
+------------------------------------------------------------------------
+
+![](images/05-Maths-Opening_the_black_box_page-0069.jpg)
+
+------------------------------------------------------------------------
+
+![](images/05-Maths-Opening_the_black_box_page-0070.jpg)
+
+------------------------------------------------------------------------
+
+![](images/05-Maths-Opening_the_black_box_page-0071.jpg)
+
+------------------------------------------------------------------------
+
+![](images/05-Maths-Opening_the_black_box_page-0072.jpg)
+
+------------------------------------------------------------------------
+
+![](images/05-Maths-Opening_the_black_box_page-0073.jpg)
+
+------------------------------------------------------------------------
+
+![](images/05-Maths-Opening_the_black_box_page-0074.jpg)
+
+------------------------------------------------------------------------
+
+![](images/05-Maths-Opening_the_black_box_page-0075.jpg)
+
+------------------------------------------------------------------------
+
+![](images/05-Maths-Opening_the_black_box_page-0076.jpg)
+
+------------------------------------------------------------------------
+
+![](images/05-Maths-Opening_the_black_box_page-0077.jpg)
+
+------------------------------------------------------------------------
+
+![](images/05-Maths-Opening_the_black_box_page-0078.jpg)
+
+------------------------------------------------------------------------
+
+![](images/05-Maths-Opening_the_black_box_page-0079.jpg)
+
+------------------------------------------------------------------------
+
+![](images/05-Maths-Opening_the_black_box_page-0080.jpg)
+
+------------------------------------------------------------------------
+
+![](images/05-Maths-Opening_the_black_box_page-0081.jpg)
+
+------------------------------------------------------------------------
+
+![](images/05-Maths-Opening_the_black_box_page-0082.jpg)
+
+------------------------------------------------------------------------
+
+![](images/05-Maths-Opening_the_black_box_page-0083.jpg)
+
+------------------------------------------------------------------------
+
+![](images/05-Maths-Opening_the_black_box_page-0084.jpg)
+
+------------------------------------------------------------------------
+
+![](images/05-Maths-Opening_the_black_box_page-0085.jpg)
+
+------------------------------------------------------------------------
+
+![](images/05-Maths-Opening_the_black_box_page-0086.jpg)
+
+------------------------------------------------------------------------
+
+![](images/05-Maths-Opening_the_black_box_page-0087.jpg)
+
+## En plus simple
+
+![](images/image23.png)
+
+------------------------------------------------------------------------
+
+![](images/image24.png)
+
+------------------------------------------------------------------------
+
+![](images/image25.png)
+
+------------------------------------------------------------------------
+
+![](images/image26.png)
+
+------------------------------------------------------------------------
+
+# 
