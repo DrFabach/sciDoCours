@@ -24,7 +24,807 @@ execute:
 ## pour l'année prochaine rajouter code python.
 ##modifier l'exercice à la fin avec une BDD plus adapté
 # simplifier la base pour simplifier la correction
+Sys.setenv(RETICULATE_PYTHON = "C:/Users/fabachet/Anaconda3/envs/py39/")
 ```
+
+
+# Data management
+
+## Les données
+
+Les données sont des valeurs de variables quantitatives ou qualitatives
+appartenant à un ensemble de sujets.
+
+## Données brutes
+
+-   Données disponibles dans la base de données d'origine\
+-   Preprocessing nécessaire pour les analyser\
+-   Souvent dans des bases de données relationnelles
+
+## Comment mettre en forme des données ?
+
+\
+
+### Notion de tidy data :
+
+-   1 variable par colonne
+-   1 information par ligne
+-   si tables multiples, clefs de lien présentes dans les tables
+-   1 ligne avec des noms de colonnes, noms des variables
+-   1 table par fichier
+
+## Données pour l'analyse
+
+### Souvent dans un fichier plat :
+
+-   1 Individu par ligne
+
+-   Redondance d'information
+
+-   Nécessité de croiser des tables d'origine
+
+## Noms des variables
+
+-   En minuscule
+
+-   Sans accent
+
+-   Pas de doublons
+
+-   Débutent pas une lettre
+
+## Données
+
+-   Brutes : pas d'unité
+
+-   Descriptive: Vrai/faux, oui/non , 1/0
+
+-   Une donnée par variables
+
+-   Homogène : attention à la casse
+
+## Fichier descriptif
+
+-   Information précise sur les variables (unités de mesure)
+
+## Liste d'instruction :
+
+**`Données brutes ▶️ tidy`**
+
+-   L'idéal : un script R/python
+
+-   En entré les données brutes
+
+-   En sortie les données propre
+
+-   Préciser les étapes supplémentaires dans ce script
+
+## Importer un fichier
+
+``` {.r code-line-numbers="1-2|1-3|"}
+# Le plus simple
+read.csv2(...)
+BDD<- read.csv2(...)
+
+
+## D'autres solutions
+library(xlsx)
+read.xlsx(...)
+```
+
+
+
+## Importer un fichier
+
+``` {.python code-line-numbers="1-2|1-3|"}
+# Le plus simple
+import pandas as pd
+pd.read_csv(..., sep=';')
+BDD = pd.read_csv(..., sep=';')
+
+
+# D'autres solutions
+import openpyxl
+pd.read_excel(...)
+```
+
+
+## Regarder la structure d'un fichier
+
+```{r echo = F}
+BDD<- mtcars
+
+```
+
+```{r echo = T}
+str(BDD)
+
+#Python
+#print(BDD.info())
+```
+
+
+## Analyser les types de vriables
+
+Différents types de variables :
+
+-   Quantitatives
+
+-   Qualitatives
+
+-   Dates
+
+-   Texte Libre
+
+## Variables quantitatives
+
+-   Stockées sous un format numérique
+
+-   Discrètes ou continues
+
+-   Possibilité de convertir de «character» à numérique :
+
+. . .
+
+``` {.r code-line-numbers="1|"}
+#
+as.numeric(var)
+
+```
+
+``` {.python code-line-numbers="1|"}
+import pandas as pd
+var = pd.to_numeric(var, errors='coerce')
+```
+
+## Variables qualitatives
+
+-   Variables à plusieurs modalités :
+    -   Nominales
+    -   Ordinales
+-   Représenter sous forme de facteur dans r
+
+. . .
+
+``` {.r code-line-numbers="1|"}
+#
+as.factor(var)
+```
+
+``` {.python code-line-numbers="1|"}
+# Convertir la variable en catégorie (équivalent à un facteur en R)
+var = var.astype('category')
+```
+
+-   Éviter les variables factorielles à plus de 5 modalités
+
+-   Cas spécifique si deux modalités : variables binomiales
+
+## Variables qualitatives
+
+❗Questions à choix multiples dans un questionnaire
+
+![](images/paste-C6FE4590.png){width="475"}
+
+## Variables qualitatives
+
+Peuvent toujours être séparées en n variables binaires (n = nombre de
+modalités)
+
+![](images/paste-9788F881.png){width="478"}
+
+## Dates
+
+❗❗❗❗❗❗❗❗❗❗❗❗❗❗
+
+-   Format anglais : mois/jour/année
+
+-   Format français : jour/mois/année
+
+-   Stockées sous forme de nombre par rapport à une date 1er janvier
+    1900 dans Excel
+
+# R
+
+## Installation de package
+
+``` r
+install.package(...)
+
+# aide pour les fonctions
+?install.package
+
+install.packages("readxl")
+```
+
+## Chargement du package + de la base de donnée
+
+``` r
+library("readxl")
+
+
+# Chemin du fichier, remplacer "\" par "/" ou "\\"
+
+read_excel("~chemin du fichier~/data1.xlsx")
+
+data1 <- read_excel(".data1.xlsx",
+                   1,na =c(" ","","N/A","NA"))
+
+data2 <- read_excel(path ="~chemin du fichier~/data1.xlsx",
+                    sheet = 2)
+```
+
+## Chargement de la base de donnée
+
+```{r echo = F}
+library("readxl")
+```
+
+```{r}
+data1 <- read_excel("./data1.xlsx",
+                   1,na =c(" ","","N/A","NA"))
+
+data2 <- read_excel(path ="./data1.xlsx",
+                    sheet = 2)
+
+```
+
+## Structure de la base de données
+
+```{r}
+dim(data1)
+```
+
+## Structure de la base de données
+
+```{r}
+str(data1[,1:10])
+```
+
+## Structure de la base de données
+
+```{r}
+head(data1)
+
+```
+
+## Noms présents dans la base de données
+
+```{r}
+names(data1)[1:10]
+```
+
+## notion de vecteur
+
+```{r}
+c(1,2,3,4)
+c("a","b","c")
+
+c("a",1,"c")
+
+```
+
+## notion de vecteur
+
+```{r}
+vecteur<- c("a","b","c")
+vecteur2<- vecteur
+vecteur3<- c(vecteur, vecteur2)
+
+
+```
+
+## Variable d'une base de données
+
+```{r}
+data1$`Pathologie lié au travail ? [AT non reconnu]`
+
+data1[,1]
+```
+
+## Sélection des variables
+
+### base R
+
+``` r
+data1$`ID de la réponse`
+data1[1,1:3]
+data1[,1:3]
+data1[,-1]
+data1[,-c(1,3,4)]
+
+data1[,c("ID de la réponse")]
+```
+
+## Sélection des variables
+
+### base R
+
+```{r}
+names(data1)=="ID.de.la.réponse"
+```
+
+``` r
+data1[,!(names(data1)=="ID.de.la.r?ponse")]
+
+data1[,!(names(data1)%in%c(var1, var2 ...)]
+```
+
+## Dplyr
+
+-   Version classique :
+
+. . .
+
+``` r
+allerauboulot(preparer(dejeuner(jemeleve(moi))))
+var1<- jemeleve(moi)
+var2<- dejeuner(var1)
+```
+
+. . .
+
+-   Version Dplyr :
+
+``` r
+moi%>%jemeleve%>%dejeuner%>%preparer%>%allerauboulot
+data1%>%dim
+data1%>%names%>%dput
+```
+
+## Selection de variable, Dplyr
+
+``` r
+library(dplyr)
+
+data1 %>% select(var1)
+data1 %>% select(c(var1, var2, var3))
+data1%>%select(-var1)
+```
+
+```{r echo = F}
+library(dplyr)
+```
+
+## Changer le type de données :
+
+### base R
+
+```{r}
+
+as.numeric(c('1','2','3'))
+as.character(c(1,2,3))
+as.factor(c(2,3,4))
+
+# Attention pas de as.numeric directement sur un as.factor
+as.factor(c(4,3,2))%>%as.character()%>%as.numeric()
+```
+
+------------------------------------------------------------------------
+
+```{r}
+as.Date("01-01-2022",format="%d-%m-%Y")
+
+as.Date("0101-22",format="%d%m-%y")
+```
+
+## Changer le type de données :
+
+### base R
+
+``` r
+data1$Sexe.du.medcin.traitant<-as.factor(data1$Sexe.du.medcin.traitant)
+data1$Medecin.adresseur<- as.factor(data1$Medecin.adresseur)
+```
+
+## Changer le type de données :
+
+### dplyr
+
+``` r
+data1<-data1%>%
+  mutate(Sexe.du.medcin.traitant=as.factor(Sexe.du.medcin.traitant),
+                      Medecin.adresseur = as.factor(Medecin.adresseur))
+
+data1<-data1%>%
+  mutate_at(c("Sexe.du.medcin.traitant","Medecin.adresseur"),
+                  as.factor)
+```
+
+## Modification des variables
+
+## Base R
+
+``` r
+data1$Sexe.du.medcin.traitant[which(data1$Sexe.du.medcin.traitant==45)]<-
+    NA
+data1$Sexe.du.medcin.traitant%>%droplevels()
+data1$Sexe.du.medcin.traitant[which(data1$Sexe.du.medcin.traitant=="f")]<- 
+    "Féminin"
+```
+
+## Modification des variables
+
+### dplyr
+
+``` r
+data1$Sexe.du.medcin.traitant<- as.character(data1$Sexe.du.medcin.traitant)
+data1<-data1%>%
+  mutate(Sexe.du.medcin.traitant = 
+      case_when(Sexe.du.medcin.traitant==45~NA_character_,
+                Sexe.du.medcin.traitant=="f"~"Féminin",
+                Sexe.du.medcin.traitant=="m"~"Masculin",
+                TRUE ~Sexe.du.medcin.traitant)%>%as.factor)
+```
+
+## Remplacement des données manquantes
+
+### base R
+
+``` r
+data[,indice][is.na(data[,indice])]<-0
+```
+
+## dplyr
+
+``` r
+data2%>%mutate_at("Age", 
+                  function(x) ifelse(is.na(x),0,x))
+```
+
+## Joindre des bases de données
+
+``` r
+basefinal<-base1%>%left_join(base2,by =c("id" = "id"))
+basefinal<-base1%>%inner_join(base2,by =c("id" = "id"))
+basefinal<-base1%>%right_join(base2,by =c("id" = "id"))
+basefinal<-base1%>%outer_join(base2,by =c("id" = "id"))
+```
+
+
+# Python
+
+## Installation de package
+
+```{python}
+# Installation du package
+#!pip install pandas openpyxl
+import pandas as pd
+# aide pour les fonctions
+help(pd.read_excel)
+```
+
+## Chargement du package + de la base de données
+
+```{python}
+
+import pandas as pd
+
+# Chemin du fichier
+#pd.read_excel("~chemin du fichier~/data1.xlsx")
+
+data1 = pd.read_excel("./data1.xlsx", sheet_name=0, na_values=[" ", "", "N/A", "NA"])
+
+data2 = pd.read_excel("./data1.xlsx", sheet_name=1)
+```
+
+## Structure de la base de données
+
+```{python}
+# Dimensions de la base de données
+data1.shape
+```
+
+## Structure de la base de données
+
+```{python}
+# Structure des 10 premières colonnes
+print(data1.iloc[:, :10].info())
+```
+
+## Structure de la base de données
+
+```{python}
+# Afficher les premières lignes
+data1.head()
+```
+
+## Noms présents dans la base de données
+
+```{python}
+# Noms des 10 premières colonnes
+data1.columns[:10]
+```
+
+## Notion de vecteur
+
+```{python}
+# Création de vecteurs
+[1, 2, 3, 4]
+["a", "b", "c"]
+
+["a", 1, "c"]
+```
+
+## Notion de vecteur
+
+```{python}
+vecteur = ["a", "b", "c"]
+vecteur2 = vecteur
+vecteur3 = vecteur + vecteur2
+```
+
+## Variable d'une base de données
+
+```{python}
+data1["Pathologie lié au travail ? [AT non reconnu]"]
+
+data1.iloc[:, 0]
+```
+
+## Sélection des variables
+
+### Base Python
+
+```{python}
+data1["ID de la réponse"]
+data1.iloc[0, 0:3]
+data1.iloc[:, 0:3]
+data1.iloc[:, 1:]
+data1.drop(columns=data1.columns[[0, 2, 3]])
+
+data1.loc[:, ["ID de la réponse"]]
+```
+
+## Sélection des variables
+
+### Base Python
+
+```{python}
+(data1.columns == "ID de la réponse").tolist()
+```
+
+```{python}
+data1.loc[:, ~(data1.columns == "ID de la réponse")]
+
+#data1.loc[:, ~data1.columns.isin([var1, var2])]
+```
+
+
+## Sélection de variables avec Pandas
+
+```{python}
+#data1.filter(items=[var1])
+#data1.filter(items=[var1, var2, var3])
+#data1.drop(columns=[var1])
+```
+
+## Changer le type de données :
+
+### Base Python
+
+```{python}
+pd.to_numeric(['1', '2', '3'])
+list(map(str, [1, 2, 3]))
+pd.Categorical([2, 3, 4])
+
+# Attention, pas de conversion directe en numérique sur une catégorie
+pd.to_numeric(pd.Categorical([4, 3, 2]).astype(str))
+```
+
+```{python}
+# Conversion en date
+pd.to_datetime("01-01-2022", format="%d-%m-%Y")
+
+pd.to_datetime("0101-22", format="%d%m-%y")
+```
+
+## Changer le type de données :
+
+### Pandas
+
+```{python}
+data1
+
+data1["Medecin adresseur"] = data1["Medecin adresseur"].astype('category')
+```
+
+## Changer le type de données avec assign
+
+```{python}
+data1 = data1.assign(
+    Sexe_du_medcin_traitant=data1["Sexe du medcin traitant"].astype('category'),
+    Medecin_adresseur=data1["Medecin adresseur"].astype('category')
+)
+```
+
+## Modification des variables
+
+### Base Python
+
+```{python}
+data1.loc[data1["Sexe_du_medcin_traitant"] == 45, "Sexe_du_medcin_traitant"] = None
+data1["Sexe_du_medcin_traitant"] = data1["Sexe_du_medcin_traitant"].cat.remove_unused_categories()
+
+```
+
+## Modification des variables avec assign
+
+```{python}
+data1["Sexe_du_medcin_traitant"] = data1["Sexe_du_medcin_traitant"].astype(str)
+data1 = data1.assign(
+    Sexe_du_medcin_traitant=data1["Sexe_du_medcin_traitant"].replace({
+        45: None,
+        "f": "Féminin",
+        "m": "Masculin"
+    }).astype('category')
+)
+```
+
+## Remplacement des données manquantes
+
+### Base Python
+
+```{python}
+#data.loc[data[indice].isna(), indice] = 0
+```
+
+## Utiliser assign pour remplacer les données manquantes
+
+```{python}
+data2 = data2.assign(Age=data2["Age"].fillna(0))
+```
+
+
+## Transformation long/wide
+
+-   format d'utilisation des données : une ligne par sujet
+
+-   Certaine étude : plusieurs ligne par sujet
+
+------------------------------------------------------------------------
+
+::: columns
+::: {.column width="40%" style="font-size: 0.4em"}
+| id_patient | glucose_t0 | glucose_t1 | glucose_t2 |
+|:----------:|:----------:|:----------:|:----------:|
+|     1      |    0.79    |    0.81    |    0.89    |
+|     2      |    1.24    |     1      |    0.87    |
+|     3      |    0.72    |    0.87    |    1.02    |
+|     4      |    0.99    |    0.82    |    1.3     |
+|     5      |    0.86    |    1.08    |    0.68    |
+
+: Table : wide
+:::
+
+::: {.column width="60%" style="font-size: 0.4em"}
+| id_patient |   temps    | glucose |
+|:----------:|:----------:|:-------:|
+|     1      | glucose_t0 |  0.79   |
+|     1      | glucose_t1 |  0.81   |
+|     1      | glucose_t2 |  0.89   |
+|     2      | glucose_t0 |  1.24   |
+|     2      | glucose_t1 |    1    |
+|     2      | glucose_t2 |  0.87   |
+|     3      | glucose_t0 |  0.72   |
+|     3      | glucose_t1 |  0.87   |
+|     3      | glucose_t2 |  1.02   |
+|     4      | glucose_t0 |  0.99   |
+|     4      | glucose_t1 |  0.82   |
+|     4      | glucose_t2 |   1.3   |
+|     5      | glucose_t0 |  0.86   |
+|     5      | glucose_t1 |  1.08   |
+|     5      | glucose_t2 |  0.68   |
+
+: Table : long
+:::
+:::
+
+``` r
+pivot_longer(BDD,cols = -id_patient,values_to = "glucose", names_to="temps")
+```
+
+------------------------------------------------------------------------
+
+::: columns
+::: {.column width="40%" style="font-size: 0.4em"}
+| id_patient |   temps    | glucose |
+|:----------:|:----------:|:-------:|
+|     1      | glucose_t0 |  0.79   |
+|     1      | glucose_t1 |  0.81   |
+|     1      | glucose_t2 |  0.89   |
+|     2      | glucose_t0 |  1.24   |
+|     2      | glucose_t1 |    1    |
+|     2      | glucose_t2 |  0.87   |
+|     3      | glucose_t0 |  0.72   |
+|     3      | glucose_t1 |  0.87   |
+|     3      | glucose_t2 |  1.02   |
+|     4      | glucose_t0 |  0.99   |
+|     4      | glucose_t1 |  0.82   |
+|     4      | glucose_t2 |   1.3   |
+|     5      | glucose_t0 |  0.86   |
+|     5      | glucose_t1 |  1.08   |
+|     5      | glucose_t2 |  0.68   |
+
+: Table : long
+:::
+
+::: {.column width="60%" style="font-size: 0.4em"}
+| id_patient | glucose_t0 | glucose_t1 | glucose_t2 |
+|:----------:|:----------:|:----------:|:----------:|
+|     1      |    0.79    |    0.81    |    0.89    |
+|     2      |    1.24    |     1      |    0.87    |
+|     3      |    0.72    |    0.87    |    1.02    |
+|     4      |    0.99    |    0.82    |    1.3     |
+|     5      |    0.86    |    1.08    |    0.68    |
+
+: Table : wide
+:::
+:::
+
+``` r
+pivot_wider(BDD,id_cols = id_patient,names_from = glucose, values_from=temps)
+```
+
+## Écrire la base de données finales
+
+``` r
+write.csv2(basefinal,"C:/Users/enseignant/Desktop/basefinal.csv")
+```
+
+# Création d'information
+
+## extraction de termes
+
+-   Pour les données textuelles, pas d'utilisation tel quel possible
+
+``` r
+library(stringr)
+data1$fibromyalgie <-str_detect(data1$var1,"fibromyalgie")
+```
+
+## Exercice
+
+Utiliser les bases de données "pbcseq" et "pbc" Transformer la table
+pbcseq au format long et réaliser une jointure entre les tables.
+
+
+
+```{r}
+library(survival)
+library(dplyr)
+library(tidyr)
+pbcseq %>% head
+pbc %>% head
+```
+## Réponse
+
+
+
+### Mettre les données de pbc dans pbcseq
+
+```{r}
+pbcseq%>%left_join(pbc, by = ("id"="id"))
+```
+
+## Réponse 
+
+### Mettre les informations de pbc dans pbcseq
+
+```{r}
+
+#pbc%>%left_join(pbcseq, by = ("id"="id"))%>%dim
+pbc%>%dim
+
+pbcseq_wide =pbcseq%>%pivot_wider(id_cols = id,names_from = day,
+                     values_from = c(ascites,ast))
+
+pbc%>%left_join(pbcseq_wide)%>%dim
+
+
+```
+
+
 
 # SQL
 
@@ -442,552 +1242,3 @@ INNER JOIN examens tbl_ex ON tbl_ex.id_etudiant = tbl_et.id_etudiant
 WHERE ex.matiere = "Histoire-Geographie" ;
 ```
 
-# Data management
-
-## Les données
-
-Les données sont des valeurs de variables quantitatives ou qualitatives
-appartenant à un ensemble de sujets.
-
-## Données brutes
-
--   Données disponibles dans la base de données d'origine\
--   Preprocessing nécessaire pour les analyser\
--   Souvent dans des bases de données relationnelles
-
-## Comment mettre en forme des données ?
-
-\
-
-### Notion de tidy data :
-
--   1 variable par colonne
--   1 information par ligne
--   si tables multiples, clefs de lien présentes dans les tables
--   1 ligne avec des noms de colonnes, noms des variables
--   1 table par fichier
-
-## Données pour l'analyse
-
-### Souvent dans un fichier plat :
-
--   1 Individu par ligne
-
--   Redondance d'information
-
--   Nécessité de croiser des tables d'origine
-
-## Noms des variables
-
--   En minuscule
-
--   Sans accent
-
--   Pas de doublons
-
--   Débutent pas une lettre
-
-## Données
-
--   Brutes : pas d'unité
-
--   Descriptive: Vrai/faux, oui/non , 1/0
-
--   Une donnée par variables
-
--   Homogène : attention à la casse
-
-## Fichier descriptif
-
--   Information précise sur les variables (unités de mesure)
-
-## Liste d'instruction :
-
-**`Données brutes ▶️ tidy`**
-
--   L'idéal : un script R/python
-
--   En entré les données brutes
-
--   En sortie les données propre
-
--   Préciser les étapes supplémentaires dans ce script
-
-## Importer un fichier
-
-``` {.r code-line-numbers="1-2|1-3|"}
-# Le plus simple
-read.csv2(...)
-BDD<- read.csv2(...)
-
-
-## D'autres solutions
-library(xlsx)
-read.xlsx(...)
-```
-
-## Regarder la structure d'un fichier
-
-```{r echo = F}
-BDD<- mtcars
-
-```
-
-```{r echo = T}
-str(BDD)
-```
-
-## Analyser les types de vriables
-
-Différents types de variables :
-
--   Quantitatives
-
--   Qualitatives
-
--   Dates
-
--   Texte Libre
-
-## Variables quantitatives
-
--   Stockées sous un format numérique
-
--   Discrètes ou continues
-
--   Possibilité de convertir de «character» à numérique :
-
-. . .
-
-``` {.r code-line-numbers="1|"}
-#
-as.numeric(var)
-```
-
-## Variables qualitatives
-
--   Variables à plusieurs modalités :
-    -   Nominales
-    -   Ordinales
--   Représenter sous forme de facteur dans r
-
-. . .
-
-``` {.r code-line-numbers="1|"}
-#
-as.factor(var)
-```
-
--   Éviter les variables factorielles à plus de 5 modalités
-
--   Cas spécifique si deux modalités : variables binomiales
-
-## Variables qualitatives
-
-❗Questions à choix multiples dans un questionnaire
-
-![](images/paste-C6FE4590.png){width="475"}
-
-## Variables qualitatives
-
-Peuvent toujours être séparées en n variables binaires (n = nombre de
-modalités)
-
-![](images/paste-9788F881.png){width="478"}
-
-## Dates
-
-❗❗❗❗❗❗❗❗❗❗❗❗❗❗
-
--   Format anglais : mois/jour/année
-
--   Format français : jour/mois/année
-
--   Stockées sous forme de nombre par rapport à une date 1er janvier
-    1900 dans Excel
-
-# R
-
-## Installation de package
-
-``` r
-install.package(...)
-
-# aide pour les fonctions
-?install.package
-
-install.packages("readxl")
-```
-
-## Chargement du package + de la base de donnée
-
-``` r
-library("readxl")
-
-
-# Chemin du fichier, remplacer "\" par "/" ou "\\"
-
-read_excel("~chemin du fichier~/data1.xlsx")
-
-data1 <- read_excel(".data1.xlsx",
-                   1,na =c(" ","","N/A","NA"))
-
-data2 <- read_excel(path ="~chemin du fichier~/data1.xlsx",
-                    sheet = 2)
-```
-
-## Chargement de la base de donnée
-
-```{r echo = F}
-library("readxl")
-```
-
-```{r}
-data1 <- read_excel("./data1.xlsx",
-                   1,na =c(" ","","N/A","NA"))
-
-data2 <- read_excel(path ="./data1.xlsx",
-                    sheet = 2)
-
-```
-
-## Structure de la base de données
-
-```{r}
-dim(data1)
-```
-
-## Structure de la base de données
-
-```{r}
-str(data1[,1:10])
-```
-
-## Structure de la base de données
-
-```{r}
-head(data1)
-
-```
-
-## Noms présents dans la base de données
-
-```{r}
-names(data1)[1:10]
-```
-
-## notion de vecteur
-
-```{r}
-c(1,2,3,4)
-c("a","b","c")
-
-c("a",1,"c")
-
-```
-
-## notion de vecteur
-
-```{r}
-vecteur<- c("a","b","c")
-vecteur2<- vecteur
-vecteur3<- c(vecteur, vecteur2)
-
-
-```
-
-## Variable d'une base de données
-
-```{r}
-data1$`Pathologie lié au travail ? [AT non reconnu]`
-
-data1[,1]
-```
-
-## Sélection des variables
-
-### base R
-
-``` r
-data1$`ID de la réponse`
-data1[1,1:3]
-data1[,1:3]
-data1[,-1]
-data1[,-c(1,3,4)]
-
-data1[,c("ID de la réponse")]
-```
-
-## Sélection des variables
-
-### base R
-
-```{r}
-names(data1)=="ID.de.la.réponse"
-```
-
-``` r
-data1[,!(names(data1)=="ID.de.la.r?ponse")]
-
-data1[,!(names(data1)%in%c(var1, var2 ...)]
-```
-
-## Dplyr
-
--   Version classique :
-
-. . .
-
-``` r
-allerauboulot(preparer(dejeuner(jemeleve(moi))))
-var1<- jemeleve(moi)
-var2<- dejeuner(var1)
-```
-
-. . .
-
--   Version Dplyr :
-
-``` r
-moi%>%jemeleve%>%dejeuner%>%preparer%>%allerauboulot
-data1%>%dim
-data1%>%names%>%dput
-```
-
-## Selection de variable, Dplyr
-
-``` r
-library(dplyr)
-
-data1 %>% select(var1)
-data1 %>% select(c(var1, var2, var3))
-data1%>%select(-var1)
-```
-
-```{r echo = F}
-library(dplyr)
-```
-
-## Changer le type de données :
-
-### base R
-
-```{r}
-
-as.numeric(c('1','2','3'))
-as.character(c(1,2,3))
-as.factor(c(2,3,4))
-
-# Attention pas de as.numeric directement sur un as.factor
-as.factor(c(4,3,2))%>%as.character()%>%as.numeric()
-```
-
-------------------------------------------------------------------------
-
-```{r}
-as.Date("01-01-2022",format="%d-%m-%Y")
-
-as.Date("0101-22",format="%d%m-%y")
-```
-
-## Changer le type de données :
-
-### base R
-
-``` r
-data1$Sexe.du.medcin.traitant<-as.factor(data1$Sexe.du.medcin.traitant)
-data1$Medecin.adresseur<- as.factor(data1$Medecin.adresseur)
-```
-
-## Changer le type de données :
-
-### dplyr
-
-``` r
-data1<-data1%>%
-  mutate(Sexe.du.medcin.traitant=as.factor(Sexe.du.medcin.traitant),
-                      Medecin.adresseur = as.factor(Medecin.adresseur))
-
-data1<-data1%>%
-  mutate_at(c("Sexe.du.medcin.traitant","Medecin.adresseur"),
-                  as.factor)
-```
-
-## Modification des variables
-
-## Base R
-
-``` r
-data1$Sexe.du.medcin.traitant[which(data1$Sexe.du.medcin.traitant==45)]<-
-    NA
-data1$Sexe.du.medcin.traitant%>%droplevels()
-data1$Sexe.du.medcin.traitant[which(data1$Sexe.du.medcin.traitant=="f")]<- 
-    "Féminin"
-```
-
-## Modification des variables
-
-### dplyr
-
-``` r
-data1$Sexe.du.medcin.traitant<- as.character(data1$Sexe.du.medcin.traitant)
-data1<-data1%>%
-  mutate(Sexe.du.medcin.traitant = 
-      case_when(Sexe.du.medcin.traitant==45~NA_character_,
-                Sexe.du.medcin.traitant=="f"~"Féminin",
-                Sexe.du.medcin.traitant=="m"~"Masculin",
-                TRUE ~Sexe.du.medcin.traitant)%>%as.factor)
-```
-
-## Remplacement des données manquantes
-
-### base R
-
-``` r
-data[,indice][is.na(data[,indice])]<-0
-```
-
-## dplyr
-
-``` r
-data2%>%mutate_at("Age", 
-                  function(x) ifelse(is.na(x),0,x))
-```
-
-## Joindre des bases de données
-
-``` r
-basefinal<-base1%>%left_join(base2,by =c("id" = "id"))
-basefinal<-base1%>%inner_join(base2,by =c("id" = "id"))
-basefinal<-base1%>%right_join(base2,by =c("id" = "id"))
-basefinal<-base1%>%outer_join(base2,by =c("id" = "id"))
-```
-
-## Transformation long/wide
-
--   format d'utilisation des données : une ligne par sujet
-
--   Certaine étude : plusieurs ligne par sujet
-
-------------------------------------------------------------------------
-
-::: columns
-::: {.column width="40%" style="font-size: 0.4em"}
-| id_patient | glucose_t0 | glucose_t1 | glucose_t2 |
-|:----------:|:----------:|:----------:|:----------:|
-|     1      |    0.79    |    0.81    |    0.89    |
-|     2      |    1.24    |     1      |    0.87    |
-|     3      |    0.72    |    0.87    |    1.02    |
-|     4      |    0.99    |    0.82    |    1.3     |
-|     5      |    0.86    |    1.08    |    0.68    |
-
-: Table : wide
-:::
-
-::: {.column width="60%" style="font-size: 0.4em"}
-| id_patient |   temps    | glucose |
-|:----------:|:----------:|:-------:|
-|     1      | glucose_t0 |  0.79   |
-|     1      | glucose_t1 |  0.81   |
-|     1      | glucose_t2 |  0.89   |
-|     2      | glucose_t0 |  1.24   |
-|     2      | glucose_t1 |    1    |
-|     2      | glucose_t2 |  0.87   |
-|     3      | glucose_t0 |  0.72   |
-|     3      | glucose_t1 |  0.87   |
-|     3      | glucose_t2 |  1.02   |
-|     4      | glucose_t0 |  0.99   |
-|     4      | glucose_t1 |  0.82   |
-|     4      | glucose_t2 |   1.3   |
-|     5      | glucose_t0 |  0.86   |
-|     5      | glucose_t1 |  1.08   |
-|     5      | glucose_t2 |  0.68   |
-
-: Table : long
-:::
-:::
-
-``` r
-pivot_longer(BDD,cols = -id_patient,values_to = "glucose", names_to="temps")
-```
-
-------------------------------------------------------------------------
-
-::: columns
-::: {.column width="40%" style="font-size: 0.4em"}
-| id_patient |   temps    | glucose |
-|:----------:|:----------:|:-------:|
-|     1      | glucose_t0 |  0.79   |
-|     1      | glucose_t1 |  0.81   |
-|     1      | glucose_t2 |  0.89   |
-|     2      | glucose_t0 |  1.24   |
-|     2      | glucose_t1 |    1    |
-|     2      | glucose_t2 |  0.87   |
-|     3      | glucose_t0 |  0.72   |
-|     3      | glucose_t1 |  0.87   |
-|     3      | glucose_t2 |  1.02   |
-|     4      | glucose_t0 |  0.99   |
-|     4      | glucose_t1 |  0.82   |
-|     4      | glucose_t2 |   1.3   |
-|     5      | glucose_t0 |  0.86   |
-|     5      | glucose_t1 |  1.08   |
-|     5      | glucose_t2 |  0.68   |
-
-: Table : long
-:::
-
-::: {.column width="60%" style="font-size: 0.4em"}
-| id_patient | glucose_t0 | glucose_t1 | glucose_t2 |
-|:----------:|:----------:|:----------:|:----------:|
-|     1      |    0.79    |    0.81    |    0.89    |
-|     2      |    1.24    |     1      |    0.87    |
-|     3      |    0.72    |    0.87    |    1.02    |
-|     4      |    0.99    |    0.82    |    1.3     |
-|     5      |    0.86    |    1.08    |    0.68    |
-
-: Table : wide
-:::
-:::
-
-``` r
-pivot_longer(BDD,cols = -id_patient,values_to = "glucose", names_to="temps")
-```
-
-## Écrire la base de données finales
-
-``` r
-write.csv2(basefinal,"C:/Users/enseignant/Desktop/basefinal.csv")
-```
-
-# Création d'information
-
-## extraction de termes
-
--   Pour les données textuelles, pas d'utilisation tel quel possible
-
-``` r
-library(stringr)
-data1$fibromyalgie <-str_detect(data1$var1,"fibromyalgie")
-```
-
-## Exercice
-
-Utiliser les bases de données "pbcseq" et "pbc" Transformer la table
-pbcseq au format long et réaliser une jointure entre les tables.
-
-## Réponse
-
-```{r}
-pbcseq%>%left_join(pbc, by = ("id"="id"))
-
-# Mettre les informations de pbc dans pbcseq
-#pbc%>%left_join(pbcseq, by = ("id"="id"))%>%dim
-pbc%>%dim
-
-pbcseq_wide =pbcseq%>%pivot_wider(id_cols = id,names_from = day,
-                     values_from = c(ascites,ast))
-
-pbc%>%left_join(pbcseq_wide)%>%dim
-
-
-```

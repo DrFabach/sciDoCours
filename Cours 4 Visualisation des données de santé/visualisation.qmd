@@ -28,13 +28,306 @@ execute:
 
 - GGplot vs base R
 
+- <https://ggplot2-book.org>
+
+-   [cheatsheet](https://thinkr.fr/pdf/ggplot2-french-cheatsheet.pdf)
+
 ## Principe de base ggplot2
 
  - élement du tidyverse
  
  - ajout de couches successives
 
----------------
+
+## Principe de base
+
+    ggplot(data = <DATA>, mapping = aes(<MAPPINGS>)) +  <GEOM_FUNCTION>()
+
+*Aesthetic mappings*\` décrit comment les variables de data sont mapper sur des formes géométriques
+
+```{r}
+library(ggplot2)
+#Code ne donne rien, juste des données
+ggplot(mtcars)
+```
+
+------------------------------------------------------------------------
+
+Code un graphiques vides car des données des aesthetic mappings mais pas d'aesthetic
+
+```{r}
+ggplot(mtcars, aes(x= mpg, y = drat ))
+```
+
+------------------------------------------------------------------------
+
+# Types de graphes
+
+## Nuage de points
+
+```{r }
+
+ggplot(mtcars, aes(x= mpg, y = drat ))+geom_point()
+```
+
+## Changement de la taille et la forme
+
+```{r}
+ggplot(mtcars, aes(x=wt, y=mpg)) +
+  geom_point(size=2, shape=23)
+```
+
+------------------------------------------------------------------------
+
+### Shape des points :
+
+![](images/points-symbols.png){style="background-color: gray;"}
+
+## Changer la taille des points selon une troisième variable
+
+``` r
+ggplot(mtcars, aes(x=wt, y=mpg)) + 
+  geom_point(aes(size=qsec))
+```
+
+```{r}
+ggplot(mtcars, aes(x=wt, y=mpg, size=qsec)) + 
+  geom_point()
+```
+
+## Rajouter une variable groupe :
+
+### Types de points
+
+```{r}
+mtcars$cyl<- as.factor(mtcars$cyl)
+ggplot(mtcars, aes(x=wt, y=mpg, shape=cyl)) +
+  geom_point()
+```
+
+------------------------------------------------------------------------
+
+### Type et couleur
+
+```{r}
+ggplot(mtcars, aes(x=wt, y=mpg, shape=cyl, color=cyl)) +
+  geom_point()
+```
+
+------------------------------------------------------------------------
+
+### Type, couleur et taille
+
+```{r}
+ggplot(mtcars, aes(x=wt, y=mpg, shape=cyl, color=cyl, size=cyl)) +
+  geom_point()
+```
+
+# scales
+
+![](images/scale-guides.png)
+
+------------------------------------------------------------------------
+
+Les scales permettent de modifier les axes x et y Par défaut R en ajoute pour chaque aesthetic
+
+```{r}
+ggplot(mpg, aes(displ, hwy)) + 
+  geom_point(aes(colour = class)) +
+  scale_x_continuous() + 
+  scale_y_continuous() + 
+  scale_colour_discrete()
+```
+
+## Modification des noms des axes
+
+```{r}
+ggplot(mpg, aes(displ, hwy)) + 
+  geom_point(aes(colour = class)) + 
+  scale_x_continuous(name = "A really awesome x axis label") +
+  scale_y_continuous(name = "An amazingly great y axis label")
+#> Scale for 'x' is already present. Adding another scale for 'x', which will
+#> replace the existing scale.
+
+```
+
+## Définitions des limites des axes
+
+```{r}
+ggplot(mpg, aes(displ, hwy)) + 
+  geom_point()+  
+  scale_x_continuous(limits = c(1, 7)) +
+  scale_y_continuous(limits = c(10, 45))
+```
+
+!!! Attention, tronques les données
+
+## Zoom
+
+```{r}
+library(gridExtra)
+base <- ggplot(mpg, aes(drv, hwy)) + 
+  geom_hline(yintercept = 28, colour = "red") + 
+  geom_boxplot() 
+grid.arrange(
+base,
+base + coord_cartesian(ylim = c(10, 35)), # works as expected
+base + ylim(10, 35) ,
+ncol = 3)
+```
+
+## Transformation de l'échelle
+
+```{r}
+
+# log transform x and y axes
+ggplot(diamonds, aes(price, carat)) + 
+  geom_bin2d() + 
+  scale_x_continuous(trans = "log10") +
+  scale_y_continuous(trans = "log10")
+```
+
+# Couleurs des échelles
+
+## Echelles continues
+
+```{r}
+erupt <- ggplot(faithfuld, aes(waiting, eruptions, fill = density)) +
+  geom_raster() +
+  scale_x_continuous(name = NULL, expand = c(0, 0)) + 
+  scale_y_continuous(NULL, expand = c(0, 0)) + 
+  theme(legend.position = "none")
+erupt
+```
+
+------------------------------------------------------------------------
+
+### Modification de la couleur
+
+palettes pré spécifiées
+
+```{r}
+grid.arrange(
+erupt,
+erupt + scale_fill_viridis_c(),
+erupt + scale_fill_viridis_c(option = "magma"),
+ncol = 3 ) 
+```
+
+------------------------------------------------------------------------
+
+![](images/index.png)
+
+------------------------------------------------------------------------
+
+```{r}
+grid.arrange(
+erupt + scale_fill_distiller(),
+erupt + scale_fill_distiller(palette = "RdPu"),
+erupt + scale_fill_distiller(palette = "YlOrBr"),
+ncol = 3)
+```
+
+## Autres couleurs
+
+-   packages : scico, paletteer, wesanderson,
+
+-   Spécifier des dégradés : scale_color_gradient(), scale_color_gradient2(), scale_color_gradientn()
+
+-   palette manuelle : scale_fill_manual(values = c("#000000", "#E69F00", "#56B4E9", "#009E73","#F0E442", "#0072B2", "#D55E00", "#CC79A7"))
+
+https://www.datanovia.com/en/fr/blog/couleurs-ggplot-meilleures-astuces-que-vous-allez-adorer/
+
+## L'aes à changer :
+
+-   scale_fill_discrete()
+
+-   scale_color_discrete()
+
+-   scale_color_manual()
+
+-   ...
+
+## Thèmes
+
+Spécifie les éléments non en rapport avec les données
+
+```{r}
+labelled <- base +
+  labs(
+    x = "City mileage/gallon",
+    y = "Highway mileage/gallon",
+    colour = "Cylinders",
+    title = "Highway and city mileage are highly correlated"
+  ) +
+  scale_colour_brewer(type = "seq", palette = "Spectral")
+
+labelled_stylise <-  labelled+ theme_bw() + 
+  theme(
+    plot.title = element_text(face = "bold", size = 12),
+    legend.background = element_rect(fill = "white", size = 4, colour = "white"),
+    legend.justification = c(0, 1),
+    legend.position = c(0, 1),
+    axis.ticks = element_line(colour = "grey70", size = 0.2),
+    panel.grid.major = element_line(colour = "grey70", size = 0.2),
+    panel.grid.minor = element_blank()
+)
+
+
+```
+
+------------------------------------------------------------------------
+
+```{r}
+grid.arrange(labelled,labelled_stylise, ncol = 2)
+```
+
+## Thème de base :
+
+-   [`theme_bw()`](https://ggplot2.tidyverse.org/reference/ggtheme.html): a variation on [`theme_grey()`](https://ggplot2.tidyverse.org/reference/ggtheme.html) that uses a white background and thin grey grid lines.
+
+-   [`theme_linedraw()`](https://ggplot2.tidyverse.org/reference/ggtheme.html): A theme with only black lines of various widths on white backgrounds, reminiscent of a line drawing.
+
+-----
+-   [`theme_light()`](https://ggplot2.tidyverse.org/reference/ggtheme.html): similar to [`theme_linedraw()`](https://ggplot2.tidyverse.org/reference/ggtheme.html) but with light grey lines and axes, to direct more attention towards the data.
+
+
+-   [`theme_dark()`](https://ggplot2.tidyverse.org/reference/ggtheme.html): the dark cousin of [`theme_light()`](https://ggplot2.tidyverse.org/reference/ggtheme.html), with similar line sizes but a dark background. Useful to make thin coloured lines pop out.
+-----
+-   [`theme_minimal()`](https://ggplot2.tidyverse.org/reference/ggtheme.html): A minimalistic theme with no background annotations.
+
+-   [`theme_classic()`](https://ggplot2.tidyverse.org/reference/ggtheme.html): A classic-looking theme, with x and y axis lines and no gridlines.
+-----
+-   [`theme_void()`](https://ggplot2.tidyverse.org/reference/ggtheme.html): A completely empty theme.
+
+------------------------------------------------------------------------
+
+```{r}
+df <- data.frame(x = 1:3, y = 1:3)
+base <- ggplot(df, aes(x, y)) + geom_point()
+grid.arrange(
+base + theme_grey() + ggtitle("theme_grey()"),
+base + theme_bw() + ggtitle("theme_bw()"),
+base + theme_linedraw() + ggtitle("theme_linedraw()"),
+ncol = 3)
+```
+
+------------------------------------------------------------------------
+
+```{r}
+library(ggthemes)
+grid.arrange(
+base + theme_tufte() + ggtitle("theme_tufte()"),
+base + theme_solarized() + ggtitle("theme_solarized()"),
+base + theme_excel() + ggtitle("theme_excel()"),
+ncol = 3)
+```
+
+## Assistance création de thème
+
+**ggThemeAssist**
+<!-- options(encoding="native") -->
+![](images/ggThemeAssist2.gif)
 
 ```{r}
 library(ggplot2)
@@ -229,4 +522,4 @@ ggbetweenstats(
 ```
 
 
-#Exemples de graphique
+

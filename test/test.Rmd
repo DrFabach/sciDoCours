@@ -1,0 +1,11 @@
+---
+title: "Untitled"
+output: html_document
+date: "`r Sys.Date()`"
+---
+
+
+```{r}
+pander::pander(list("mpoyenne"=2 , "mediane"= 4))
+```
+

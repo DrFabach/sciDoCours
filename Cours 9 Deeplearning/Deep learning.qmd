@@ -29,7 +29,7 @@ execute:
 
 ## Deep learning vs machine learning
 
-::: columns
+::::: columns
 ::: {.column width="50%"}
 **Classical Machine learning**
 
@@ -48,7 +48,7 @@ execute:
 -   need powerful compute resources (GPU acceleration)
 -   Augmentation and other transformations of the initial dataset will be necessary
 :::
-:::
+:::::
 
 ------------------------------------------------------------------------
 
@@ -129,11 +129,11 @@ $$
 
 ![](images/Capture-05.PNG)
 
-## Couche dense : perceptron 
+## Couche dense : perceptron
 
 ![](images/Image1-01.png)
 
-## Couches dense : multiple perceptron 
+## Couches dense : multiple perceptron
 
 ![](images/Image2.png){style="background-color : white ;"}
 
