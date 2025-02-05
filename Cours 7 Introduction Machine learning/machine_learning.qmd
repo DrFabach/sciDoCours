@@ -47,22 +47,19 @@ execute:
 
 -   Domaine de l'intelligence artificielle
 
--   Consiste à entraîner des modèles informatiques à effectuer des
-    tâches sans avoir été explicitement programmés pour les accomplir
+-   Consiste à entraîner des modèles informatiques à effectuer des tâches sans avoir été explicitement programmés pour les accomplir
 
--   Les modèles peuvent s'améliorer au fil du temps en apprenant à
-    partir de données
+-   Les modèles peuvent s'améliorer au fil du temps en apprenant à partir de données
 
 -   Exemple : Traduction automatique Reconnaissance vocale...
 
 # Différence Stat / Machine learning
 
-::: columns
+::::: columns
 ::: {.column width="50%"}
 -   décrire et comprendre les phénomènes à partir de données
 
--   hypothetico-déductive (part d'hypothèses et utilise des tests
-    statistiques pour les vérifier)
+-   hypothetico-déductive (part d'hypothèses et utilise des tests statistiques pour les vérifier)
 
 -   données souvent de taille limitée et structurées
 
@@ -72,16 +69,13 @@ execute:
 ::: {.column width="50%"}
 -   prédire les résultats futurs à partir de données passées
 
--   inductive (part de données et essaie de déduire les règles
-    sous-jacentes)
+-   inductive (part de données et essaie de déduire les règles sous-jacentes)
 
--   peut être utilisé avec des données de grande taille et non
-    structurées
+-   peut être utilisé avec des données de grande taille et non structurées
 
--   modèles complexes et difficiles à interpréter (réseaux de neurones,
-    arbres de décision)
+-   modèles complexes et difficiles à interpréter (réseaux de neurones, arbres de décision)
 :::
-:::
+:::::
 
 ------------------------------------------------------------------------
 
@@ -102,20 +96,16 @@ execute:
 # Apprentissage supervisé
 
 -   modèle est entraîné sur un jeu de données annotées
--   Le jeu de données contient des exemples d'entrée et de sortie
-    souhaités
--   L'objectif: généraliser apprentissage à partir de ces exemples pour
-    prédire la sortie correcte pour de nouvelles entrées
+-   Le jeu de données contient des exemples d'entrée et de sortie souhaités
+-   L'objectif: généraliser apprentissage à partir de ces exemples pour prédire la sortie correcte pour de nouvelles entrées
 
 # Apprentissage supervisé
 
 $$\hat{y} = f(x, \theta)$$
 
-où $x$ est l'entrée, $\theta$ sont les paramètres du modèle et $\hat{y}$
-est la valeur prédite par le modèle pour l'entrée $x$.
+où $x$ est l'entrée, $\theta$ sont les paramètres du modèle et $\hat{y}$ est la valeur prédite par le modèle pour l'entrée $x$.
 
-Objectifs : Trouver les valeurs optimales de $\theta$ qui minimisent
-l'erreur entre les valeurs prédites et valeurs réelles.
+Objectifs : Trouver les valeurs optimales de $\theta$ qui minimisent l'erreur entre les valeurs prédites et valeurs réelles.
 
 -   Fonction de coût avec optimisation
 
@@ -125,8 +115,7 @@ l'erreur entre les valeurs prédites et valeurs réelles.
 
 # Apprentissage non supervisé
 
--   Découvrir une structure au sein d'un ensemble d'individus
-    caractérisés par des covariables X
+-   Découvrir une structure au sein d'un ensemble d'individus caractérisés par des covariables X
 
 -   Label est inconnu
 
@@ -134,19 +123,15 @@ l'erreur entre les valeurs prédites et valeurs réelles.
 
 $$\hat{y} = f(x, \theta)$$
 
-où $x$ est l'entrée, $\theta$ sont les paramètres du modèle et $\hat{y}$
-est la valeur prédite par le modèle pour l'entrée $x$.
+où $x$ est l'entrée, $\theta$ sont les paramètres du modèle et $\hat{y}$ est la valeur prédite par le modèle pour l'entrée $x$.
 
-Objectifs : trouver des structures ou des patterns dans les données qui
-peuvent être utilisés pour effectuer des tâches utiles
+Objectifs : trouver des structures ou des patterns dans les données qui peuvent être utilisés pour effectuer des tâches utiles
 
-Les paramètres du modèle sont mis à jour en utilisant une fonction de
-coût et une méthode d'optimisation afin de trouver des structures ou des
-patterns dans les données
+Les paramètres du modèle sont mis à jour en utilisant une fonction de coût et une méthode d'optimisation afin de trouver des structures ou des patterns dans les données
 
 # Supervisé / Non supervisé
 
-::: columns
+::::: columns
 ::: {.column width="50%"}
 ![](images/paste-4C4C3D59.png)
 :::
@@ -154,11 +139,11 @@ patterns dans les données
 ::: {.column width="50%"}
 ![](images/paste-995E345F.png)
 :::
-:::
+:::::
 
 # Supervisé / Non supervisé
 
-::: columns
+::::: columns
 ::: {.column width="50%"}
 ![](images/paste-034B2423.png)
 :::
@@ -166,7 +151,7 @@ patterns dans les données
 ::: {.column width="50%"}
 ![](images/paste-228BE891.png)
 :::
-:::
+:::::
 
 # Apprentissage Actif
 
@@ -184,6 +169,8 @@ patterns dans les données
 
 ![](images/image-207753511.png){width="368"}
 
+<http://www.r2d3.us/lapprentissage-automatique-en-images-chapitre-1/>
+
 # Exemple sur un regression linéaire :
 
 $$Y=X\cdot\theta + \epsilon$$
@@ -198,9 +185,7 @@ BDD%>%ggplot(aes(x=x,y=y)) + geom_point() +theme_light()
 
 # Solution dans le cadre d'une régression linéaire
 
-On cherche $\hat{\theta} = \binom{\hat{a}}{\hat{b}}$ où
-$\hat{y} = \hat{a}\cdot x+\hat{b}$ pour que $\hat{y}$ soit le plus
-proche de $y$
+On cherche $\hat{\theta} = \binom{\hat{a}}{\hat{b}}$ où $\hat{y} = \hat{a}\cdot x+\hat{b}$ pour que $\hat{y}$ soit le plus proche de $y$
 
 ```{r echo = FALSE}
 BDD%>%ggplot(aes(x=x,y=y)) + geom_point() +theme_light() + geom_abline(aes(intercept=0,slope=4), col="red")
@@ -218,8 +203,7 @@ BDD%>%ggplot(aes(x=x,y=y)) + geom_point() +theme_light() + geom_abline(aes(inter
 
 ![](images/1%20i1mz7cVHTMd4w85QpNB9pQ.gif)
 
-On trace une ligne, on mesure la qualité de la ligne tracé, on modifie
-la ligne pour améliorer ça qualité et on répète
+On trace une ligne, on mesure la qualité de la ligne tracé, on modifie la ligne pour améliorer ça qualité et on répète
 
 # Fonctions de coût
 
@@ -235,8 +219,7 @@ Fonction a minimiser pour trouver la meilleure solution
 
 -   Formule: $$MSE = \frac{1}{n} \sum_{i=1}^{n} (y_i - \hat{y}_i)^2$$
 
--   Simple à calculer et à interpréter, mais sensible aux outliers et
-    peu robuste face à la skewness des données
+-   Simple à calculer et à interpréter, mais sensible aux outliers et peu robuste face à la skewness des données
 
 ------------------------------------------------------------------------
 
@@ -246,8 +229,7 @@ Fonction a minimiser pour trouver la meilleure solution
 
 -   Formule: $$MAE = \frac{1}{n} \sum_{i=1}^{n} |y_i - \hat{y}_i|$$
 
--   Moins sensible aux outliers que le MSE, mais moins intuitive à
-    interpréter
+-   Moins sensible aux outliers que le MSE, mais moins intuitive à interpréter
 
 ------------------------------------------------------------------------
 
@@ -255,8 +237,7 @@ Fonction a minimiser pour trouver la meilleure solution
 
 -   Utilisée pour les tâches de régression
 
--   Formule:
-    $$RMSE = \sqrt{\frac{1}{n} \sum_{i=1}^{n} (y_i - \hat{y}_i)^2}$$
+-   Formule: $$RMSE = \sqrt{\frac{1}{n} \sum_{i=1}^{n} (y_i - \hat{y}_i)^2}$$
 
 -   racine carrée de l'erreur quadratique moyenne (MSE)
 
@@ -268,8 +249,7 @@ Fonction a minimiser pour trouver la meilleure solution
 
 -   Formule: $$Err_{class} = \frac{n_{erreurs}}{n}$$
 
--   Simple à calculer, mais ne prend pas en compte la probabilité des
-    prédictions
+-   Simple à calculer, mais ne prend pas en compte la probabilité des prédictions
 
 # Exemple sur données fictives
 
@@ -287,7 +267,6 @@ BDD%>%ggplot(aes(x=x,y=y)) + geom_point() +theme_light()
 
 ```
 
-
 ## Entrainement d'un modèle de régression linéaire
 
 ```{r}
@@ -302,7 +281,6 @@ summary(fit1)
 y_pred <- predict(fit1, BDD)
 head(y_pred)
 ```
-
 
 ```{r}
 mse <- mean((BDD$y - y_pred)^2)
@@ -333,7 +311,6 @@ y_pred <- predict(fit2, BDD)
 
 ```
 
-
 ```{r}
 mse <- mean((BDD$y - y_pred)^2)
 
@@ -348,11 +325,7 @@ p2<-BDD %>% ggplot(aes(x=x,y=y))+geom_jitter()+theme_light()+
 p2
 ```
 
-
 ------------------------------------------------------------------------
-
-
-
 
 ```{r echo=F}
 library(gridExtra)
@@ -390,7 +363,6 @@ p4<-BDD2 %>% ggplot(aes(x=x,y=y))+geom_jitter()+theme_light()+
   ggtitle("y ~ poly(x,4)")
 grid.arrange(p1, p2, p3, p4, nrow = 2)
 ```
-
 
 ## Classification binaire
 
@@ -471,10 +443,10 @@ ex : $\hat{y} \geq 0.5$ classe 1 et $\hat{y} < 0.5$ classe 0
 
 ### Accuracy / taux de bonnes réponses
 
-|              | y = 1 | y = 0 |
-|--------------|-------|-------|
-| *y_pred = 1* | **TP**    | FP    |
-| *y_pred = 0* | FN    | **TN**    |
+|              | y = 1  | y = 0  |
+|--------------|--------|--------|
+| *y_pred = 1* | **TP** | FP     |
+| *y_pred = 0* | FN     | **TN** |
 
 -   $$\text{Accuracy} = \frac{TP + TN}{TP + TN + FP + FN}$$
 
@@ -521,8 +493,6 @@ ex : $\hat{y} \geq 0.5$ classe 1 et $\hat{y} < 0.5$ classe 0
 ### F1 Score
 
 $$\text{F1 Score} = 2\times\frac{\text{Précision}\times\text{Sensibilité}}{\text{Précision}+\text{Sensibilité}}$$
-
-
 
 # Le machine learning en pratique
 
